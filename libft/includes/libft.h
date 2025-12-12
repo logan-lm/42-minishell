@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 15:00:36 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/08 17:45:09 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/12 15:51:35 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ int					ft_maxv(unsigned int i, ...);
 int					ft_sign(int nb);
 int					ft_abs(int a);
 void				ft_free_split(char **tab);
+void				ft_free_split_gc(char **tab);
 int					ft_clampi(int nb, int min, int max);
 long				ft_clampl(long nb, long min, long max);
 float				ft_clampf(float nb, float min, float max);

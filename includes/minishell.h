@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/12 11:04:26 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:29:57 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,22 @@
 # include <stdio.h>
 # include <unistd.h>
 
+typedef struct s_shell_data
+{
+	char	*pwd;
+	t_list	*envp;
+}			t_shell_data;
+
+typedef struct s_dict
+{
+	char	*key;
+	char	*value;
+}			t_dict;
+
+// UTILS
+char		*ft_dictmap(char *var, t_list *envp);
+void		ft_echo(char **args);
+
 //// BUILT-INS
 // ECHO
 typedef struct s_echo_data
@@ -25,7 +41,9 @@ typedef struct s_echo_data
 	char	no_newline;
 }			t_echo_data;
 
-// BUILT-INS
-void		echo(char **args);
+void		ft_echo(char **args);
+
+//// PARSING
+void		ft_parse_envp(char **envp, t_list **enpv_list);
 
 #endif

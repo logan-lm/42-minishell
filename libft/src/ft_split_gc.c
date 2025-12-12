@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_gc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 22:58:29 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/08 18:05:13 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/12 17:56:54 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	**ft_malloc_split(int depth)
+char	**ft_malloc_split_gc(int depth)
 {
 	char	**out;
 
@@ -21,7 +21,7 @@ char	**ft_malloc_split(int depth)
 	return (out);
 }
 
-char	**ft_split_r(char *str, char c, int index, int depth)
+char	**ft_split_r_gc(char *str, char c, int index, int depth)
 {
 	char	**out;
 	int		start;
@@ -30,17 +30,30 @@ char	**ft_split_r(char *str, char c, int index, int depth)
 	while (str[index] && str[index] == c)
 		index++;
 	if (!str[index])
-		return (ft_malloc_split(depth));
+		return (ft_malloc_split_gc(depth));
 	start = index;
 	while (str[index] && str[index] != c)
 		index++;
 	end = index;
-	out = ft_split_r(str, c, index, depth + 1);
+	out = ft_split_r_gc(str, c, index, depth + 1);
 	out[depth] = ft_substr_gc(str, start, end - start);
 	return (out);
 }
 
 char	**ft_split_gc(char const *s, char c)
 {
-	return (ft_split_r((char *)s, c, 0, 0));
+	return (ft_split_r_gc((char *)s, c, 0, 0));
+}
+
+void	ft_free_split_gc(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		ft_free(tab[i]);
+		i++;
+	}
+	ft_free(tab);
 }

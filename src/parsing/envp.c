@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 10:11:10 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/12 11:07:01 by lomartin         ###   ########.fr       */
+/*   Created: 2025/12/12 15:41:16 by lomartin          #+#    #+#             */
+/*   Updated: 2025/12/12 18:23:52 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+void	ft_parse_envp(char **envp, t_list **envp_list)
 {
-	char	*prompt;
-	char	**args;
+	char		**part;
+	t_envp_var	*var;
+	t_list		*elem;
 
-	while (1)
+	while (*envp)
 	{
-		prompt = readline("ho ho ho>");
-		args = ft_split(prompt, ' ');
-		echo(args + 1);
-		add_history(prompt);
+		var = ft_malloc(sizeof(var));
+		part = ft_split_gc(*envp, '=');
+		var->name = part[0];
+		var->value = part[1];
+		elem = ft_lstnew_gc(var);
+		ft_lstadd_front(envp_list, elem);
+		envp++;
 	}
 }
