@@ -11,10 +11,10 @@ The goal of this project is to reproduce a basic shell behavior :
 - Handle ’ (single quote) which should prevent the shell from interpreting the meta-characters in the quoted sequence.
 - Handle " (double quote) which should prevent the shell from interpreting the meta-characters in the quoted sequence except for $ (dollar sign).
 - Implement the following redirections:
-  - < redirects input.
-  - > redirects output.
-  - > << reads the input until a line containing the delimiter is seen. However, it doesn’t have to update the history!
-  - >> redirects output in append mode.
+  - "<" redirects input.
+  - ">" redirects output.
+  - "<<" reads the input until a line containing the delimiter is seen. However, it doesn’t have to update the history!
+  - ">>" redirects output in append mode.
 - Implement pipes (| character).
 - Handle environment variables.
 - Handle $?.
