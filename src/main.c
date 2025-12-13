@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:11:10 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/12 18:28:12 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/13 12:06:33 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int ac, char **av, char **envp)
 	ft_bzero(&s_data, sizeof(t_shell_data));
 	ft_parse_envp(envp, &s_data.envp);
 	var = s_data.envp->content;
-	printf("%s\n", ft_dictmap("LANGUAGE", s_data.envp));
+	printf("%s\n", ft_dictmap(s_data.envp, "LANGUAGE"));
 	while (1)
 	{
 		prompt = readline("ho ho ho>");

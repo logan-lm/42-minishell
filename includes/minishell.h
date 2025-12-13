@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/12 18:29:57 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/13 12:07:17 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ typedef struct s_dict
 }			t_dict;
 
 // UTILS
-char		*ft_dictmap(char *var, t_list *envp);
+char		*ft_dictmap(t_list *list, char *key);
+void		ft_dictadd(t_list **list, char *key, char *value);
+t_dict		*ft_dictpop(t_list **list, char *key);
+
 void		ft_echo(char **args);
 
 //// BUILT-INS

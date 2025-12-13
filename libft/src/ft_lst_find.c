@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lst_find.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 11:50:52 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/07 12:51:49 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/13 11:46:41 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/// @brief Iterates through a list and tried to find a matching content
+/// @brief Iterates through a list and tries to find a matching content
 /// @param ft_cmp Comparison function for the desired type
 /// @param cmp_value content we are serarching a match for
 /// @return list node addr if content is found, or 0
