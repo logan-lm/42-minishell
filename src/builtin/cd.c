@@ -6,18 +6,31 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 11:56:23 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/13 18:01:03 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/14 17:39:42 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	cd(char **args, t_shell_data *s_data)
+static char	ft_isdir(char *path)
 {
-	if (!*args)
+    struct stat path_stat;
+	
+    stat(path, &path_stat);
+	if (!S_ISDIR(path_stat.st_mode))
+	{
+		errno = 20;
+		return (0);
+	}
+    return (1);
+}
+
+void	cd(char *path, t_shell_data *s_data)
+{
+	if (!path)
 		ft_dictadd(&s_data->envp, "PWD", ft_dictmap(s_data->envp, "HOME"));
-	else if (!access(*args, R_OK))
-		ft_dictadd(&s_data->envp, "PWD", *args);
+	else if (!access(path, R_OK) && ft_isdir(path))
+		ft_dictadd(&s_data->envp, "PWD", path);
 	else
 		perror("minishell ");
 }

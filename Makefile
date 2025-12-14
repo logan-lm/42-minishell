@@ -6,7 +6,7 @@
 #    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2025/12/13 17:51:04 by lomartin         ###   ########.fr        #
+#    Updated: 2025/12/13 18:43:48 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ INCLUDES_DIR = -Iincludes -Ilibft/includes
 
 FILES = main\
 		utils\
+		dict_utils\
 		builtin/echo\
 		builtin/cd\
 		parsing/envp

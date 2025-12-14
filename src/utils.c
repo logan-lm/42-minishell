@@ -5,114 +5,35 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 15:25:46 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/13 17:43:51 by lomartin         ###   ########.fr       */
+/*   Created: 2025/12/13 18:31:12 by lomartin          #+#    #+#             */
+/*   Updated: 2025/12/14 17:47:02 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_dict_entry(void *entry)
+char	*ft_parse_path(char *path, t_shell_data *s_data)
 {
-	ft_free(((t_dict *)entry)->key);
-	ft_free(((t_dict *)entry)->value);
-	ft_free(entry);
-}
+	char 	*parsed_path;
+	char	*pwd;
 
-/// @brief Returns the element of a list corresponding to the given key or NULL
-/// @param list List in which look for the element
-/// @param key Key to look for
-/// @return Value str of the found element or NULL if not found
-char	*ft_dictmap(t_list *list, char *key)
-{
-	size_t	key_len;
-	t_dict	*elem;
-
-	key_len = ft_strlen(key);
-	while (list)
+	if (!path)
+		return (path);
+	if (*path == '~')
 	{
-		elem = list->content;
-		if (!ft_strncmp(elem->key, key, key_len + 1))
-			return (elem->value);
-		list = list->next;
+		parsed_path = ft_strjoin_gc(ft_dictmap(s_data->envp, "HOME"), path + 1);
+		ft_free(path);
 	}
-	return (NULL);
-}
-
-/// @brief deletes the entry with a matching key if existing and returns it
-/// @param list List in which we want to delete a mode
-/// @param key key of the node to delete
-/// @return Found element (to free) or NULL if not found
-t_dict	*ft_dictpop(t_list **list, char *key)
-{
-	size_t	key_len;
-	t_list	*cpy;
-	t_dict	*elem;
-
-	key_len = ft_strlen(key);
-	cpy = *list;
-	while (cpy)
+	else if (*path != '/')
 	{
-		elem = cpy->content;
-		if (!ft_strncmp(elem->key, key, key_len + 1))
-		{
-			ft_lstdelone_fr(list, cpy, 0);
-			return (elem);
-		}
-		cpy = cpy->next;
-	}
-	return (NULL);
-}
-
-/// @brief Deletes a dict entry corresponging to the given key
-/// @param list Dict in zhich delete an entry
-/// @param key Key of the entry to delete
-void	ft_dictdel(t_list **list, char *key)
-{
-	size_t	key_len;
-	t_list	*cpy;
-	t_dict	*elem;
-
-	key_len = ft_strlen(key);
-	cpy = *list;
-	while (cpy)
-	{
-		elem = cpy->content;
-		if (!ft_strncmp(elem->key, key, key_len + 1))
-			ft_lstdelone_fr(list, cpy, free_dict_entry);
-		cpy = cpy->next;
-	}
-}
-
-/// @brief Adds an entry to a dict or replaces its value if existing
-/// @param list The list formatted as a dictionary
-/// @param key Unique key of the new element
-/// @param value Value of the new element
-void	ft_dictadd(t_list **list, char *key, char *value)
-{
-	size_t	key_len;
-	t_list	*cpy;
-	t_dict	*elem;
-
-	key_len = ft_strlen(key);
-	cpy = *list;
-	while (cpy)
-	{
-		elem = cpy->content;
-		if (!ft_strncmp(elem->key, key, key_len + 1))
-			break ;
-		cpy = cpy->next;
-	}
-	if (cpy)
-	{
-		ft_free(((t_dict *)cpy->content)->value);
-		((t_dict *)cpy->content)->value = value;
+		pwd = ft_dictmap(s_data->envp, "PWD");
+		if (pwd[ft_strlen(pwd) - 1 == '/'])
+			parsed_path = ft_strjoin_gc(pwd, path);
+		else
+			parsed_path = ft_strjoin_mult_gc(3, pwd, "/", path);
+		ft_free(path);
 	}
 	else
-	{
-		elem = ft_malloc(sizeof(t_dict));
-		elem->key = key;
-		elem->value = value;
-		ft_lstadd_front(list, ft_lstnew(elem));
-	}
+		parsed_path = path;
+	return (parsed_path);
 }

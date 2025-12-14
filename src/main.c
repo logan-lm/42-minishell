@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:11:10 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/13 17:53:37 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/14 17:41:51 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		ft_printf("%s\n", ft_dictmap(s_data.envp, "PWD"));
-		prompt = readline("ho ho ho>");
+		prompt = readline("\033[1;32mMinishell>\033[0m");
 		ft_add_exit(prompt, free);
 		args = ft_split(prompt, ' ');
-		cd(args + 1, &s_data);
+		cd(ft_parse_path(args[1], &s_data), &s_data);
 		add_history(prompt);
 	}
 }
