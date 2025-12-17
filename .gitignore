@@ -1,0 +1,5 @@
+minishell
+*.d
+*.o
+test/
+minishell_debug

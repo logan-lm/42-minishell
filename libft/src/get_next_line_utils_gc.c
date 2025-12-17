@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 08:45:00 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/08 19:12:13 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/17 18:36:26 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_gnl_data	*ft_add_gnl_data_gc(int fd, t_gnl_data **data)
 	return (new);
 }
 
-t_gnl_data	*ft_get_gnl_data_gc(int fd, t_gnl_data **data)//
+t_gnl_data	*ft_get_gnl_data_gc(int fd, t_gnl_data **data)
 {
 	t_gnl_data	*dat;
 

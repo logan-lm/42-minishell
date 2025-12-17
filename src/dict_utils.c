@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dict_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:25:46 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/14 17:10:16 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/17 18:37:00 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static void	free_dict_entry(void *entry)
 	ft_free(entry);
 }
 
-/// @brief Returns the content of an element of a list corresponding to the given key or NULL
+/// @brief Returns the content of an element of a list corresponding to the
+/// given key or NULL
 /// @param list List in which look for the element
 /// @param key Key to look for
 /// @return Duplicated str of the found element or NULL if not found

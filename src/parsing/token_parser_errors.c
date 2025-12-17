@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
+/*   token_parser_errors.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/02 19:38:21 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/17 17:10:30 by pberne           ###   ########.fr       */
+/*   Created: 2025/12/17 11:50:46 by pberne            #+#    #+#             */
+/*   Updated: 2025/12/17 18:43:19 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "parser.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	ft_token_syntax_error(char *c)
 {
-	t_list	*cur;
+	char	*str;
 
-	if (!new)
-		return ;
-	if (!*lst)
-	{
-		*lst = new;
-		return ;
-	}
-	cur = *lst;
-	while (cur->next)
-		cur = cur->next;
-	cur->next = new;
+	str = ft_strjoin_mult_gc(3, "syntax error near unexpected token `", c,
+			"\'\n");
+	ft_putstr_fd(str, 2);
+	ft_free(str);
+}
+
+void	ft_token_missing_delimiter_error(char *c)
+{
+	char	*str;
+
+	str = ft_strjoin_mult_gc(3, "Missing closing delimiter `", c, "\'\n");
+	ft_putstr_fd(str, 2);
+	ft_free(str);
 }

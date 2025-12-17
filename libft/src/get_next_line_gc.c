@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 08:44:37 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/08 19:13:35 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/17 18:36:18 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,12 @@ char	*get_next_line_real_gc(int fd, unsigned long *line_size)
 	return (ret);
 }
 
-char	*get_next_line_count_gc(int fd, unsigned long *size)//
+char	*get_next_line_count_gc(int fd, unsigned long *size)
 {
 	return (get_next_line_real_gc(fd, size));
 }
 
-char	*get_next_line_gc(int fd)//
+char	*get_next_line_gc(int fd)
 {
 	unsigned long	i;
 

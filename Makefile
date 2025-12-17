@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
+#    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2025/12/13 18:43:48 by lomartin         ###   ########.fr        #
+#    Updated: 2025/12/17 18:41:21 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -O3 -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 DFLAGS = -g3 -Wall -Wextra -Werror
 LIBFT = libft/libft.a
 LIBFT_DEBUG = libft/libft_DEBUG.a
@@ -29,7 +29,14 @@ FILES = main\
 		dict_utils\
 		builtin/echo\
 		builtin/cd\
-		parsing/envp
+		parsing/envp\
+		parsing/token_literal_parsing_compound\
+		parsing/token_literal_parsing\
+		parsing/token_operator_parsing\
+		parsing/token_parser_errors\
+		parsing/token_parser\
+		parsing/token_free\
+
 
 SRCS = $(addprefix $(SRC_DIR),  $(addsuffix .c, $(FILES)))
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 11:56:23 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/14 17:39:42 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/17 18:37:59 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 static char	ft_isdir(char *path)
 {
-    struct stat path_stat;
-	
-    stat(path, &path_stat);
+	struct stat	path_stat;
+
+	stat(path, &path_stat);
 	if (!S_ISDIR(path_stat.st_mode))
 	{
 		errno = 20;
 		return (0);
 	}
-    return (1);
+	return (1);
 }
 
 void	cd(char *path, t_shell_data *s_data)
