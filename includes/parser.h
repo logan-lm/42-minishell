@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 13:23:36 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/17 18:41:47 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/18 12:08:12 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ typedef enum e_token_type
 	token_end,
 	token_op,
 	token_literal
-}									t_token_type;
+}								t_token_type;
 
 typedef struct s_parsing_token
 {
-	t_token_type					type;
-	void							*data;
-}									t_parsing_token;
+	t_token_type				type;
+	void						*data;
+}								t_parsing_token;
 
 /// @brief Defines the type of an operator token
 typedef enum e_token_op_type
@@ -41,43 +41,52 @@ typedef enum e_token_op_type
 	op_close_parenthesis,
 	op_and,
 	op_or
-}									t_token_op_type;
+}								t_token_op_type;
 
 typedef enum e_token_literal_type
 {
 	literal_true,
 	literal_replace_vars
-}									t_token_literal_type;
+}								t_token_literal_type;
 
-typedef struct s_string_compound_lst
+typedef struct s_string_cmpd_lst
 {
-	t_token_literal_type			type;
-	char							*str;
-	struct s_string_compound_lst	*next;
+	t_token_literal_type		type;
+	char						*str;
+	struct s_string_cmpd_lst	*next;
 
-}									t_string_compound_lst;
+}								t_string_compound_lst;
 
-t_list								*ft_get_tokens(char *str);
+// Token
 
-void								ft_free_token_list(t_list *lst);
-void								ft_free_token(t_list *node);
+t_list							*ft_get_tokens(char *str);
+void							ft_free_token_list(t_list *lst);
+void							ft_free_token(t_list *node);
 
-t_list								*ft_get_op_token(t_token_op_type op_type);
+t_list							*ft_get_op_token(t_token_op_type op_type);
+t_list							*ft_get_operator(char *str, char **s);
 
-t_list								*ft_get_operator(char *str, char **s);
-t_list								*ft_get_literal(char *str, char **s);
+// Literal
 
-t_string_compound_lst				*ft_get_string_token_node(char *str,
-										size_t len,
-										t_token_literal_type literal_type);
-t_string_compound_lst				*ft_get_literal_element(char *str,
-										char **s);
-t_string_compound_lst				*ft_get_literal_element_quote(char *str,
-										char **s);
-t_string_compound_lst				*ft_get_literal_element_dquote(char *str,
-										char **s);
+t_list							*ft_get_literal(char *str, char **s);
+t_string_compound_lst			*ft_get_string_token_node(char *str, size_t len,
+									t_token_literal_type literal_type);
+t_string_compound_lst			*ft_get_literal_element(char *str, char **s);
+t_string_compound_lst			*ft_get_literal_element_quote(char *str,
+									char **s);
+t_string_compound_lst			*ft_get_literal_element_dquote(char *str,
+									char **s);
 
-void								ft_token_syntax_error(char *c);
-void								ft_token_missing_delimiter_error(char *c);
+// Errors
+
+void							ft_token_syntax_error(char *c);
+void							ft_token_missing_delimiter_error(char *c);
+void							ft_token_missing_parenthesis(int op_code);
+
+t_list							*ft_token_validity_checker(t_list *token_lst);
+
+/// Utils
+
+void							ft_print_token(t_list *token_lst);
 
 #endif

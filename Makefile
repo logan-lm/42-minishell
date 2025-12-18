@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2025/12/17 18:41:21 by pberne           ###   ########.fr        #
+#    Updated: 2025/12/18 12:05:49 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,8 @@ FILES = main\
 		parsing/token_parser_errors\
 		parsing/token_parser\
 		parsing/token_free\
+		parsing/token_validity_checker\
+		parsing/token_parsing_utils
 
 
 SRCS = $(addprefix $(SRC_DIR),  $(addsuffix .c, $(FILES)))
