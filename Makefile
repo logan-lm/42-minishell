@@ -3,10 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
+#    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2025/12/18 15:02:12 by pberne           ###   ########.fr        #
+=======
+#    Updated: 2025/12/18 15:00:26 by lomartin         ###   ########.fr        #
+>>>>>>> 467e6a2 (...)
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +31,9 @@ INCLUDES_DIR = -Iincludes -Ilibft/includes
 FILES = main\
 		utils\
 		dict_utils\
-		builtin/echo\
 		builtin/cd\
+		builtin/echo\
+		builtin/pwd\
 		parsing/envp\
 		parsing/token_literal_parsing_compound\
 		parsing/token_literal_parsing\

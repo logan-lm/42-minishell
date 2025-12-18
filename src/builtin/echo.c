@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:44:59 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/12 17:52:58 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/18 15:13:40 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,5 @@ void	ft_echo(char **args)
 	}
 	if (!data.no_newline)
 		printf("\n");
+	exit (1);
 }

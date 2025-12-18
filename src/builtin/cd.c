@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 11:56:23 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/18 14:04:01 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/18 15:18:11 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,16 @@ static char	ft_isdir(char *path)
 	return (1);
 }
 
-void	cd(char *path, t_shell_data *s_data)
+void	cd(char **args, t_list *envp)
 {
-	if (!path)
-		ft_dictadd(&s_data->envp, "PWD", ft_dictmap(s_data->envp, "HOME"));
-	else if (!access(path, R_OK) && ft_isdir(path))
-		ft_dictadd(&s_data->envp, "PWD", path);
+	if (!args)
+		return (1);
+	if (*(args + 1))
+		ft_putstr_fd("cd: too many arguments\n", 2);
+	else if (!*args)
+		ft_dictadd(&envp, "PWD", ft_dictmap(envp, "HOME"));
+	else if (!access(*args, R_OK) && ft_isdir(*args))
+		ft_dictadd(&envp, "PWD", *args);
 	else
 		perror("minishell ");
 }
