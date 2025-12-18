@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_operator_parsing.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 11:29:55 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/17 18:42:35 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/18 09:46:17 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,10 @@ t_list	*ft_get_operator2(char *str, char **s)
 	{
 		str++;
 		if (*str == '&')
+		{
+			str++;
 			ret = ft_get_op_token(op_and);
+		}
 		else
 		{
 			ret = 0;
