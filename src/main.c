@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:11:10 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/17 18:37:25 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/18 10:49:46 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	main(int ac, char **av, char **envp)
 		prompt = readline("\033[1;32mMinishell>\033[0m");
 		token_lst = ft_get_tokens(prompt);
 		ft_print_token(token_lst);
+		ft_free_token_list(token_lst);
 		add_history(prompt);
 		ft_add_exit(prompt, free);
 	}

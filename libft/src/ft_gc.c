@@ -6,11 +6,13 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 13:59:30 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/08 17:04:52 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/18 10:49:12 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+void	ft_gc_do_print_count(t_gc_node **hash_table);
 
 void	ft_free_node_list(t_gc_node *node)
 {
@@ -107,8 +109,8 @@ void	*ft_gc(int flag, uintptr_t var)
 	else if (flag == GC_FREE)
 		ft_free_ptr(hash_table, (void *)var);
 	else if (flag == GC_CLEARALL)
-	{
 		ft_gc_free_all(hash_table);
-	}
+	else if (flag == GC_PRINT_COUNT)
+		ft_gc_do_print_count(hash_table);
 	return (0);
 }
