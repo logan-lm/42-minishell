@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2025/12/18 12:05:49 by pberne           ###   ########.fr        #
+#    Updated: 2025/12/18 15:02:12 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ FILES = main\
 		parsing/token_literal_parsing_compound\
 		parsing/token_literal_parsing\
 		parsing/token_operator_parsing\
+		parsing/token_operator_parsing_2\
 		parsing/token_parser_errors\
 		parsing/token_parser\
 		parsing/token_free\

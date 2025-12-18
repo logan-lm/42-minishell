@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 13:23:36 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/18 12:08:12 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/18 14:57:04 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ typedef enum e_token_op_type
 	op_open_parenthesis,
 	op_close_parenthesis,
 	op_and,
-	op_or
+	op_or,
+	op_equal
 }								t_token_op_type;
 
 typedef enum e_token_literal_type

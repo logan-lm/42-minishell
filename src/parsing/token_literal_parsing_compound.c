@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 18:29:41 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/18 10:47:32 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/18 15:04:33 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_string_compound_lst	*ft_get_literal_element(char *str, char **s)
 	t_string_compound_lst	*ret;
 
 	i = 0;
-	while (str[i] && ft_strchr("|&()<> '\"\t", str[i]) == 0)
+	while (str[i] && ft_strchr("|&()<>= '\"\t", str[i]) == 0)
 		i++;
 	ret = ft_get_string_token_node(str, i, literal_replace_vars);
 	*s = str + i;

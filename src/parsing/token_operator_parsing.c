@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   token_operator_parsing.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 11:29:55 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/18 09:46:17 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/18 15:02:28 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
+
+t_list	*ft_get_operator6(char *str, char **s);
 
 // parenthesis
 t_list	*ft_get_operator5(char *str, char **s)
@@ -29,6 +31,8 @@ t_list	*ft_get_operator5(char *str, char **s)
 		str++;
 		ret = ft_get_op_token(op_close_parenthesis);
 	}
+	else
+		return (ft_get_operator6(str, s));
 	*s = str;
 	return (ret);
 }

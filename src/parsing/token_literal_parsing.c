@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 11:43:49 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/18 10:41:58 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/18 15:03:36 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_list	*ft_get_literal(char *str, char **s)
 
 	token = ft_get_literal_token();
 	str = *s;
-	while (*str && ft_strchr("|&()<> \t", *str) == 0)
+	while (*str && ft_strchr("|&()<>= \t", *str) == 0)
 	{
 		if (*str == '\'')
 			new_compound = ft_get_literal_element_quote(str, s);

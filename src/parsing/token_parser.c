@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 10:07:46 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/18 12:10:22 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/18 15:00:46 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_list	*ft_get_token(char **s)
 	*s = str;
 	if (*str == '\0')
 		ret = ft_get_end_token();
-	else if (ft_strchr("|&()<>", *str))
+	else if (ft_strchr("|&()<>=", *str))
 		ret = ft_get_operator(str, s);
 	else
 		ret = ft_get_literal(str, s);
