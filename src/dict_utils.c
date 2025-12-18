@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dict_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:25:46 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/17 18:37:00 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/18 14:19:12 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	ft_dictdel(t_list **list, char *key)
 	{
 		elem = cpy->content;
 		if (!ft_strncmp(elem->key, key, key_len + 1))
-			ft_lstdelone_fr(list, cpy, free_dict_entry);
+			ft_lstdelone_fr_gc(list, cpy, free_dict_entry);
 		cpy = cpy->next;
 	}
 }
@@ -114,6 +114,6 @@ void	ft_dictadd(t_list **list, char *key, char *value)
 		elem = ft_malloc(sizeof(t_dict));
 		elem->key = key;
 		elem->value = value;
-		ft_lstadd_front(list, ft_lstnew(elem));
+		ft_lstadd_front(list, ft_lstnew_gc(elem));
 	}
 }
