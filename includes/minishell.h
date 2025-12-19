@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/18 15:20:00 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/19 15:27:13 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ typedef struct s_dict
 }			t_dict;
 
 // UTILS
-char		*ft_parse_path(char *path, t_shell_data *s_data);
+char		*ft_parse_path(char *path, t_list *envp);
+char		*ft_getenv(t_list *envp, char *key);
 char		*ft_dictmap(t_list *list, char *key);
 void		ft_dictadd(t_list **list, char *key, char *value);
 t_dict		*ft_dictpop(t_list **list, char *key);
@@ -46,9 +47,9 @@ typedef struct s_echo_data
 	char	no_newline;
 }			t_echo_data;
 
-void		ft_echo(char **args);
-void		cd(char **args, t_list *envp);
-void		pwd(char **args, t_list *envp);
+int			ft_echo(char **args, t_list *envp);
+int			ft_cd(char **args, t_list *envp);
+int			ft_pwd(char **args, t_list *envp);
 
 //// PARSING
 void		ft_parse_envp(char **envp, t_list **enpv_list);

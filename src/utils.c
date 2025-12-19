@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 18:31:12 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/17 18:37:46 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/19 16:29:48 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_parse_path(char *path, t_shell_data *s_data)
+char	*ft_parse_path(char *path, t_list *envp)
 {
 	char	*parsed_path;
 	char	*pwd;
@@ -21,13 +21,13 @@ char	*ft_parse_path(char *path, t_shell_data *s_data)
 		return (path);
 	if (*path == '~')
 	{
-		parsed_path = ft_strjoin_gc(ft_dictmap(s_data->envp, "HOME"), path + 1);
+		parsed_path = ft_strjoin_gc(ft_getenv(envp, "HOME"), path + 1);
 		ft_free(path);
 	}
 	else if (*path != '/')
 	{
-		pwd = ft_dictmap(s_data->envp, "PWD");
-		if (pwd[ft_strlen(pwd) - 1 == '/'])
+		pwd = ft_dictmap(envp, "PWD");
+		if (pwd[ft_strlen(pwd) - 1] == '/')
 			parsed_path = ft_strjoin_gc(pwd, path);
 		else
 			parsed_path = ft_strjoin_mult_gc(3, pwd, "/", path);
@@ -36,4 +36,16 @@ char	*ft_parse_path(char *path, t_shell_data *s_data)
 	else
 		parsed_path = path;
 	return (parsed_path);
+}
+
+char	*ft_getenv(t_list *envp, char *key)
+{
+	char	*value;
+
+	if (!key)
+		return ("");
+	value = ft_dictmap(envp, key);
+	if (!value)
+		return ("");
+	return (value);
 }
