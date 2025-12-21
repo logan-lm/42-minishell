@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 11:56:23 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/21 16:42:49 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/21 21:13:35 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,14 @@ static char	ft_isdir(char *path)
 	return (1);
 }
 
-int	ft_cd(char **args, t_list *envp)
+static void set_pwd(t_shell_data *data, char *new_pwd)
+{
+	data->pwd = new_pwd;
+	ft_dictadd(&data->envp, "OLDPWD", ft_getenv(data->envp, "PWD"));
+	ft_dictadd(&data->envp, "PWD", new_pwd);
+}
+
+int	ft_cd(char **args, t_shell_data *data)
 {
 	char	*home;
 	char	*path;
@@ -58,18 +65,18 @@ int	ft_cd(char **args, t_list *envp)
 		ft_putstr_fd("cd: too many arguments\n", 2);
 	else if (!args[0] || !*args[0])
 	{
-		home = ft_dictmap(envp, "HOME");
+		home = ft_dictmap(data->envp, "HOME");
 		if (!home)
 			return (puterr(no_home, NULL));
-		ft_dictadd(&envp, "PWD", home);
+		set_pwd(data, home);
+		return (EXIT_SUCCESS);
 	}
-	path = ft_parse_path(args[0], envp);
+	path = ft_parse_path(args[0], data->envp);
 	if (!path)
 		ft_exit(EXIT_FAILURE);
 	if (!access(path, R_OK) && ft_isdir(path))
-		ft_dictadd(&envp, "PWD", path);
+		set_pwd(data, path);
 	else
 		return (puterr(no_access, path));
-	free(path);
 	return (EXIT_SUCCESS);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
+#    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2025/12/21 15:32:28 by pberne           ###   ########.fr        #
+#    Updated: 2025/12/21 22:29:41 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,10 @@ FILES = main\
 		dict_utils\
 		builtin/cd\
 		builtin/echo\
+		builtin/env\
+		builtin/export\
 		builtin/pwd\
+		builtin/unset\
 		parsing/envp\
 		parsing/token_word_parsing_compound\
 		parsing/token_word_parsing\

@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envp.c                                             :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 15:41:16 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/21 21:50:19 by lomartin         ###   ########.fr       */
+/*   Created: 2025/12/21 22:13:50 by lomartin          #+#    #+#             */
+/*   Updated: 2025/12/21 22:34:17 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_parse_envp(char **envp, t_shell_data *data)
+int	ft_unset(char **args, t_shell_data *data)
 {
-	char		**part;
-
-	while (*envp)
+	while (*args)
 	{
-		part = ft_split_gc(*envp, '=');
-		ft_dictadd(&data->envp, part[0], part[1]);
-		envp++;
+		ft_dictdel(&data->envp, *args);
+		args++;
 	}
-	data->pwd = ft_getenv(data->envp, "PWD");
-	if (!*data->pwd)
-	{
-		data->pwd = getcwd(NULL, 0);
-		ft_dictadd(&data->envp, "PWD", data->pwd);
-	}
+	return (1);
 }

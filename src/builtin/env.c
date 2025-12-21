@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envp.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 15:41:16 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/21 21:50:19 by lomartin         ###   ########.fr       */
+/*   Created: 2025/12/21 22:25:23 by lomartin          #+#    #+#             */
+/*   Updated: 2025/12/21 22:31:51 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_parse_envp(char **envp, t_shell_data *data)
+int	ft_env(char **args, t_shell_data *data)
 {
-	char		**part;
+	t_list	*envp;
+	t_dict	*var;
 
-	while (*envp)
+	(void)args;
+	envp = data->envp;
+	while (envp)
 	{
-		part = ft_split_gc(*envp, '=');
-		ft_dictadd(&data->envp, part[0], part[1]);
-		envp++;
+		var = envp->content;
+		printf("%s=%s\n", var->key, var->value);
+		envp = envp->next;
 	}
-	data->pwd = ft_getenv(data->envp, "PWD");
-	if (!*data->pwd)
-	{
-		data->pwd = getcwd(NULL, 0);
-		ft_dictadd(&data->envp, "PWD", data->pwd);
-	}
+	return (EXIT_SUCCESS);
 }

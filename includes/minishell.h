@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/19 15:27:13 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/21 22:34:08 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_shell_data
 {
 	char	*pwd;
 	t_list	*envp;
+	t_list	*vars;
 }			t_shell_data;
 
 typedef struct s_dict
@@ -39,6 +40,8 @@ char		*ft_getenv(t_list *envp, char *key);
 char		*ft_dictmap(t_list *list, char *key);
 void		ft_dictadd(t_list **list, char *key, char *value);
 t_dict		*ft_dictpop(t_list **list, char *key);
+void		ft_dictdel(t_list **list, char *key);
+int			ft_env(char **args, t_shell_data *data);
 
 //// BUILT-INS
 // ECHO
@@ -47,11 +50,13 @@ typedef struct s_echo_data
 	char	no_newline;
 }			t_echo_data;
 
-int			ft_echo(char **args, t_list *envp);
-int			ft_cd(char **args, t_list *envp);
-int			ft_pwd(char **args, t_list *envp);
+int			ft_echo(char **args, t_shell_data *data);
+int			ft_cd(char **args, t_shell_data *data);
+int			ft_pwd(char **args, t_shell_data *data);
+int			ft_export(char **args, t_shell_data *data);
+int			ft_unset(char **args, t_shell_data *data);
 
 //// PARSING
-void		ft_parse_envp(char **envp, t_list **enpv_list);
+void		ft_parse_envp(char **envp, t_shell_data *data);
 
 #endif

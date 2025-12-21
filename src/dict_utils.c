@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:25:46 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/18 14:19:12 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/21 22:24:18 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,10 @@ void	ft_dictdel(t_list **list, char *key)
 	{
 		elem = cpy->content;
 		if (!ft_strncmp(elem->key, key, key_len + 1))
+		{
 			ft_lstdelone_fr_gc(list, cpy, free_dict_entry);
+			return ;
+		}
 		cpy = cpy->next;
 	}
 }
