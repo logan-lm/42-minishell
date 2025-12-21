@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 21:36:46 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/21 22:12:49 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/21 22:38:30 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	ft_strhasequal(char *str)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (str[++i])
@@ -25,9 +25,9 @@ static int	ft_strhasequal(char *str)
 
 int	ft_export(char **args, t_shell_data *data)
 {
-	int i;
-	int set_mode;
-	t_dict var_entry;
+	int		i;
+	int		set_mode;
+	t_dict	var_entry;
 
 	i = -1;
 	while (args[++i])
