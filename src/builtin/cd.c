@@ -6,11 +6,33 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 11:56:23 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/19 19:09:53 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/21 16:42:49 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "cd.h"
 #include "minishell.h"
+
+static int	puterr(t_cd_errmode err, char *path)
+{
+	char	*err_str;
+
+	if (err == no_arg)
+		return (EXIT_FAILURE);
+	if (err == no_home)
+	{
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		return (EXIT_FAILURE);
+	}
+	if (err == no_access)
+	{
+		err_str = ft_strjoin_gc("minishell: cd: ", path);
+		perror(err_str);
+		ft_free(err_str);
+		return (EXIT_FAILURE);
+	}
+	return (1);
+}
 
 static char	ft_isdir(char *path)
 {
@@ -29,32 +51,25 @@ int	ft_cd(char **args, t_list *envp)
 {
 	char	*home;
 	char	*path;
-	char	*err_str;
 
 	if (!args)
-		return (EXIT_FAILURE);
+		return (puterr(no_arg, NULL));
 	if (*(args + 1))
 		ft_putstr_fd("cd: too many arguments\n", 2);
 	else if (!args[0] || !*args[0])
 	{
 		home = ft_dictmap(envp, "HOME");
 		if (!home)
-		{
-			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-			return (EXIT_FAILURE);
-		}
+			return (puterr(no_home, NULL));
 		ft_dictadd(&envp, "PWD", home);
 	}
 	path = ft_parse_path(args[0], envp);
+	if (!path)
+		ft_exit(EXIT_FAILURE);
 	if (!access(path, R_OK) && ft_isdir(path))
 		ft_dictadd(&envp, "PWD", path);
 	else
-	{
-		err_str = ft_strjoin("minishell: cd: ", path);
-		perror(err_str);
-		ft_free(err_str);
-		return (EXIT_FAILURE);
-	}
+		return (puterr(no_access, path));
 	free(path);
 	return (EXIT_SUCCESS);
 }
