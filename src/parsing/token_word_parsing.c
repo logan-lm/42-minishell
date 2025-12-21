@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_literal_parsing.c                            :+:      :+:    :+:   */
+/*   token_word_parsing.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -38,7 +38,7 @@ void	ft_add_compound_to_back(t_list *token,
 }
 
 t_string_compound_lst	*ft_get_string_token_node(char *str, size_t len,
-		t_token_literal_type literal_type)
+		t_token_word_type word_type)
 {
 	char					*substr;
 	t_string_compound_lst	*str_comp;
@@ -46,39 +46,39 @@ t_string_compound_lst	*ft_get_string_token_node(char *str, size_t len,
 	substr = ft_substr_gc(str, 0, len);
 	str_comp = ft_malloc(sizeof(t_string_compound_lst));
 	str_comp->str = substr;
-	str_comp->type = literal_type;
+	str_comp->type = word_type;
 	str_comp->next = 0;
 	return (str_comp);
 }
 
-t_list	*ft_get_literal_token(void)
+t_list	*ft_get_word_token(void)
 {
 	t_parsing_token	*token;
 
 	token = ft_malloc(sizeof(t_parsing_token));
-	token->type = token_literal;
+	token->type = token_word;
 	token->data = 0;
 	return (ft_lstnew_gc(token));
 }
 
-/// @brief Iterates through the argument and builds the literal compound.
-/// the literal compound is used to build the real literal when it is
+/// @brief Iterates through the argument and builds the word compound.
+/// the word compound is used to build the real word when it is
 /// required
-t_list	*ft_get_literal(char *str, char **s)
+t_list	*ft_get_word(char *str, char **s)
 {
 	t_list					*token;
 	t_string_compound_lst	*new_compound;
 
-	token = ft_get_literal_token();
+	token = ft_get_word_token();
 	str = *s;
 	while (*str && ft_strchr("|&()<>= \t", *str) == 0)
 	{
 		if (*str == '\'')
-			new_compound = ft_get_literal_element_quote(str, s);
+			new_compound = ft_get_word_element_quote(str, s);
 		else if (*str == '"')
-			new_compound = ft_get_literal_element_dquote(str, s);
+			new_compound = ft_get_word_element_dquote(str, s);
 		else
-			new_compound = ft_get_literal_element(str, s);
+			new_compound = ft_get_word_element(str, s);
 		if (new_compound)
 			ft_add_compound_to_back(token, new_compound);
 		else

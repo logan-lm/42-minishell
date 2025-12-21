@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 11:55:06 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/21 14:22:30 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/21 15:32:59 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_is_token_duo_valid(t_token_op_type *token_type,
 
 	if (*token_type >= op_in_redirect && *token_type <= op_out_redirect_append)
 	{
-		if (next_token->type != token_literal)
+		if (next_token->type != token_word)
 		{
 			if (next_token->type == token_op)
 				ft_op_syntax_error(*(t_token_op_type *)next_token->data);

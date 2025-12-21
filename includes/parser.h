@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 13:23:36 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/21 14:22:59 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/21 15:32:59 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ typedef enum e_token_type
 {
 	token_end,
 	token_op,
-	token_literal
+	token_word
 }								t_token_type;
 
 typedef struct s_parsing_token
@@ -43,15 +43,15 @@ typedef enum e_token_op_type
 	op_or
 }								t_token_op_type;
 
-typedef enum e_token_literal_type
+typedef enum e_token_word_type
 {
-	literal_true,
-	literal_replace_vars
-}								t_token_literal_type;
+	word_true,
+	word_replace_vars
+}								t_token_word_type;
 
 typedef struct s_string_cmpd_lst
 {
-	t_token_literal_type		type;
+	t_token_word_type		type;
 	char						*str;
 	struct s_string_cmpd_lst	*next;
 
@@ -66,15 +66,15 @@ void							ft_free_token(t_list *node);
 t_list							*ft_get_op_token(t_token_op_type op_type);
 t_list							*ft_get_operator(char *str, char **s);
 
-// Literal
+// Word
 
-t_list							*ft_get_literal(char *str, char **s);
+t_list							*ft_get_word(char *str, char **s);
 t_string_compound_lst			*ft_get_string_token_node(char *str, size_t len,
-									t_token_literal_type literal_type);
-t_string_compound_lst			*ft_get_literal_element(char *str, char **s);
-t_string_compound_lst			*ft_get_literal_element_quote(char *str,
+									t_token_word_type word_type);
+t_string_compound_lst			*ft_get_word_element(char *str, char **s);
+t_string_compound_lst			*ft_get_word_element_quote(char *str,
 									char **s);
-t_string_compound_lst			*ft_get_literal_element_dquote(char *str,
+t_string_compound_lst			*ft_get_word_element_dquote(char *str,
 									char **s);
 
 // Errors

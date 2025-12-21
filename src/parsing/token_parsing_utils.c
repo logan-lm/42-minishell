@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 12:03:31 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/18 12:06:48 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/21 15:33:29 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	ft_print_token(t_list *token_lst)
 		{
 			ft_printf("[operator: %d]\n", *((int *)parsing_token->data));
 		}
-		else if (parsing_token->type == token_literal)
+		else if (parsing_token->type == token_word)
 		{
-			ft_printf("[literal]\n");
+			ft_printf("[word]\n");
 			lst = (t_string_compound_lst *)parsing_token->data;
 			while (lst)
 			{

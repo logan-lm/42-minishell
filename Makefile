@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2025/12/21 13:19:38 by pberne           ###   ########.fr        #
+#    Updated: 2025/12/21 15:32:28 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,8 @@ FILES = main\
 		builtin/echo\
 		builtin/pwd\
 		parsing/envp\
-		parsing/token_literal_parsing_compound\
-		parsing/token_literal_parsing\
+		parsing/token_word_parsing_compound\
+		parsing/token_word_parsing\
 		parsing/token_operator_parsing\
 		parsing/token_operator_parsing_2\
 		parsing/token_parser_errors\
