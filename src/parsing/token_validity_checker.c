@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 11:29:30 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/21 14:40:22 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/21 17:52:23 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,37 @@ int	ft_token_verify_parenthesis(t_list *token_lst)
 	return (count == 0);
 }
 
+void	ft_merge_redirection_token(t_list *token_lst)
+{
+	t_list					*next;
+	t_token_op_data			*op_data;
+	t_string_compound_lst	*nword;
+
+	op_data = (t_token_op_data *)((t_parsing_token *)token_lst->content)->data;
+	next = token_lst->next;
+	nword = (t_string_compound_lst *)((t_parsing_token *)next->content)->data;
+	token_lst->next = next->next;
+	op_data->word = nword;
+	ft_free(next->content);
+	ft_free(next);
+}
+
 int	ft_token_verify_operator_syntax(t_list *token_lst)
 {
 	t_parsing_token	*token;
+	int				validity_id;
 
 	while (token_lst)
 	{
 		token = (t_parsing_token *)token_lst->content;
 		if (token->type == token_op)
 		{
-			if (!ft_is_token_duo_valid((t_token_op_type *)token->data,
-					(t_parsing_token *)token_lst->next->content))
+			validity_id = ft_is_token_duo_valid((t_token_op_type *)token->data,
+					(t_parsing_token *)token_lst->next->content);
+			if (!validity_id)
 				return (0);
+			if (validity_id == 2)
+				ft_merge_redirection_token(token_lst);
 		}
 		token_lst = token_lst->next;
 	}

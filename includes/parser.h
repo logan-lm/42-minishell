@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 13:23:36 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/21 15:32:59 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/21 16:27:28 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,17 @@ typedef enum e_token_word_type
 
 typedef struct s_string_cmpd_lst
 {
-	t_token_word_type		type;
+	t_token_word_type			type;
 	char						*str;
 	struct s_string_cmpd_lst	*next;
 
 }								t_string_compound_lst;
+
+typedef struct s_token_op_data
+{
+	t_token_op_type				type;
+	t_string_compound_lst		*word;
+}								t_token_op_data;
 
 // Token
 
@@ -72,8 +78,7 @@ t_list							*ft_get_word(char *str, char **s);
 t_string_compound_lst			*ft_get_string_token_node(char *str, size_t len,
 									t_token_word_type word_type);
 t_string_compound_lst			*ft_get_word_element(char *str, char **s);
-t_string_compound_lst			*ft_get_word_element_quote(char *str,
-									char **s);
+t_string_compound_lst			*ft_get_word_element_quote(char *str, char **s);
 t_string_compound_lst			*ft_get_word_element_dquote(char *str,
 									char **s);
 

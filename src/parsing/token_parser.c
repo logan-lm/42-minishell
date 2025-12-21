@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 10:07:46 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/21 15:33:16 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/21 17:19:54 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@
 t_list	*ft_get_op_token(t_token_op_type op_type)
 {
 	t_parsing_token	*token;
-	t_token_op_type	*new_op_type;
+	t_token_op_data	*new_op_data;
 
 	token = ft_malloc(sizeof(t_parsing_token));
-	new_op_type = ft_malloc(sizeof(t_token_op_type));
+	new_op_data = ft_malloc(sizeof(t_token_op_data));
 	token->type = token_op;
-	*new_op_type = op_type;
-	token->data = new_op_type;
+	new_op_data->type = op_type;
+	new_op_data->word = 0;
+	token->data = new_op_data;
 	return (ft_lstnew_gc(token));
 }
 

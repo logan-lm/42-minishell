@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 10:19:02 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/21 14:44:09 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/21 17:48:53 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 t_command_node	*ft_get_command_tree(t_list *token_lst)
 {
-	
+	return (0);
 }

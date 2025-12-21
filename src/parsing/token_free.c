@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:11:32 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/18 10:19:07 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/21 16:31:13 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	ft_free_literal_compound(t_string_compound_lst *lst)
 {
-	t_string_compound_lst			*temp;
+	t_string_compound_lst	*temp;
 
 	while (lst)
 	{
@@ -29,12 +29,17 @@ void	ft_free_literal_compound(t_string_compound_lst *lst)
 void	ft_free_token(t_list *node)
 {
 	t_parsing_token	*token;
+	t_token_op_data	*op_data;
 
 	token = (t_parsing_token *)node->content;
 	if (token->type == token_end)
 		ft_free(node->content);
 	else if (token->type == token_op)
 	{
+		op_data = (t_token_op_data *)token->data;
+		if (op_data->type >= op_in_redirect
+			&& op_data->type <= op_out_redirect_append)
+			ft_free_literal_compound((t_string_compound_lst *)op_data->word);
 		ft_free(token->data);
 		ft_free(node->content);
 	}

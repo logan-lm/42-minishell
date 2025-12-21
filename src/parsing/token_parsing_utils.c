@@ -6,17 +6,26 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 12:03:31 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/21 15:33:29 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/21 17:51:38 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
 
+void	ft_print_lst(t_string_compound_lst *lst)
+{
+	while (lst)
+	{
+		ft_printf("\t%d:%s\n", lst->type, lst->str);
+		lst = lst->next;
+	}
+}
+
 void	ft_print_token(t_list *token_lst)
 {
-	t_parsing_token			*parsing_token;
-	t_string_compound_lst	*lst;
+	t_parsing_token	*parsing_token;
+	int				op_type;
 
 	while (token_lst)
 	{
@@ -25,17 +34,15 @@ void	ft_print_token(t_list *token_lst)
 			ft_printf("[end]\n");
 		else if (parsing_token->type == token_op)
 		{
-			ft_printf("[operator: %d]\n", *((int *)parsing_token->data));
+			op_type = ((t_token_op_data *)parsing_token->data)->type;
+			ft_printf("[operator: %d]\n", op_type);
+			if (op_type >= op_in_redirect && op_type <= op_out_redirect_append)
+				ft_print_lst(((t_token_op_data *)parsing_token->data)->word);
 		}
 		else if (parsing_token->type == token_word)
 		{
 			ft_printf("[word]\n");
-			lst = (t_string_compound_lst *)parsing_token->data;
-			while (lst)
-			{
-				ft_printf("\t%d:%s\n", lst->type, lst->str);
-				lst = lst->next;
-			}
+			ft_print_lst((t_string_compound_lst *)parsing_token->data);
 		}
 		token_lst = token_lst->next;
 	}
