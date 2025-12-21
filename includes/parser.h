@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 13:23:36 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/18 14:57:04 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/21 14:22:59 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ typedef enum e_token_op_type
 	op_open_parenthesis,
 	op_close_parenthesis,
 	op_and,
-	op_or,
-	op_equal
+	op_or
 }								t_token_op_type;
 
 typedef enum e_token_literal_type
@@ -81,10 +80,13 @@ t_string_compound_lst			*ft_get_literal_element_dquote(char *str,
 // Errors
 
 void							ft_token_syntax_error(char *c);
+void							ft_op_syntax_error(t_token_op_type op_code);
 void							ft_token_missing_delimiter_error(char *c);
 void							ft_token_missing_parenthesis(int op_code);
 
 t_list							*ft_token_validity_checker(t_list *token_lst);
+int								ft_is_token_duo_valid(t_token_op_type *tkntyp,
+									t_parsing_token *next_token);
 
 /// Utils
 

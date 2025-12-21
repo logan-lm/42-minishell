@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_operator_parsing_2.c                         :+:      :+:    :+:   */
+/*   command.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/17 11:29:55 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/21 12:20:12 by pberne           ###   ########.fr       */
+/*   Created: 2025/12/21 10:20:04 by pberne            #+#    #+#             */
+/*   Updated: 2025/12/21 12:03:24 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "parser.h"
+#ifndef COMMAND_H
+# define COMMAND_H
 
-// equal
-/*t_list	*ft_get_operator6(char *str, char **s)
+# include "libft.h"
+# include "parser.h"
+
+typedef struct s_command_node
 {
-	t_list	*ret;
+	t_command_node_type	type;
+	t_list				*pipeline;
+	t_command_node		*left;
+	t_command_node		*right;
+}						t_command_node;
 
-	ret = 0;
-	if (*str == '=')
-	{
-		str++;
-		ret = ft_get_op_token(op_equal);
-	}
-	*s = str;
-	return (ret);
-}*/
+typedef enum e_command_node_type
+{
+	command_pipeline,
+	command_or,
+	command_and
+}						t_command_node_type;
+
+#endif

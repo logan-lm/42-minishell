@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_operator_parsing_2.c                         :+:      :+:    :+:   */
+/*   command_builder.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/17 11:29:55 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/21 12:20:12 by pberne           ###   ########.fr       */
+/*   Created: 2025/12/21 10:19:02 by pberne            #+#    #+#             */
+/*   Updated: 2025/12/21 14:40:50 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "parser.h"
+#include "command.h"
 
-// equal
-/*t_list	*ft_get_operator6(char *str, char **s)
+t_command_node	*ft_get_command_tree(t_list *token_lst)
 {
-	t_list	*ret;
-
-	ret = 0;
-	if (*str == '=')
-	{
-		str++;
-		ret = ft_get_op_token(op_equal);
-	}
-	*s = str;
-	return (ret);
-}*/
+	return (0);
+}

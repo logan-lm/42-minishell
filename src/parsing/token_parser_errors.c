@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 11:50:46 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/18 12:02:07 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/21 14:23:24 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,24 @@ void	ft_token_missing_parenthesis(int op_code)
 		ft_putstr_fd("Missing matching parenthesis for `(\'\n", 2);
 	else if (op_code == op_close_parenthesis)
 		ft_putstr_fd("Missing matching parenthesis for `)\'\n", 2);
+}
+
+void	ft_op_syntax_error(t_token_op_type op_code)
+{
+	if (op_code == op_pipe)
+		ft_token_syntax_error("|");
+	else if (op_code == op_in_redirect)
+		ft_token_syntax_error("<");
+	else if (op_code == op_heredoc)
+		ft_token_syntax_error("<<");
+	else if (op_code == op_out_redirect_trunc)
+		ft_token_syntax_error(">");
+	else if (op_code == op_out_redirect_append)
+		ft_token_syntax_error(">>");
+	else if (op_code == op_open_parenthesis)
+		ft_token_syntax_error("(");
+	else if (op_code == op_and)
+		ft_token_syntax_error("&&");
+	else if (op_code == op_or)
+		ft_token_syntax_error("||");
 }

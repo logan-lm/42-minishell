@@ -6,14 +6,14 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 11:29:55 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/18 15:02:28 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/21 12:20:10 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
 
-t_list	*ft_get_operator6(char *str, char **s);
+//t_list	*ft_get_operator6(char *str, char **s);
 
 // parenthesis
 t_list	*ft_get_operator5(char *str, char **s)
@@ -31,8 +31,6 @@ t_list	*ft_get_operator5(char *str, char **s)
 		str++;
 		ret = ft_get_op_token(op_close_parenthesis);
 	}
-	else
-		return (ft_get_operator6(str, s));
 	*s = str;
 	return (ret);
 }

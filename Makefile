@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
+#    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2025/12/19 10:03:30 by lomartin         ###   ########.fr        #
+#    Updated: 2025/12/21 13:19:38 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ FILES = main\
 		parsing/token_parser\
 		parsing/token_free\
 		parsing/token_validity_checker\
+		parsing/token_validity_duo\
 		parsing/token_parsing_utils
 
 
