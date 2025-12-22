@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 10:02:31 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/21 17:46:43 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/22 09:35:12 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	ft_bzero(&d, sizeof(t_shell_data));
-	ft_parse_envp(envp, &d.envp);
+	ft_init_envp(envp, &d);
+	ft_pwd(NULL, &d);
 	while (1)
 	{
 		prompt = readline("\001\033[1;32m\002Minishell>\001\033[0m\002");

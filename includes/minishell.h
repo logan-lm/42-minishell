@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/21 22:34:08 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/22 09:34:18 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ int			ft_export(char **args, t_shell_data *data);
 int			ft_unset(char **args, t_shell_data *data);
 
 //// PARSING
-void		ft_parse_envp(char **envp, t_shell_data *data);
+void		ft_init_envp(char **envp, t_shell_data *data);
 
 #endif

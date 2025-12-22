@@ -6,13 +6,13 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:41:16 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/21 21:50:19 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/22 09:34:32 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_parse_envp(char **envp, t_shell_data *data)
+void	ft_init_envp(char **envp, t_shell_data *data)
 {
 	char		**part;
 
