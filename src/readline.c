@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/22 17:49:51 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/22 19:47:06 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ void	ft_int_handler(int sig)
 	rl_redisplay();
 }
 
-void	ft_readline(void)
+void	ft_readline(t_shell_data *d)
 {
 	char	*prompt;
 	t_list	*token_lst;
 
+	(void)d;
 	prompt = readline("\001\033[1;32m\002Minishell>\001\033[0m\002");
 	if (prompt == NULL)
 		ft_exit(EXIT_SUCCESS);

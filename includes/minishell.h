@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/22 17:40:19 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/22 19:47:25 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ void		ft_gc_debug(char *str);
 
 // READLINE
 void		ft_int_handler(int sig);
-void		ft_readline(void);
+void		ft_readline(t_shell_data *d);
+
+// EXEC
+void		ft_exec(t_list *cmds, t_shell_data *d);
 
 //// BUILT-INS
 // ECHO
