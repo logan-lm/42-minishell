@@ -3,14 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
+#    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2025/12/22 12:01:45 by pberne           ###   ########.fr        #
-=======
-#    Updated: 2025/12/22 14:32:34 by lomartin         ###   ########.fr        #
->>>>>>> 546f254 (SIGINT handler)
+#    Updated: 2025/12/22 16:58:25 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,8 +43,6 @@ FILES = main\
 		parsing/token_free\
 		parsing/token_validity_checker\
 		parsing/token_validity\
-		parsing/token_parsing_utils
-		parsing/token_validity_duo\
 		parsing/token_parsing_utils\
 		utils/utils\
 		utils/dict_utils
