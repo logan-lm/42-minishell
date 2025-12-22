@@ -1,56 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_gc2.c                                           :+:      :+:    :+:   */
+/*   ft_gc2_id.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 16:05:13 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/22 14:44:13 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/22 14:48:46 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_gc.h"
 #include "libft.h"
 
-void	*ft_malloc(unsigned long size)
+void	*ft_malloc_id(unsigned long size, int id)
 {
-	return (ft_gc(GC_ALLOC, size, 0));
+	return (ft_gc(GC_ALLOC, size, id));
 }
 
-void	ft_free(void *ptr)
+void	ft_clear_gc_id(int id)
 {
-	ft_gc(GC_FREE, (uintptr_t)ptr, 0);
+	ft_gc(GC_CLEARALL, 0, id);
 }
 
-void	ft_clear_gc(void)
+void	ft_gc_print_count_id(int id)
 {
-	ft_gc(GC_CLEARALL, 0, 0);
-}
-
-void	ft_gc_print_count(void)
-{
-	ft_gc(GC_PRINT_COUNT, 0, 0);
-}
-
-void	ft_gc_do_print_count(t_gc_node **hash_table, int id)
-{
-	size_t		i;
-	size_t		count;
-	t_gc_node	*temp;
-
-	i = 0;
-	count = 0;
-	while (i < GC_HASHTABLE_SIZE)
-	{
-		temp = hash_table[i];
-		while (temp)
-		{
-			if (id == 0 || id == temp->id)
-				count++;
-			temp = temp->next;
-		}
-		i++;
-	}
-	ft_printf("GC count : %l\n", count);
+	ft_gc(GC_PRINT_COUNT, 0, id);
 }
