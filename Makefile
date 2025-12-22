@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
+#    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2025/12/22 16:58:25 by lomartin         ###   ########.fr        #
+#    Updated: 2025/12/22 17:46:56 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-DFLAGS = -g3 -Wall -Wextra -Werror
+DFLAGS = -g3 -Wall -Wextra -Werror -DBUILD_DEBUG=1
 LIBFT = libft/libft.a
 LIBFT_DEBUG = libft/libft_DEBUG.a
 LIB_FLAGS = -lreadline
@@ -45,7 +45,8 @@ FILES = main\
 		parsing/token_validity\
 		parsing/token_parsing_utils\
 		utils/utils\
-		utils/dict_utils
+		utils/dict_utils\
+		utils/gc_debug
 
 
 SRCS = $(addprefix $(SRC_DIR),  $(addsuffix .c, $(FILES)))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/22 14:31:15 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/22 17:40:19 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 # include <stdio.h>
 # include <sys/stat.h>
 # include <unistd.h>
+
+# ifndef BUILD_DEBUG
+#  define BUILD_DEBUG 0
+# endif
 
 typedef struct s_shell_data
 {
@@ -44,6 +48,8 @@ t_dict		*ft_dictpop(t_list **list, char *key);
 void		ft_dictdel(t_list **list, char *key);
 int			ft_env(char **args, t_shell_data *data);
 int			ft_set_var(char **args, t_shell_data *data);
+
+void		ft_gc_debug(char *str);
 
 // READLINE
 void		ft_int_handler(int sig);

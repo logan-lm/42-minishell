@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 10:02:31 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/22 17:08:48 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/22 17:42:21 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	main(int ac, char **av, char **envp)
 {
 	t_shell_data	d;
-	t_list			*token_lst;
 
 	(void)ac;
 	(void)av;
@@ -23,7 +22,6 @@ int	main(int ac, char **av, char **envp)
 	ft_init_envp(envp, &d);
 	ft_pwd(NULL, &d);
 	signal(SIGINT, ft_int_handler);
-	token_lst = NULL;
 	while (1)
 	{
 		ft_readline();

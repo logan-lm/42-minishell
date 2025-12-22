@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 15:00:36 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/18 14:17:35 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/22 17:27:03 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void				*ft_calloc_gc(size_t nmemb, size_t size);
 char				*ft_substr(const char *str, unsigned int start, size_t len);
 char				*ft_substr_gc(const char *str, unsigned int start,
 						size_t len);
+char				*ft_substr_gc_id(const char *str, unsigned int start,
+						size_t len, int id);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strjoin_gc(char const *s1, char const *s2);
 
@@ -112,6 +114,7 @@ typedef struct s_list
 
 t_list				*ft_lstnew(void *content);
 t_list				*ft_lstnew_gc(void *content);
+t_list				*ft_lstnew_gc_id(void *content, int id);
 
 void				ft_lstadd_front(t_list **lst, t_list *new);
 int					ft_lstsize(t_list *lst);

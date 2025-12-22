@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 13:23:36 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/22 12:02:56 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/22 17:20:45 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 # define PARSER_H
 
 # include "libft.h"
+
+typedef enum e_malloc_id
+{
+	malloc_id_default,
+	malloc_id_token,
+}	t_malloc_id;
 
 /// @brief defines the type of a token
 typedef enum e_token_type

@@ -43,8 +43,8 @@ t_string_compound_lst	*ft_get_string_token_node(char *str, size_t len,
 	char					*substr;
 	t_string_compound_lst	*str_comp;
 
-	substr = ft_substr_gc(str, 0, len);
-	str_comp = ft_malloc(sizeof(t_string_compound_lst));
+	substr = ft_substr_gc_id(str, 0, len, malloc_id_token);
+	str_comp = ft_malloc_id(sizeof(t_string_compound_lst), malloc_id_token);
 	str_comp->str = substr;
 	str_comp->type = word_type;
 	str_comp->next = 0;
@@ -55,10 +55,10 @@ t_list	*ft_get_word_token(void)
 {
 	t_parsing_token	*token;
 
-	token = ft_malloc(sizeof(t_parsing_token));
+	token = ft_malloc_id(sizeof(t_parsing_token), malloc_id_token);
 	token->type = token_word;
 	token->data = 0;
-	return (ft_lstnew_gc(token));
+	return (ft_lstnew_gc_id(token, malloc_id_token));
 }
 
 /// @brief Iterates through the argument and builds the word compound.
@@ -82,10 +82,7 @@ t_list	*ft_get_word(char *str, char **s)
 		if (new_compound)
 			ft_add_compound_to_back(token, new_compound);
 		else
-		{
-			ft_free_token(token);
 			return (0);
-		}
 		str = *s;
 	}
 	return (token);

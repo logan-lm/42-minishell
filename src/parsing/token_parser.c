@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 10:07:46 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/22 12:02:56 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/22 17:24:24 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,22 @@ t_list	*ft_get_op_token(t_token_op_type op_type)
 	t_parsing_token	*token;
 	t_token_op_data	*new_op_data;
 
-	token = ft_malloc(sizeof(t_parsing_token));
-	new_op_data = ft_malloc(sizeof(t_token_op_data));
+	token = ft_malloc_id(sizeof(t_parsing_token), malloc_id_token);
+	new_op_data = ft_malloc_id(sizeof(t_token_op_data), malloc_id_token);
 	token->type = token_op;
 	new_op_data->type = op_type;
 	new_op_data->word = 0;
 	token->data = new_op_data;
-	return (ft_lstnew_gc(token));
+	return (ft_lstnew_gc_id(token, malloc_id_token));
 }
 
 t_list	*ft_get_end_token(void)
 {
 	t_parsing_token	*token;
 
-	token = ft_malloc(sizeof(t_parsing_token));
+	token = ft_malloc_id(sizeof(t_parsing_token), malloc_id_token);
 	token->type = token_end;
-	return (ft_lstnew_gc(token));
+	return (ft_lstnew_gc_id(token, malloc_id_token));
 }
 
 t_list	*ft_get_token(char **s)
@@ -71,7 +71,7 @@ t_list	*ft_get_tokens(char *str)
 		}
 		else
 		{
-			ft_free_token_list(lst);
+			ft_clear_gc_id(malloc_id_token);
 			break ;
 		}
 	}
