@@ -38,3 +38,4 @@ make minishell
 # Ressources
 
 - **Opengroup Posix Shell documentation** https://pubs.opengroup.org/onlinepubs/9799919799/utilities/V3_chap02.html
+- **GNU Bash reference manual** https://www.gnu.org/software/bash/manual/bash.html#Shell-Functions
