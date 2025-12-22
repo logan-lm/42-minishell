@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_gc2_id.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/19 10:02:31 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/22 17:08:31 by pberne           ###   ########.fr       */
+/*   Created: 2025/11/24 16:05:13 by pberne            #+#    #+#             */
+/*   Updated: 2025/12/22 14:48:46 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_gc.h"
+#include "libft.h"
 
-int	main(int ac, char **av, char **envp)
+void	*ft_malloc_id(unsigned long size, int id)
 {
-	t_shell_data	d;
-	t_list			*token_lst;
+	return (ft_gc(GC_ALLOC, size, id));
+}
 
-	(void)ac;
-	(void)av;
-	ft_bzero(&d, sizeof(t_shell_data));
-	ft_init_envp(envp, &d);
-	ft_pwd(NULL, &d);
-	signal(SIGINT, ft_int_handler);
-	token_lst = NULL;
-	while (1)
-	{
-		ft_readline();
-	}
+void	ft_clear_gc_id(int id)
+{
+	ft_gc(GC_CLEARALL, 0, id);
+}
+
+void	ft_gc_print_count_id(int id)
+{
+	ft_gc(GC_PRINT_COUNT, 0, id);
 }

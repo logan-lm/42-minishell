@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/31 16:15:41 by pberne            #+#    #+#              #
-#    Updated: 2025/12/17 18:28:28 by pberne           ###   ########.fr        #
+#    Updated: 2025/12/22 14:33:42 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,8 +60,7 @@ FILES = ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint\
 		ft_putdouble\
 		ft_printf\
 		ft_abs\
-		ft_gc\
-		ft_gc2\
+		ft_gc ft_gc2 ft_gc2_id\
 		ft_clamp\
 		ft_lerp\
 		ft_swap\

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 16:05:13 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/18 10:49:32 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/22 14:44:13 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 
 void	*ft_malloc(unsigned long size)
 {
-	return (ft_gc(GC_ALLOC, size));
+	return (ft_gc(GC_ALLOC, size, 0));
 }
 
 void	ft_free(void *ptr)
 {
-	ft_gc(GC_FREE, (uintptr_t)ptr);
+	ft_gc(GC_FREE, (uintptr_t)ptr, 0);
 }
 
 void	ft_clear_gc(void)
 {
-	ft_gc(GC_CLEARALL, 0);
+	ft_gc(GC_CLEARALL, 0, 0);
 }
 
 void	ft_gc_print_count(void)
 {
-	ft_gc(GC_PRINT_COUNT, 0);
+	ft_gc(GC_PRINT_COUNT, 0, 0);
 }
 
-void	ft_gc_do_print_count(t_gc_node **hash_table)
+void	ft_gc_do_print_count(t_gc_node **hash_table, int id)
 {
 	size_t		i;
 	size_t		count;
@@ -46,7 +46,8 @@ void	ft_gc_do_print_count(t_gc_node **hash_table)
 		temp = hash_table[i];
 		while (temp)
 		{
-			count++;
+			if (id == 0 || id == temp->id)
+				count++;
 			temp = temp->next;
 		}
 		i++;

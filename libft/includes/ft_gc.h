@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 14:13:08 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/18 10:16:43 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/22 14:44:17 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,21 @@ enum					e_gc_flags
 
 typedef struct s_gc_node
 {
+	int					id;
 	void				*ptr;
 	struct s_gc_node	*next;
 }						t_gc_node;
 
-void					*ft_gc(int flag, uintptr_t size);
+void					*ft_gc(int flag, uintptr_t size, int id);
 void					*ft_malloc(unsigned long size);
 void					ft_free(void *ptr);
+
 void					ft_gc_print_count(void);
+void					ft_gc_print_count_id(int id);
+
+void					*ft_malloc_id(unsigned long size, int id);
+void					ft_clear_gc_id(int id);
+
 void					ft_clear_gc(void);
 
 #endif

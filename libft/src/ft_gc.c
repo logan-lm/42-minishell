@@ -3,24 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   ft_gc.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 13:59:30 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/18 14:09:25 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/22 14:44:09 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_gc_do_print_count(t_gc_node **hash_table);
+void	ft_gc_do_print_count(t_gc_node **hash_table, int id);
 
-void	ft_free_node_list(t_gc_node *node)
+void	ft_free_node_list(t_gc_node **first_node, int id)
 {
-	if (node)
+	t_gc_node	*prev;
+	t_gc_node	*node;
+	t_gc_node	*temp;
+
+	prev = 0;
+	node = *first_node;
+	while (node)
 	{
-		ft_free_node_list(node->next);
-		free(node->ptr);
-		free(node);
+		temp = node;
+		node = node->next;
+		if (id == 0 || temp->id == id)
+		{
+			if (prev == 0)
+				*first_node = temp->next;
+			else
+			{
+				prev->next = temp->next;
+			}
+			ft_free(temp->ptr);
+			ft_free(temp);
+		}
+		else
+			prev = temp;
 	}
 }
 
@@ -53,20 +71,19 @@ void	ft_free_ptr(t_gc_node **hashtable, void *ptr)
 	}
 }
 
-void	ft_gc_free_all(t_gc_node **hashtable)
+void	ft_gc_free_all(t_gc_node **hashtable, int id)
 {
 	unsigned long	i;
 
 	i = 0;
 	while (i < GC_HASHTABLE_SIZE)
 	{
-		ft_free_node_list(hashtable[i]);
-		hashtable[i] = 0;
+		ft_free_node_list(&hashtable[i], id);
 		i++;
 	}
 }
 
-void	*ft_gc_alloc(t_gc_node **hashtable, uintptr_t size)
+void	*ft_gc_alloc(t_gc_node **hashtable, uintptr_t size, int id)
 {
 	unsigned long	index;
 	void			*ptr;
@@ -82,6 +99,7 @@ void	*ft_gc_alloc(t_gc_node **hashtable, uintptr_t size)
 		ft_exit(MALLOC_FAILED);
 	}
 	node->ptr = ptr;
+	node->id = id;
 	index = ((uintptr_t)ptr) % GC_HASHTABLE_SIZE;
 	if (hashtable[index])
 		node->next = hashtable[index];
@@ -94,7 +112,7 @@ void	*ft_gc_alloc(t_gc_node **hashtable, uintptr_t size)
 /// @brief Keeps track of allocated memory
 /// @param flag GC_ALLOC, GC_FREE, GC_CLEARALL
 /// @param size represents either a size_t or pointer address
-void	*ft_gc(int flag, uintptr_t var)
+void	*ft_gc(int flag, uintptr_t var, int id)
 {
 	static t_gc_node	*hash_table[GC_HASHTABLE_SIZE];
 	static int			zeroed = 0;
@@ -105,12 +123,12 @@ void	*ft_gc(int flag, uintptr_t var)
 		ft_bzero(hash_table, GC_HASHTABLE_SIZE * sizeof(t_gc_node *));
 	}
 	if (flag == GC_ALLOC)
-		return (ft_gc_alloc(hash_table, var));
+		return (ft_gc_alloc(hash_table, var, id));
 	else if (flag == GC_FREE)
 		ft_free_ptr(hash_table, (void *)var);
 	else if (flag == GC_CLEARALL)
-		ft_gc_free_all(hash_table);
+		ft_gc_free_all(hash_table, id);
 	else if (flag == GC_PRINT_COUNT)
-		ft_gc_do_print_count(hash_table);
+		ft_gc_do_print_count(hash_table, id);
 	return (0);
 }
