@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 13:23:36 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/21 16:27:28 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/22 11:53:43 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,9 @@ void							ft_token_missing_delimiter_error(char *c);
 void							ft_token_missing_parenthesis(int op_code);
 
 t_list							*ft_token_validity_checker(t_list *token_lst);
-int								ft_is_token_duo_valid(t_token_op_type *tkntyp,
+int								ft_is_redirection_valid(t_token_op_type *tktp,
+									t_parsing_token *next_token);
+int								ft_is_operator_valid(t_token_op_type *tktp,
 									t_parsing_token *next_token);
 
 /// Utils

@@ -6,14 +6,14 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 11:29:30 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/21 17:52:23 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/22 11:53:45 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
 
-/// @brief Makes sure teh parenthesis count is correct,
+/// @brief Makes sure the parenthesis count is correct,
 /// every open parenthesis has a closing on in the correct order
 int	ft_token_verify_parenthesis(t_list *token_lst)
 {
@@ -58,22 +58,42 @@ void	ft_merge_redirection_token(t_list *token_lst)
 	ft_free(next);
 }
 
-int	ft_token_verify_operator_syntax(t_list *token_lst)
+/// @brief Checks if the redirections are properly formatted
+///(with a word following them) and merges them
+int	ft_token_verify_redirection(t_list *token_lst)
 {
 	t_parsing_token	*token;
-	int				validity_id;
+	int				ret;
 
 	while (token_lst)
 	{
 		token = (t_parsing_token *)token_lst->content;
 		if (token->type == token_op)
 		{
-			validity_id = ft_is_token_duo_valid((t_token_op_type *)token->data,
+			ret = ft_is_redirection_valid((t_token_op_type *)token->data,
 					(t_parsing_token *)token_lst->next->content);
-			if (!validity_id)
+			if (!ret)
 				return (0);
-			if (validity_id == 2)
+			else if (ret == 2)
 				ft_merge_redirection_token(token_lst);
+		}
+		token_lst = token_lst->next;
+	}
+	return (1);
+}
+
+int	ft_token_verify_operators(t_list *token_lst)
+{
+	t_parsing_token	*token;
+
+	while (token_lst)
+	{
+		token = (t_parsing_token *)token_lst->content;
+		if (token->type == token_op)
+		{
+			if (!ft_is_operator_valid((t_token_op_type *)token->data,
+					(t_parsing_token *)token_lst->next->content))
+				return (0);
 		}
 		token_lst = token_lst->next;
 	}
@@ -89,7 +109,12 @@ t_list	*ft_token_validity_checker(t_list *token_lst)
 		ft_free_token_list(token_lst);
 		return (0);
 	}
-	if (!ft_token_verify_operator_syntax(token_lst))
+	if (!ft_token_verify_redirection(token_lst))
+	{
+		ft_free_token_list(token_lst);
+		return (0);
+	}
+	if (!ft_token_verify_operators(token_lst))
 	{
 		ft_free_token_list(token_lst);
 		return (0);

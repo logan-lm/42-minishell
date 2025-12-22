@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 10:20:04 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/21 12:03:24 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/22 11:18:49 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ typedef enum e_command_node_type
 {
 	command_pipeline,
 	command_or,
-	command_and
+	command_and,
+	command_subshell
 }						t_command_node_type;
 
 #endif

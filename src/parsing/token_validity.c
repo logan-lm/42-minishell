@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_validity_duo.c                               :+:      :+:    :+:   */
+/*   token_validity.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 11:55:06 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/21 16:37:12 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/22 11:54:43 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int	ft_is_token_duo_valid(t_token_op_type *token_type,
+int	ft_is_redirection_valid(t_token_op_type *token_type,
 		t_parsing_token *next_token)
 {
-	t_token_op_type	*next_op;
-
 	if (*token_type >= op_in_redirect && *token_type <= op_out_redirect_append)
 	{
 		if (next_token->type != token_word)
@@ -30,8 +28,16 @@ int	ft_is_token_duo_valid(t_token_op_type *token_type,
 		else
 			return (2);
 	}
-	else if (*token_type == op_pipe || *token_type == op_and
-		|| *token_type == op_or || *token_type == op_open_parenthesis)
+	return (1);
+}
+
+int	ft_is_operator_valid(t_token_op_type *token_type,
+		t_parsing_token *next_token)
+{
+	t_token_op_type	*next_op;
+
+	if (*token_type == op_pipe || *token_type == op_and || *token_type == op_or
+		|| *token_type == op_open_parenthesis)
 	{
 		if (next_token->type == token_end)
 			return (ft_token_syntax_error("newline"), 0);
