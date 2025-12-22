@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 22:18:51 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/19 15:13:28 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/22 10:19:19 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ char	*ft_strjoin_gc(char const *s1, char const *s2)
 	char	*str;
 
 	i = 0;
+	if (!s1)
+		s1 = "";
+	if (!s2)
+		s2 = "";
 	size = ft_strlen((char *)s1) + ft_strlen((char *)s2);
 	str = ft_malloc(size + 1);
 	str[size] = '\0';

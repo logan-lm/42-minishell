@@ -10,7 +10,7 @@
             "program": "${workspaceFolder}/minishell_debug",
             //"program": "${workspaceFolder}/checker_debug",
             //"args": [""],
-            "args": [""],
+            "args": ["$A"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

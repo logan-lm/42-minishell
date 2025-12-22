@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/22 09:34:18 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/22 10:37:03 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void		ft_dictadd(t_list **list, char *key, char *value);
 t_dict		*ft_dictpop(t_list **list, char *key);
 void		ft_dictdel(t_list **list, char *key);
 int			ft_env(char **args, t_shell_data *data);
+int			ft_set_var(char **args, t_shell_data *data);
 
 //// BUILT-INS
 // ECHO
