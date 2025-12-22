@@ -6,7 +6,11 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2025/12/22 12:01:45 by pberne           ###   ########.fr        #
+=======
+#    Updated: 2025/12/22 14:32:34 by lomartin         ###   ########.fr        #
+>>>>>>> 546f254 (SIGINT handler)
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,8 +29,7 @@ OBJ_DIR = obj/
 INCLUDES_DIR = -Iincludes -Ilibft/includes
 
 FILES = main\
-		utils\
-		dict_utils\
+		readline\
 		builtin/cd\
 		builtin/echo\
 		builtin/env\
@@ -45,6 +48,10 @@ FILES = main\
 		parsing/token_validity_checker\
 		parsing/token_validity\
 		parsing/token_parsing_utils
+		parsing/token_validity_duo\
+		parsing/token_parsing_utils\
+		utils/utils\
+		utils/dict_utils
 
 
 SRCS = $(addprefix $(SRC_DIR),  $(addsuffix .c, $(FILES)))

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/22 10:37:03 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/22 14:31:15 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <errno.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 # include <sys/stat.h>
 # include <unistd.h>
@@ -43,6 +44,10 @@ t_dict		*ft_dictpop(t_list **list, char *key);
 void		ft_dictdel(t_list **list, char *key);
 int			ft_env(char **args, t_shell_data *data);
 int			ft_set_var(char **args, t_shell_data *data);
+
+// READLINE
+void		ft_int_handler(int sig);
+void		ft_readline(void);
 
 //// BUILT-INS
 // ECHO
