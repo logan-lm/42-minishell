@@ -16,20 +16,20 @@
 # include "libft.h"
 # include "parser.h"
 
-typedef struct s_command_node
-{
-	t_command_node_type	type;
-	t_list				*pipeline;
-	t_command_node		*left;
-	t_command_node		*right;
-}						t_command_node;
-
 typedef enum e_command_node_type
 {
 	command_pipeline,
 	command_or,
 	command_and,
 	command_subshell
-}						t_command_node_type;
+}							t_command_node_type;
+
+typedef struct s_command_node
+{
+	t_command_node_type		type;
+	t_list					*pipeline;
+	struct s_command_node	*left;
+	struct s_command_node	*right;
+}							t_command_node;
 
 #endif

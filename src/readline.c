@@ -28,7 +28,7 @@ void	ft_readline(t_shell_data *d)
 
 	(void)d;
 	prompt = readline("\001\033[1;32m\002Minishell>\001\033[0m\002");
-	if (prompt == NULL)
+	if (prompt == NULL || !ft_strncmp(prompt, "exit", 5))
 		ft_exit(EXIT_SUCCESS);
 	add_history(prompt);
 	if (BUILD_DEBUG)

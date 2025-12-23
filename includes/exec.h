@@ -14,10 +14,12 @@
 # define EXEC_H
 # include "minishell.h"
 
-struct s_pipe
+struct		s_pipe
 {
 	int		pipefd[2];
 	char	**args;
 }			t_pipe;
+
+char		*ft_getvarname(char *str);
 
 #endif

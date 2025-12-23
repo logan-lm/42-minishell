@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin_mult.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 22:18:51 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/18 10:47:46 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/23 09:58:26 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_strjoin_list_gc(t_list *list, size_t size)
 	while (list)
 	{
 		temp = (char *)(list->content);
-		while (*temp)
+		while (temp && *temp)
 		{
 			*tempstr = *temp;
 			tempstr++;

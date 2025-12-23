@@ -26,6 +26,7 @@ INCLUDES_DIR = -Iincludes -Ilibft/includes
 
 FILES = main\
 		readline\
+		exec\
 		builtin/cd\
 		builtin/echo\
 		builtin/env\
@@ -45,6 +46,7 @@ FILES = main\
 		parsing/token_validity\
 		parsing/token_parsing_utils\
 		utils/utils\
+		utils/exec_utils\
 		utils/dict_utils\
 		utils/gc_debug
 
