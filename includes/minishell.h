@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 09:46:09 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 09:49:20 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,6 @@ int			ft_unset(char **args, t_shell_data *data);
 void		ft_init_envp(char **envp, t_shell_data *data);
 char		**ft_str_env(t_list *envp_d);
 t_list		*ft_get_matching_names(char **src, char *pattern);
+char		**ft_str_env(t_list *envp_d);
 
 #endif

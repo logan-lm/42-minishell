@@ -6,14 +6,14 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 22:31:52 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 09:48:38 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 09:49:05 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "exec.h"
 
-t_pipe	parse_pipe(char **args)
+char	**parse_cmd(char **args)
 {
 	int			i;
 	int			j;

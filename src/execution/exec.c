@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 09:47:26 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 09:50:28 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,6 +243,12 @@ void	ft_exec(t_list *cmds, t_shell_data *d)
 	cat_lst = cmd->left->right->commands;
 	cat_token = cat_lst->content;
 	cat_cmpd = cat_token->word;
+	t_list *cat_lst = cmd->left->right->pipeline;
+	t_token_op_data *cat_token = cat_lst->content;
+	t_string_compound_lst	*cat_cmpd = cat_token->word;
+	char *joined;
+	char *temp;
+	char	**strs;
 	joined = NULL;
 	while (cat_lst)
 	{
