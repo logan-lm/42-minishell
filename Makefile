@@ -44,6 +44,7 @@ FILES = main\
 		parsing/token_validity_checker\
 		parsing/token_validity\
 		parsing/token_parsing_utils\
+		parsing/token_build_subshells\
 		utils/utils\
 		utils/dict_utils\
 		utils/gc_debug

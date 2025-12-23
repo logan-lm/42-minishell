@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 10:20:04 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/22 11:18:49 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/23 11:16:28 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@
 typedef struct s_command_node
 {
 	t_command_node_type	type;
-	t_list				*pipeline;
+	t_list				*tokens;
 	t_command_node		*left;
 	t_command_node		*right;
 }						t_command_node;
 
 typedef enum e_command_node_type
 {
+	command_single,
 	command_pipeline,
 	command_or,
 	command_and,

@@ -123,5 +123,5 @@ t_list	*ft_token_validity_checker(t_list *token_lst)
 		ft_free_token_list(token_lst);
 		return (0);
 	}
-	return (token_lst);
+	return (ft_merge_subshell_token_lst(token_lst));
 }

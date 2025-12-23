@@ -36,9 +36,7 @@ void	ft_readline(t_shell_data *d)
 	else
 		ft_add_exit(prompt, free);
 	token_lst = ft_get_tokens(prompt);
-	ft_print_token(token_lst);
-	ft_gc_print_count_id(malloc_id_token);
+	ft_print_token(token_lst, 0);
 	if (token_lst)
 		ft_clear_gc_id(malloc_id_token);
-	ft_gc_print_count_id(malloc_id_token);
 }

@@ -54,6 +54,8 @@ void	ft_op_syntax_error(t_token_op_type op_code)
 		ft_token_syntax_error(">>");
 	else if (op_code == op_open_parenthesis)
 		ft_token_syntax_error("(");
+	else if (op_code == op_close_parenthesis)
+		ft_token_syntax_error(")");
 	else if (op_code == op_and)
 		ft_token_syntax_error("&&");
 	else if (op_code == op_or)

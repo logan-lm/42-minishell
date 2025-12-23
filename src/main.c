@@ -27,6 +27,6 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		ft_readline(&d);
-		ft_exec(cmds, &d);
+		//ft_exec(cmds, &d);
 	}
 }
