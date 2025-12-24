@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 10:19:02 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/24 16:35:19 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/24 17:09:22 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ t_list	*ft_get_last_comp_operator(t_list *token_lst, int *command_type,
 	return (last_comp_operator);
 }
 
-void ft_build_subshell_commands_from_tokens(t_list *token_lst)
+void	ft_build_subshell_commands_from_tokens(t_list *token_lst)
 {
-	t_parsing_token *token;
-	
+	t_parsing_token	*token;
+
 	while (token_lst)
 	{
 		token = (t_parsing_token *)token_lst->content;
@@ -116,23 +116,3 @@ t_command_node	*ft_build_ast(t_list *token_lst)
 	}
 	return (new_command);
 }
-
-/*	while (token_lst)
-	{
-		command_type = ft_is_comparison_op(token_lst);
-		if (command_type == command_or || command_type == command_and)
-		{
-			new_command->type = command_type;
-			new_command->left = ft_build_ast(start);
-			new_command->right = ft_build_ast(token_lst->next);
-			return (new_command);
-		}
-		if (command_type == command_subshell)
-		{
-			new_command->type = command_type;
-			new_command->left = ft_build_ast((t_list *)((t_parsing_token *)token_lst->content)->data);
-		}
-		prev = token_lst;
-		token_lst = token_lst->next;
-	}
-	return (start);*/

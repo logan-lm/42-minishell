@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/24 11:16:51 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/24 16:25:39 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/24 17:09:09 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ void	ft_print_ast(t_command_node *node, int depth)
 	ft_print_offset(depth);
 	if (node->type == command_and || node->type == command_or)
 	{
-		if(node->type == command_and)
-				ft_printf("AND &&:\n");
+		if (node->type == command_and)
+			ft_printf("AND &&:\n");
 		else
-				ft_printf("OR ||:\n");
+			ft_printf("OR ||:\n");
 		ft_print_ast(node->left, depth + 1);
 		ft_print_ast(node->right, depth + 1);
 	}

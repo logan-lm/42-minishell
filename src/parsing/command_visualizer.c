@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/24 16:28:59 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/24 17:08:29 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/24 17:11:07 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_print_word_content(t_string_compound_lst *lst, char *prefix)
 	while (lst)
 	{
 		ft_printf("%s%s", prefix, lst->next == NULL ? "└╴ " : "├╴ ");
-		ft_printf("str: %s\n", lst->str);
+		ft_printf("(%d): %s\n", lst->type, lst->str);
 		lst = lst->next;
 	}
 }
