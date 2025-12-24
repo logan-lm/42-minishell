@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/24 16:28:59 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/24 17:13:03 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/24 17:14:15 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	ft_print_ast_visual(t_command_node *node, char *prefix)
 		ft_printf(
 			"%s%s\n",
 			prefix,
-			node->type == command_and ? "AND &&" : "OR ||"
+			node->type == command_and ? "AND" : "OR"
 		);
 		ft_printf("%s├╴ Left:\n", prefix);
 		ft_prepare_prefix(prefix, next_prefix, 0);
