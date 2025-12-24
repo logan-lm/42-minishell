@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/24 11:42:42 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/24 15:57:51 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_readline(t_shell_data *d)
 	else
 		ft_add_exit(prompt, free);
 	token_lst = ft_get_tokens(prompt);
-	ft_print_token(token_lst, 0);
+	//ft_print_token(token_lst, 0);
 	command_tree = ft_build_ast(token_lst);
 	ft_print_ast(command_tree, 0);
 	if (token_lst)

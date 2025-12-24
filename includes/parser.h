@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 13:23:36 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/23 10:48:41 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/24 16:09:36 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,12 @@ int								ft_is_operator_valid(t_token_op_type *tktp,
 /// Utils
 
 void							ft_print_token(t_list *token_lst, int depth);
+void							ft_print_offset(int depth);
+void							ft_print_token_op(t_parsing_token *parsing_token,
+									int depth);
+void							ft_print_token_word(t_parsing_token *parsing_token,
+									int depth);
+void							ft_print_lst(t_string_compound_lst *lst,
+									int depth);
 
 #endif
