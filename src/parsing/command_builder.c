@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 10:19:02 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/24 16:23:13 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/24 16:35:19 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,7 @@ void ft_build_subshell_commands_from_tokens(t_list *token_lst)
 	{
 		token = (t_parsing_token *)token_lst->content;
 		if (token->type == token_subshell)
-		{
-			ft_print_token(token->data, 0);
 			token->data = ft_build_ast((t_list *)token->data);
-		}
 		token_lst = token_lst->next;
 	}
 }

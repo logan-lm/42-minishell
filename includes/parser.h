@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 13:23:36 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/24 16:09:36 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/24 17:00:45 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ t_string_compound_lst			*ft_get_word_element(char *str, char **s);
 t_string_compound_lst			*ft_get_word_element_quote(char *str, char **s);
 t_string_compound_lst			*ft_get_word_element_dquote(char *str,
 									char **s);
+void							ft_remove_end_token(t_list **token_lst);
 
 // Errors
 

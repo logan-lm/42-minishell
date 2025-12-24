@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2025/12/24 11:19:02 by pberne           ###   ########.fr        #
+#    Updated: 2025/12/24 16:30:34 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ FILES = main\
 		parsing/token_build_subshells\
 		parsing/command_builder\
 		parsing/command_utils\
+		parsing/command_visualizer\
 		utils/utils\
 		utils/dict_utils\
 		utils/gc_debug
