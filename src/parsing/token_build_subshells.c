@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 11:29:51 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/23 11:29:55 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/24 11:43:22 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,41 +35,40 @@ void	ft_subshellize_n(t_list *token_lst, int n)
 
 /// @brief Removes the parenthesis tokens and replace them with a
 /// subshell token containing the data between the parenthesis
-t_list	*ft_merge_subshell_token_lst(t_list *iterator)
+void	ft_merge_subshell_r(t_list **iterator, t_list *curr, t_list *prev,
+		t_parsing_token *token)
 {
-	int				count;
-	t_parsing_token	*token;
-	t_list			*start;
-	t_token_op_data	*token_data;
-	int				size;
-
-	size = 0;
-	count = 1;
-	start = iterator;
-	while (iterator)
+	while (*iterator)
 	{
-		token = (t_parsing_token *)iterator->content;
-		if (token->type == token_op)
+		curr = *iterator;
+		token = (t_parsing_token *)curr->content;
+		if (token->type == token_op
+			&& ((t_token_op_data *)token->data)->type == op_open_parenthesis)
 		{
-			token_data = (t_token_op_data *)token->data;
-			if (token_data->type == op_open_parenthesis)
-			{
-				token->type = token_subshell;
-				count += 1;
-				iterator = ft_merge_subshell_token_lst(iterator);
-			}
-			else if (token_data->type == op_close_parenthesis)
-			{
-				count -= 1;
-				if (count == 0)
-				{
-					ft_subshellize_n(start, size);
-					return (start->next);
-				}
-			}
+			token->type = token_subshell;
+			*iterator = curr->next;
+			token->data = *iterator;
+			ft_merge_subshell_r(iterator, 0, 0, 0);
+			curr->next = *iterator;
 		}
-		iterator = iterator->next;
-		size++;
+		else if (token->type == token_op
+			&& ((t_token_op_data *)token->data)->type == op_close_parenthesis)
+		{
+			if (prev)
+				prev->next = NULL;
+			*iterator = curr->next;
+			return ;
+		}
+		prev = curr;
+		*iterator = curr->next;
 	}
-	return (start);
+}
+
+t_list	*ft_merge_subshell_token_lst(t_list *head)
+{
+	t_list	*tmp;
+
+	tmp = head;
+	ft_merge_subshell_r(&tmp, 0, 0, 0);
+	return (head);
 }

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 10:20:04 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/23 11:16:28 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/24 11:49:23 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,23 @@
 # include "libft.h"
 # include "parser.h"
 
-typedef struct s_command_node
-{
-	t_command_node_type	type;
-	t_list				*tokens;
-	t_command_node		*left;
-	t_command_node		*right;
-}						t_command_node;
-
 typedef enum e_command_node_type
 {
-	command_single,
 	command_pipeline,
 	command_or,
 	command_and,
 	command_subshell
-}						t_command_node_type;
+}							t_command_node_type;
+
+typedef struct s_command_node
+{
+	t_command_node_type		type;
+	t_list					*tokens;
+	struct s_command_node	*left;
+	struct s_command_node	*right;
+}							t_command_node;
+
+t_command_node				*ft_build_ast(t_list *tokens);
+void						ft_print_ast(t_command_node *node, int level);
 
 #endif

@@ -28,7 +28,6 @@ void	ft_add_last_compound_back(void **data, t_string_compound_lst *new_comp)
 	temp->next = new_comp;
 }
 
-
 void	ft_add_compound_to_back(t_list *token,
 		t_string_compound_lst *new_compound)
 {

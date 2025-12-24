@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/22 19:47:06 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/24 11:42:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ void	ft_int_handler(int sig)
 
 void	ft_readline(t_shell_data *d)
 {
-	char	*prompt;
-	t_list	*token_lst;
+	char			*prompt;
+	t_list			*token_lst;
+	t_command_node	*command_tree;
 
 	(void)d;
 	prompt = readline("\001\033[1;32m\002Minishell>\001\033[0m\002");
@@ -37,6 +38,8 @@ void	ft_readline(t_shell_data *d)
 		ft_add_exit(prompt, free);
 	token_lst = ft_get_tokens(prompt);
 	ft_print_token(token_lst, 0);
+	command_tree = ft_build_ast(token_lst);
+	ft_print_ast(command_tree, 0);
 	if (token_lst)
 		ft_clear_gc_id(malloc_id_token);
 }
