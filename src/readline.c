@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/24 17:09:49 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/25 22:31:16 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,6 @@ void	ft_readline(t_shell_data *d)
 	command_tree = ft_build_ast(token_lst);
 	ft_print_ast_visual(command_tree, "");
 	ft_printf("\n");
-	if (token_lst)
-		ft_clear_gc_id(malloc_id_token);
+	ft_clear_gc_id(malloc_id_token);
+	ft_clear_gc_id(malloc_id_ast);
 }

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 12:03:31 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/24 15:42:00 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/25 23:09:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_print_lst(t_string_compound_lst *lst, int depth)
 	}
 }
 
-void	ft_print_token_op(t_parsing_token *parsing_token, int depth)
+void	ft_print_tkn_op(t_parsing_token *parsing_token, int depth)
 {
 	int	op_type;
 
@@ -40,7 +40,7 @@ void	ft_print_token_op(t_parsing_token *parsing_token, int depth)
 		ft_print_lst(((t_token_op_data *)parsing_token->data)->word, depth + 1);
 }
 
-void	ft_print_token_word(t_parsing_token *parsing_token, int depth)
+void	ft_print_tkn_w(t_parsing_token *parsing_token, int depth)
 {
 	ft_print_offset(depth);
 	ft_printf("[word]\n");
@@ -60,9 +60,9 @@ void	ft_print_token(t_list *token_lst, int depth)
 			ft_printf("[end]\n");
 		}
 		else if (parsing_token->type == token_op)
-			ft_print_token_op(parsing_token, depth);
+			ft_print_tkn_op(parsing_token, depth);
 		else if (parsing_token->type == token_word)
-			ft_print_token_word(parsing_token, depth);
+			ft_print_tkn_w(parsing_token, depth);
 		else if (parsing_token->type == token_subshell)
 		{
 			ft_print_offset(depth);

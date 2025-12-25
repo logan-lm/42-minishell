@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/24 11:16:51 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/24 17:09:09 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/25 23:11:57 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	ft_print_token_ast(t_list *token_lst, int depth)
 			ft_printf("[end]\n");
 		}
 		else if (parsing_token->type == token_op)
-			ft_print_token_op(parsing_token, depth);
+			ft_print_tkn_op(parsing_token, depth);
 		else if (parsing_token->type == token_word)
-			ft_print_token_word(parsing_token, depth);
+			ft_print_tkn_w(parsing_token, depth);
 		else if (parsing_token->type == token_subshell)
 		{
 			ft_print_offset(depth);
