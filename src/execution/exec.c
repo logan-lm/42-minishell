@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 09:50:28 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 09:52:46 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,18 @@ char	*ft_cmd_path(char *cmd, t_list *envp)
 	err = ft_strjoin_gc(cmd, ": command not found \n");
 	ft_putstr_fd(err, 2);
 	ft_free(err);
+	return (NULL);
+}
+
+char *cmd_path(char *cmd, t_list *envp)
+{
+	char *path;
+
+	if (ft_ispath(cmd))
+		return (ft_parse_path(cmd, envp));
+	path = get_builtin(cmd);
+	if (path)
+		return (path);
 	return (NULL);
 }
 
