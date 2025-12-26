@@ -6,12 +6,13 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/23 21:38:57 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/26 09:24:39 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# include "command.h"
 # include "libft.h"
 # include "parser.h"
 # include <errno.h>

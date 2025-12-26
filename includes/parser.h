@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 13:23:36 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/22 17:20:45 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/25 23:08:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,16 @@ typedef enum e_malloc_id
 {
 	malloc_id_default,
 	malloc_id_token,
-}	t_malloc_id;
+	malloc_id_ast
+}								t_malloc_id;
 
 /// @brief defines the type of a token
 typedef enum e_token_type
 {
 	token_end,
 	token_op,
-	token_word
+	token_word,
+	token_subshell
 }								t_token_type;
 
 typedef struct s_parsing_token
@@ -46,7 +48,7 @@ typedef enum e_token_op_type
 	op_open_parenthesis,
 	op_close_parenthesis,
 	op_and,
-	op_or
+	op_or,
 }								t_token_op_type;
 
 typedef enum e_token_word_type
@@ -78,6 +80,8 @@ void							ft_free_token(t_list *node);
 t_list							*ft_get_op_token(t_token_op_type op_type);
 t_list							*ft_get_operator(char *str, char **s);
 
+t_list							*ft_merge_subshell_token_lst(t_list *iterator);
+
 // Word
 
 t_list							*ft_get_word(char *str, char **s);
@@ -87,6 +91,7 @@ t_string_compound_lst			*ft_get_word_element(char *str, char **s);
 t_string_compound_lst			*ft_get_word_element_quote(char *str, char **s);
 t_string_compound_lst			*ft_get_word_element_dquote(char *str,
 									char **s);
+void							ft_remove_end_token(t_list **token_lst);
 
 // Errors
 
@@ -103,6 +108,13 @@ int								ft_is_operator_valid(t_token_op_type *tktp,
 
 /// Utils
 
-void							ft_print_token(t_list *token_lst);
+void							ft_print_token(t_list *token_lst, int depth);
+void							ft_print_offset(int depth);
+void							ft_print_tkn_op(t_parsing_token *parsing_token,
+									int depth);
+void							ft_print_tkn_w(t_parsing_token *parsing_token,
+									int depth);
+void							ft_print_lst(t_string_compound_lst *lst,
+									int depth);
 
 #endif

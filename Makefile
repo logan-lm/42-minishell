@@ -6,8 +6,8 @@
 #    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2025/12/23 22:58:12 by lomartin         ###   ########.fr        #
-#                                                                              #
+#    Updated: 2025/12/25 22:56:01 by pberne           ###   ########.fr        #
+#                                                                    #
 # **************************************************************************** #
 
 CC = cc
@@ -45,6 +45,11 @@ FILES = main\
 		parsing/token_validity_checker\
 		parsing/token_validity\
 		parsing/token_parsing_utils\
+		parsing/token_build_subshells\
+		parsing/command_builder\
+		parsing/command_utils\
+		parsing/command_visualizer\
+		parsing/command_visualizer_2\
 		utils/utils\
 		utils/exec_utils\
 		utils/dict_utils\

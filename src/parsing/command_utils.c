@@ -1,53 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_parsing_utils.c                              :+:      :+:    :+:   */
+/*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/18 12:03:31 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/25 23:09:35 by pberne           ###   ########.fr       */
+/*   Created: 2025/12/24 11:16:51 by pberne            #+#    #+#             */
+/*   Updated: 2025/12/25 23:11:57 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "parser.h"
+#include "minishell.h"
 
-void	ft_print_offset(int i)
-{
-	while (--i >= 0)
-		ft_printf("\t");
-}
-
-void	ft_print_lst(t_string_compound_lst *lst, int depth)
-{
-	while (lst)
-	{
-		ft_print_offset(depth);
-		ft_printf("%d:%s\n", lst->type, lst->str);
-		lst = lst->next;
-	}
-}
-
-void	ft_print_tkn_op(t_parsing_token *parsing_token, int depth)
-{
-	int	op_type;
-
-	op_type = ((t_token_op_data *)parsing_token->data)->type;
-	ft_print_offset(depth);
-	ft_printf("[operator: %d]\n", op_type);
-	if (op_type >= op_in_redirect && op_type <= op_out_redirect_append)
-		ft_print_lst(((t_token_op_data *)parsing_token->data)->word, depth + 1);
-}
-
-void	ft_print_tkn_w(t_parsing_token *parsing_token, int depth)
-{
-	ft_print_offset(depth);
-	ft_printf("[word]\n");
-	ft_print_lst((t_string_compound_lst *)parsing_token->data, depth + 1);
-}
-
-void	ft_print_token(t_list *token_lst, int depth)
+void	ft_print_token_ast(t_list *token_lst, int depth)
 {
 	t_parsing_token	*parsing_token;
 
@@ -67,8 +32,29 @@ void	ft_print_token(t_list *token_lst, int depth)
 		{
 			ft_print_offset(depth);
 			ft_printf("[subshell]\n");
-			ft_print_token((t_list *)parsing_token->data, depth + 1);
+			ft_print_ast((t_command_node *)parsing_token->data, depth + 1);
 		}
 		token_lst = token_lst->next;
+	}
+}
+
+void	ft_print_ast(t_command_node *node, int depth)
+{
+	if (!node)
+		return ;
+	ft_print_offset(depth);
+	if (node->type == command_and || node->type == command_or)
+	{
+		if (node->type == command_and)
+			ft_printf("AND &&:\n");
+		else
+			ft_printf("OR ||:\n");
+		ft_print_ast(node->left, depth + 1);
+		ft_print_ast(node->right, depth + 1);
+	}
+	else if (node->type == command_pipeline)
+	{
+		ft_printf("PIPELINE:\n");
+		ft_print_token_ast(node->commands, depth + 1);
 	}
 }
