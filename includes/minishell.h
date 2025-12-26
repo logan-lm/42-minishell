@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/24 11:14:17 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/26 17:04:07 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ int			ft_unset(char **args, t_shell_data *data);
 
 //// PARSING
 void		ft_init_envp(char **envp, t_shell_data *data);
+t_list		*ft_get_matching_names(char **src, char *pattern);
 
 #endif
