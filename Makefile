@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
+#    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2025/12/22 17:46:56 by pberne           ###   ########.fr        #
+#    Updated: 2025/12/23 22:58:12 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-DFLAGS = -g3 -Wall -Wextra -Werror -DBUILD_DEBUG=1
+CFLAGS += -Wall -Wextra
+DFLAGS += -g3 -Wall -Wextra -Werror -DBUILD_DEBUG=1
 LIBFT = libft/libft.a
 LIBFT_DEBUG = libft/libft_DEBUG.a
 LIB_FLAGS = -lreadline

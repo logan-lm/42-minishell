@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/23 10:14:28 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/25 22:51:37 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,67 @@ int	exec_cmd(char **args, char **envp, int fd_in, int fd_out)
 	}
 	close(fd_in);
 	return (pid);
+}
+
+int	ft_ispath(char *str)
+{	
+	while (*str)
+	{
+		if (*(str++) == '/')
+			return (1);
+	}
+	return (0);
+}
+
+int	ft_is_varset(char *cmd)
+{
+	if (!ft_isalpha(*cmd) && *(cmd + 1))
+		return (0);
+	cmd++;
+	while (*cmd)
+	{
+		if (!ft_isalnum(*cmd))
+			return (0);
+		if (*cmd == '=')
+			return (1);
+		cmd++;
+	}
+	return (0);
+}
+
+void *get_builtin(char *cmd)
+{
+	char *err;
+	if (!ft_strncmp(cmd, "cd", 3))
+		return (ft_cd);
+	if (!ft_strncmp(cmd, "pwd", 4))
+		return (ft_pwd);
+	if (!ft_strncmp(cmd, "env", 4))
+		return (ft_env);
+	if (!ft_strncmp(cmd, "echo", 5))
+		return (ft_echo);
+	if (!ft_strncmp(cmd, "unset", 6))
+		return (ft_unset);
+	if (!ft_strncmp(cmd, "export", 7))
+		return (ft_export);
+	if (ft_is_varset(cmd))
+		return (ft_set_var);
+	err = ft_strjoin_gc(cmd, ": command not found \n");
+	ft_putstr_fd(err, 2);
+	ft_free(err);
+	return (NULL);
+}
+
+char *cmd_path(char *cmd, t_list *envp)
+{
+	char *path;
+
+	if (ft_ispath(cmd))
+		return (ft_parse_path(cmd, envp));
+	path = get_builtin(cmd);
+	if (path)
+		return (path);
+	return (NULL);
 }
 
 void	ft_exec(t_list *cmds, t_shell_data *d)
