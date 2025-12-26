@@ -6,7 +6,7 @@
 #    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2025/12/26 09:25:41 by lomartin         ###   ########.fr        #
+#    Updated: 2025/12/27 09:45:47 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,10 +50,12 @@ FILES = main\
 		parsing/command_utils\
 		parsing/command_visualizer\
 		parsing/command_visualizer_2\
+		execution/wildcard\
 		utils/utils\
 		utils/exec_utils\
 		utils/dict_utils\
 		utils/gc_debug
+
 
 
 SRCS = $(addprefix $(SRC_DIR),  $(addsuffix .c, $(FILES)))
