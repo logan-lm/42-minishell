@@ -77,6 +77,8 @@ t_list	*ft_get_word(char *str, char **s)
 			new_compound = ft_get_word_element_quote(str, s);
 		else if (*str == '"')
 			new_compound = ft_get_word_element_dquote(str, s);
+		else if (*str == '\\')
+			new_compound = ft_get_escaped_character(str, s);
 		else
 			new_compound = ft_get_word_element(str, s);
 		if (new_compound)
@@ -86,4 +88,25 @@ t_list	*ft_get_word(char *str, char **s)
 		str = *s;
 	}
 	return (token);
+}
+
+t_string_compound_lst *ft_get_escaped_character(char *str, char **s)
+{
+	t_string_compound_lst	*new_compound;
+
+	new_compound = ft_malloc_id(sizeof(t_string_compound_lst), malloc_id_token);
+	new_compound->type = word_true;
+	new_compound->next = 0;
+	str = *s;
+	if (str[1] == '\0')
+	{
+		new_compound->str = ft_substr_gc_id(str, 0, 1, malloc_id_token);
+		*s += 1;
+	}
+	else
+	{
+		new_compound->str = ft_substr_gc_id(str, 1, 1, malloc_id_token);
+		*s += 2;
+	}
+	return (new_compound);
 }
