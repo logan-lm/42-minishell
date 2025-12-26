@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 18:31:12 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/22 10:01:00 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/26 09:47:45 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,14 @@ char	*ft_getenv(t_list *envp, char *key)
 	if (!value)
 		return ("");
 	return (value);
+}
+
+void	ft_free_strs(char **strs)
+{
+	int i;
+
+	i = 0;
+	while (strs[i])
+		free(strs[i++]);
+	free(strs);
 }

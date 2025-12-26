@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 10:20:04 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/26 09:24:34 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/26 09:34:05 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,5 @@ t_command_node				*ft_build_ast(t_list *tokens);
 void						ft_print_ast(t_command_node *node, int level);
 void						ft_print_ast_visual(t_command_node *node,
 								char *prefix);
-
-typedef struct s_command_node
-{
-	t_command_node_type		type;
-	t_list					*pipeline;
-	struct s_command_node	*left;
-	struct s_command_node	*right;
-}							t_command_node;
-
+								
 #endif

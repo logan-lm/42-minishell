@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/26 09:24:39 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/26 09:47:55 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_dict		*ft_dictpop(t_list **list, char *key);
 void		ft_dictdel(t_list **list, char *key);
 int			ft_env(char **args, t_shell_data *data);
 int			ft_set_var(char **args, t_shell_data *data);
+void		ft_free_strs(char **strs);
 
 void		ft_gc_debug(char *str);
 
@@ -60,6 +61,7 @@ void		ft_readline(t_shell_data *d);
 void		ft_exec(t_list *cmds, t_shell_data *d);
 char		*ft_wordtostr(char *word, t_shell_data *data);
 void		*get_builtin(char *cmd);
+char		*ft_check_paths(char *cmdname, t_list *envp);
 
 //// BUILT-INS
 // ECHO

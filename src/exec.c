@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/25 22:51:37 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/26 09:53:05 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ void	ft_test_cmds(t_list **cmds)
 	subshell = ft_malloc(sizeof(t_command_node));
 	subshell->type = command_subshell;
 	subshell->right = NULL;
-	ft_lstadd_back(&subshell->pipeline, ft_lstnew(subshell_token_in));
-	ft_lstadd_back(&subshell->pipeline, ft_lstnew(subshell_token_out));
+	ft_lstadd_back(&subshell->commands, ft_lstnew(subshell_token_in));
+	ft_lstadd_back(&subshell->commands, ft_lstnew(subshell_token_out));
 	// AND
 	and = ft_malloc(sizeof(t_command_node));
 	and->type = command_and;
-	and->pipeline = NULL;
+	and->commands = NULL;
 	subshell->left = and;
 	// CAT1
 	cat1_token = ft_malloc(sizeof(t_token_op_data));
@@ -68,7 +68,7 @@ void	ft_test_cmds(t_list **cmds)
 	cat1->type = command_pipeline;
 	cat1->left = NULL;
 	cat1->right = NULL;
-	ft_lstadd_back(&cat1->pipeline, ft_lstnew(cat1_token));
+	ft_lstadd_back(&cat1->commands, ft_lstnew(cat1_token));
 	and->left = cat1;
 	// CAT2
 	cat2_token = ft_malloc(sizeof(t_token_op_data));
@@ -89,8 +89,8 @@ void	ft_test_cmds(t_list **cmds)
 	cat2->type = command_pipeline;
 	cat2->left = NULL;
 	cat2->right = NULL;
-	ft_lstadd_back(&cat2->pipeline, ft_lstnew(cat2_token));
-	ft_lstadd_back(&cat2->pipeline, ft_lstnew(cat2_token_redir));
+	ft_lstadd_back(&cat2->commands, ft_lstnew(cat2_token));
+	ft_lstadd_back(&cat2->commands, ft_lstnew(cat2_token_redir));
 	and->right = cat2;
 	ft_lstadd_back(cmds, ft_lstnew(subshell));
 }
@@ -138,7 +138,7 @@ int	exec_cmd(char **args, char **envp, int fd_in, int fd_out)
 }
 
 int	ft_ispath(char *str)
-{	
+{
 	while (*str)
 	{
 		if (*(str++) == '/')
@@ -163,9 +163,10 @@ int	ft_is_varset(char *cmd)
 	return (0);
 }
 
-void *get_builtin(char *cmd)
+void	*get_builtin(char *cmd)
 {
-	char *err;
+	char	*err;
+
 	if (!ft_strncmp(cmd, "cd", 3))
 		return (ft_cd);
 	if (!ft_strncmp(cmd, "pwd", 4))
@@ -186,13 +187,38 @@ void *get_builtin(char *cmd)
 	return (NULL);
 }
 
-char *cmd_path(char *cmd, t_list *envp)
+char	*ft_check_paths(char *cmdname, t_list *envp)
 {
-	char *path;
+	char	*temp;
+	char	**paths;
+	int		i;
+
+	temp = ft_dictmap(envp, "PATH");
+	paths = ft_split_gc(temp, ':');
+	i = 0;
+	free(temp);
+	while (paths[i])
+	{
+		temp = ft_strjoin_mult_gc(3, paths[i], "/", cmdname);
+		if (!access(temp, X_OK))
+		{
+			ft_free_strs(paths);
+			return (temp);
+		}
+		free (temp);
+		i++;
+	}
+	ft_free_strs(paths);
+	return (NULL);
+}
+
+char	*cmd_path(char *cmd, t_list *envp)
+{
+	char	*path;
 
 	if (ft_ispath(cmd))
 		return (ft_parse_path(cmd, envp));
-	path = get_builtin(cmd);
+	path = ft_check_paths(NULL, envp);
 	if (path)
 		return (path);
 	return (NULL);
@@ -200,19 +226,22 @@ char *cmd_path(char *cmd, t_list *envp)
 
 void	ft_exec(t_list *cmds, t_shell_data *d)
 {
-	t_list			*top;
-	t_command_node	*cmd;
+	t_list					*top;
+	t_command_node			*cmd;
+	t_list					*cat_lst;
+	t_token_op_data			*cat_token;
+	t_string_compound_lst	*cat_cmpd;
+	char					*joined;
+	char					*temp;
+	char					**strs;
 
 	(void)d;
 	ft_test_cmds(&cmds);
 	top = cmds;
 	cmd = top->content;
-	t_list *cat_lst = cmd->left->right->pipeline;
-	t_token_op_data *cat_token = cat_lst->content;
-	t_string_compound_lst	*cat_cmpd = cat_token->word;
-	char *joined;
-	char *temp;
-	char	**strs;
+	cat_lst = cmd->left->right->commands;
+	cat_token = cat_lst->content;
+	cat_cmpd = cat_token->word;
 	joined = NULL;
 	while (cat_lst)
 	{
