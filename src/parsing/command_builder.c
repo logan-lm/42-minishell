@@ -6,18 +6,20 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 10:19:02 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/24 17:09:22 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/26 12:05:41 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command.h"
 
-/// Cherche un operateur de condition le plus a droite possible
-/// Si il existe, decoupe les instructions en deux parties et les place dans
-/// la commande:
-///	a droite ce qui se trouve apres l'operateur
-/// a gauche, ce que se trouve avant,
-/// Si aucun operateur de condition est present, regarde si le token est
+/// Looks for the rightmost operator
+/// if there is one, split the token list in 2 parts and create the subcommands
+/// to the LEFT we send the tokens BEFORE the operator,
+/// to the RIGHT we send the tokens AFTER the operator.
+/// the operator token is discaded.
+/// If there is no operators, there cannot be any more branches,
+/// the command is a pipeline. 
+/// Then the subshell tokens are converted into commands.
 
 int	ft_is_comparison_op(t_list *token_iterator)
 {

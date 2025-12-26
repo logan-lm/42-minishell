@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/22 22:49:42 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/26 11:42:58 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include "command.h"
 //#include "exec.h"
+
+
 
 // void	ft_exec(t_list *cmds, t_shell_data *d)
 // {
