@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 10:20:04 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/26 09:34:05 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 09:45:08 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,21 @@ typedef enum e_command_node_type
 	command_subshell
 }							t_command_node_type;
 
-/// Ici il ne restera que des tokens de pipes, redirection, de words
-/// et de subshell.
-/// les operateurs && et || ainsi que les parentheses sont remplacees par
-/// la structure de l'arbre de commandes.
-///
+
 /// PIPELINE :
-/// commands contient une liste de t_parsing_tokens
-/// (word, redirections, pipes, subshell) definissant le pipeline.
-/// si un token est un subshell, sont contenu sera une t_command_node
-/// de type command_subshell
-/// ceci est une operation finale, left & right
-/// sont NULL car rien ne peut suivre un pipe
+/// commands contains a t_parsing_tokens list
+/// (word, redirections, pipes, subshell), the pipeline content
+/// if a soken of a pipeline is of type subshell, its data
+/// will be a t_command_node * of type subshell.
+/// Tis is a terminal operation, left and right are always NULL,
+/// nothing can follow a pipe
 ///
 /// SUBSHELL :
-/// tokens est vide ici, le contenu du subshell est dans left
-/// commands est null
+/// commands is NULL, the content is always a single command assigned to left
 ///
 /// OR / || :
-/// les deux branches left and right contiennent une commande
-/// commands est null
+/// Both left and right contain a command.
+/// commands is NULL
 typedef struct s_command_node
 {
 	t_command_node_type		type;
