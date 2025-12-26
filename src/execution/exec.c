@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 09:52:46 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 09:53:19 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,13 +225,38 @@ char	*ft_cmd_path(char *cmd, t_list *envp)
 	return (NULL);
 }
 
-char *cmd_path(char *cmd, t_list *envp)
+char	*ft_check_paths(char *cmdname, t_list *envp)
 {
-	char *path;
+	char	*temp;
+	char	**paths;
+	int		i;
+
+	temp = ft_dictmap(envp, "PATH");
+	paths = ft_split_gc(temp, ':');
+	i = 0;
+	free(temp);
+	while (paths[i])
+	{
+		temp = ft_strjoin_mult_gc(3, paths[i], "/", cmdname);
+		if (!access(temp, X_OK))
+		{
+			ft_free_strs(paths);
+			return (temp);
+		}
+		free (temp);
+		i++;
+	}
+	ft_free_strs(paths);
+	return (NULL);
+}
+
+char	*cmd_path(char *cmd, t_list *envp)
+{
+	char	*path;
 
 	if (ft_ispath(cmd))
 		return (ft_parse_path(cmd, envp));
-	path = get_builtin(cmd);
+	path = ft_check_paths(NULL, envp);
 	if (path)
 		return (path);
 	return (NULL);
