@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/26 09:53:05 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/26 22:04:02 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,10 +163,8 @@ int	ft_is_varset(char *cmd)
 	return (0);
 }
 
-void	*get_builtin(char *cmd)
+void	*ft_get_builtin(char *cmd)
 {
-	char	*err;
-
 	if (!ft_strncmp(cmd, "cd", 3))
 		return (ft_cd);
 	if (!ft_strncmp(cmd, "pwd", 4))
@@ -181,9 +179,6 @@ void	*get_builtin(char *cmd)
 		return (ft_export);
 	if (ft_is_varset(cmd))
 		return (ft_set_var);
-	err = ft_strjoin_gc(cmd, ": command not found \n");
-	ft_putstr_fd(err, 2);
-	ft_free(err);
 	return (NULL);
 }
 
@@ -212,15 +207,21 @@ char	*ft_check_paths(char *cmdname, t_list *envp)
 	return (NULL);
 }
 
-char	*cmd_path(char *cmd, t_list *envp)
+char	*ft_cmd_path(char *cmd, t_list *envp)
 {
 	char	*path;
+	char	*err;
 
 	if (ft_ispath(cmd))
 		return (ft_parse_path(cmd, envp));
-	path = ft_check_paths(NULL, envp);
+	if (ft_get_builtin(cmd))
+		return("builtin");
+	path = ft_check_paths(cmd, envp);
 	if (path)
 		return (path);
+	err = ft_strjoin_gc(cmd, ": command not found \n");
+	ft_putstr_fd(err, 2);
+	ft_free(err);
 	return (NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/26 09:47:55 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/26 21:59:58 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,9 @@ void		ft_readline(t_shell_data *d);
 // EXEC
 void		ft_exec(t_list *cmds, t_shell_data *d);
 char		*ft_wordtostr(char *word, t_shell_data *data);
-void		*get_builtin(char *cmd);
+void		*ft_get_builtin(char *cmd);
 char		*ft_check_paths(char *cmdname, t_list *envp);
+char		*ft_cmd_path(char *cmd, t_list *envp);
 
 //// BUILT-INS
 // ECHO
