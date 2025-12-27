@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 14:09:40 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 14:14:14 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,3 +200,4 @@ void	ft_exec(t_command_node *command_tree, t_shell_data *d)
 	while (wait(NULL) > 0)
 		;
 }
+
