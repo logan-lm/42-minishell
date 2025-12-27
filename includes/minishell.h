@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 09:54:22 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 14:03:53 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <signal.h>
 # include <stdio.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 # ifndef BUILD_DEBUG
@@ -43,6 +44,7 @@ typedef struct s_dict
 // UTILS
 char		*ft_parse_path(char *path, t_list *envp);
 char		*ft_getenv(t_list *envp, char *key);
+char		*ft_getvar(t_list *vars, t_list *envp, char *key);
 char		*ft_dictmap(t_list *list, char *key);
 void		ft_dictadd(t_list **list, char *key, char *value);
 t_dict		*ft_dictpop(t_list **list, char *key);
@@ -50,6 +52,7 @@ void		ft_dictdel(t_list **list, char *key);
 int			ft_env(char **args, t_shell_data *data);
 int			ft_set_var(char **args, t_shell_data *data);
 void		ft_free_strs(char **strs);
+char		**ft_lsttostrs(t_list *lst);
 
 void		ft_gc_debug(char *str);
 
@@ -58,7 +61,7 @@ void		ft_int_handler(int sig);
 void		ft_readline(t_shell_data *d);
 
 // EXEC
-void		ft_exec(t_list *cmds, t_shell_data *d);
+void		ft_exec(t_command_node *command_tree, t_shell_data *d);
 char		*ft_wordtostr(char *word, t_shell_data *data);
 void		*ft_get_builtin(char *cmd);
 char		*ft_check_paths(char *cmdname, t_list *envp);

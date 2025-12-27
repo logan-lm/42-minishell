@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   ft_lstmerge.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/21 22:13:50 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 11:19:00 by lomartin         ###   ########.fr       */
+/*   Created: 2025/12/27 13:55:10 by lomartin          #+#    #+#             */
+/*   Updated: 2025/12/27 14:10:28 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	ft_unset(char **args, t_shell_data *data)
+t_list	*ft_lstmerge(t_list *dest, t_list *src)
 {
-	args++;
-	while (*args)
+	while (src)
 	{
-		ft_dictdel(&data->envp, *args);
-		args++;
+		ft_lstadd_back(&dest, src);
+		src = src->next;
 	}
-	return (1);
+	return (dest);
 }

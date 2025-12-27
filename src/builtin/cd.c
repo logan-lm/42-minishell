@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 11:56:23 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/21 22:38:06 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 12:09:40 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static char	ft_isdir(char *path)
 
 static void	set_pwd(t_shell_data *data, char *new_pwd)
 {
+	chdir(new_pwd);
 	data->pwd = new_pwd;
 	ft_dictadd(&data->envp, "OLDPWD", ft_getenv(data->envp, "PWD"));
 	ft_dictadd(&data->envp, "PWD", new_pwd);
@@ -59,6 +60,7 @@ int	ft_cd(char **args, t_shell_data *data)
 	char	*home;
 	char	*path;
 
+	args++;
 	if (!args)
 		return (puterr(no_arg, NULL));
 	if (*(args + 1))

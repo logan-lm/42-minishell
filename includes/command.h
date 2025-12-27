@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 10:20:04 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/27 09:53:31 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 11:07:54 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,10 @@ typedef enum e_command_node_type
 	command_subshell
 }							t_command_node_type;
 
-
 /// PIPELINE :
 /// commands contains a t_parsing_tokens list
 /// (word, redirections, pipes, subshell), the pipeline content
-/// if a soken of a pipeline is of type subshell, its data
+/// if a token of a pipeline is of type subshell, its data
 /// will be a t_command_node * of type subshell.
 /// Tis is a terminal operation, left and right are always NULL,
 /// nothing can follow a pipe
@@ -51,5 +50,5 @@ t_command_node				*ft_build_ast(t_list *tokens);
 void						ft_print_ast(t_command_node *node, int level);
 void						ft_print_ast_visual(t_command_node *node,
 								char *prefix);
-								
+
 #endif

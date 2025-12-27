@@ -6,11 +6,27 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:24:08 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/23 10:24:10 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 14:03:40 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	**ft_lsttostrs(t_list *lst)
+{
+	char	**strs;
+	int		i;
+
+	i = 0;
+	strs = ft_malloc(ft_lstsize(lst) * sizeof(char *));
+	while (lst)
+	{
+		strs[i] = lst->content;
+		lst = lst->next;
+		++i;
+	}
+	return (strs);
+}
 
 char	*ft_getvarname(char *str)
 {
@@ -19,7 +35,7 @@ char	*ft_getvarname(char *str)
 
 	len = 0;
 	while (ft_isalnum(str[++len]))
-		continue;
+		continue ;
 	varname = ft_malloc((len + 1) * sizeof(char));
 	ft_strlcpy(varname, str, len + 1);
 	return (varname);
@@ -45,7 +61,7 @@ char	*ft_wordtostr(char *word, t_shell_data *data)
 		free(temp);
 		j = i + 1;
 		temp = ft_getvarname(word + j);
-		str = ft_strjoin_gc(str, ft_getenv(data->envp, temp));
+		str = ft_strjoin_gc(str, ft_getvar(data->vars, data->envp, temp));
 		j += ft_strlen(temp);
 		temp = NULL;
 	}

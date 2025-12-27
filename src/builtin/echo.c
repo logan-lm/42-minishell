@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:44:59 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/21 22:36:18 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 11:22:51 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	ft_echo(char **args, t_shell_data *s_data)
 	t_list		*temp;
 
 	(void)s_data;
+	args++;
 	data.no_newline = 0;
 	strs = ft_parse_args(args, &data);
 	while (strs)

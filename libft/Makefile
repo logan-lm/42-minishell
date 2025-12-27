@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
+#    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/31 16:15:41 by pberne            #+#    #+#              #
-#    Updated: 2025/12/22 14:33:42 by pberne           ###   ########.fr        #
+#    Updated: 2025/12/27 14:04:09 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ FILES = ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint\
 		ft_lstnew ft_lstadd_front ft_lstsize ft_lstlast\
 		ft_lstadd_back ft_lstdelone ft_lstdelone_fr ft_lstclear ft_lstiter\
 		ft_lstmap\
+		ft_lstmerge\
 		ft_lst_find\
 		get_next_line get_next_line_utils get_next_line_utils2\
 		get_next_line_gc get_next_line_utils_gc get_next_line_utils2_gc\

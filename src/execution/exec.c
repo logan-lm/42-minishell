@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 09:54:44 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 14:09:40 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,111 +14,22 @@
 #include "minishell.h"
 #include "parser.h"
 
-void	ft_test_cmds(t_list **cmds)
+t_list	*ft_parse_cmd_args(t_string_compound_lst *tokens, t_shell_data *data)
 {
-	t_token_op_data			*subshell_token_in;
-	t_string_compound_lst	*subshell_list_in;
-	t_token_op_data			*subshell_token_out;
-	t_string_compound_lst	*subshell_list_out;
-	t_command_node			*subshell;
-	t_command_node			*and;
-	t_token_op_data			*cat1_token;
-	t_string_compound_lst	*cat1_list;
-	t_command_node			*cat1;
-	t_token_op_data			*cat2_token;
-	t_string_compound_lst	*cat2_list;
-	t_token_op_data			*cat2_token_redir;
-	t_string_compound_lst	*cat2_list_redir;
-	t_command_node			*cat2;
+	t_list	*args;
 
-	// SUBSHELL
-	subshell_token_in = ft_malloc(sizeof(t_token_op_data));
-	subshell_token_in->type = op_in_redirect;
-	subshell_list_in = ft_malloc(sizeof(t_string_compound_lst));
-	subshell_list_in->next = NULL;
-	subshell_list_in->str = "infile";
-	subshell_list_in->type = word_replace_vars;
-	subshell_token_in->word = subshell_list_in;
-	subshell_token_out = ft_malloc(sizeof(t_token_op_data));
-	subshell_token_out->type = op_out_redirect_trunc;
-	subshell_list_out = ft_malloc(sizeof(t_string_compound_lst));
-	subshell_list_out->next = NULL;
-	subshell_list_out->str = "outfile";
-	subshell_list_out->type = word_replace_vars;
-	subshell_token_out->word = subshell_list_out;
-	subshell = ft_malloc(sizeof(t_command_node));
-	subshell->type = command_subshell;
-	subshell->right = NULL;
-	ft_lstadd_back(&subshell->commands, ft_lstnew(subshell_token_in));
-	ft_lstadd_back(&subshell->commands, ft_lstnew(subshell_token_out));
-	// AND
-	and = ft_malloc(sizeof(t_command_node));
-	and->type = command_and;
-	and->commands = NULL;
-	subshell->left = and;
-	// CAT1
-	cat1_token = ft_malloc(sizeof(t_token_op_data));
-	cat1_token->type = op_pipe;
-	cat1_list = ft_malloc(sizeof(t_string_compound_lst));
-	cat1_list->next = NULL;
-	cat1_list->str = "cat";
-	cat1_list->type = word_replace_vars;
-	cat1_token->word = cat1_list;
-	cat1 = ft_malloc(sizeof(t_command_node));
-	cat1->type = command_pipeline;
-	cat1->left = NULL;
-	cat1->right = NULL;
-	ft_lstadd_back(&cat1->commands, ft_lstnew(cat1_token));
-	and->left = cat1;
-	// CAT2
-	cat2_token = ft_malloc(sizeof(t_token_op_data));
-	cat2_token->type = op_pipe;
-	cat2_list = ft_malloc(sizeof(t_string_compound_lst));
-	cat2_list->next = NULL;
-	cat2_list->str = "$CAT";
-	cat2_list->type = word_replace_vars;
-	cat2_token->word = cat2_list;
-	cat2_token_redir = ft_malloc(sizeof(t_token_op_data));
-	cat2_token_redir->type = op_out_redirect_trunc;
-	cat2_list_redir = ft_malloc(sizeof(t_string_compound_lst));
-	cat2_list_redir->next = NULL;
-	cat2_list_redir->str = "testa";
-	cat2_list_redir->type = word_replace_vars;
-	cat2_token_redir->word = cat2_list_redir;
-	cat2 = ft_malloc(sizeof(t_command_node));
-	cat2->type = command_pipeline;
-	cat2->left = NULL;
-	cat2->right = NULL;
-	ft_lstadd_back(&cat2->commands, ft_lstnew(cat2_token));
-	ft_lstadd_back(&cat2->commands, ft_lstnew(cat2_token_redir));
-	and->right = cat2;
-	ft_lstadd_back(cmds, ft_lstnew(subshell));
-}
-
-char	*parse_cmd_args(t_string_compound_lst *tokens, t_shell_data *data)
-{
-	char	*joined;
-	char	*temp;
-
-	joined = NULL;
+	args = NULL;
 	while (tokens)
 	{
 		if (tokens->type == word_replace_vars)
 		{
-			temp = joined;
-			joined = ft_strjoin_mult_gc(3, joined, " ",
-					ft_wordtostr(tokens->str, data));
+			ft_lstadd_back(&args, ft_lstnew(ft_wordtostr(tokens->str, data)));
 		}
 		else if (tokens->type == word_true)
-		{
-			temp = joined;
-			joined = ft_strjoin_mult_gc(3, joined, " ", tokens->str);
-			free(joined);
-		}
-		free(temp);
+			ft_lstadd_back(&args, ft_lstnew(tokens->str));
 		tokens = tokens->next;
 	}
-	return (joined);
+	return (args);
 }
 
 int	exec_cmd(char **args, char **envp, int fd_in, int fd_out)
@@ -154,10 +65,10 @@ int	ft_is_varset(char *cmd)
 	cmd++;
 	while (*cmd)
 	{
-		if (!ft_isalnum(*cmd))
-			return (0);
 		if (*cmd == '=')
 			return (1);
+		if (!ft_isalnum(*cmd))
+			return (0);
 		cmd++;
 	}
 	return (0);
@@ -225,100 +136,67 @@ char	*ft_cmd_path(char *cmd, t_list *envp)
 	return (NULL);
 }
 
-char	*ft_check_paths(char *cmdname, t_list *envp)
+void	ft_run_builtin(void	*(builtin)(char **, t_shell_data *), char **args, t_shell_data *data)
 {
-	char	*temp;
-	char	**paths;
-	int		i;
-
-	temp = ft_dictmap(envp, "PATH");
-	paths = ft_split_gc(temp, ':');
-	i = 0;
-	free(temp);
-	while (paths[i])
-	{
-		temp = ft_strjoin_mult_gc(3, paths[i], "/", cmdname);
-		if (!access(temp, X_OK))
-		{
-			ft_free_strs(paths);
-			return (temp);
-		}
-		free (temp);
-		i++;
-	}
-	ft_free_strs(paths);
-	return (NULL);
+	builtin(args, data);
 }
 
-char	*ft_cmd_path(char *cmd, t_list *envp)
+int		ft_run_cmd(char **args, char **envp, t_shell_data *data)
 {
-	char	*path;
-	char	*err;
+	int		pid;
+	void	*cmdpath;
 
-	if (ft_ispath(cmd))
-		return (ft_parse_path(cmd, envp));
-	if (ft_get_builtin(cmd))
-		return("builtin");
-	path = ft_check_paths(cmd, envp);
-	if (path)
-		return (path);
-	err = ft_strjoin_gc(cmd, ": command not found \n");
-	ft_putstr_fd(err, 2);
-	ft_free(err);
-	return (NULL);
+	cmdpath = ft_get_builtin(args[0]);
+	if (cmdpath)
+	{
+		ft_run_builtin(cmdpath, args, data);
+		return (0);
+	}
+	cmdpath = ft_cmd_path(args[0], data->envp);
+	pid = fork();
+	if (pid == 0)
+	{
+		execve(cmdpath, args, envp);
+		exit(1);
+	}
+	return (pid);
 }
 
-void	ft_exec(t_list *cmds, t_shell_data *d)
+void	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 {
-	t_list					*top;
-	t_command_node			*cmd;
-	t_list					*cat_lst;
-	t_token_op_data			*cat_token;
-	t_string_compound_lst	*cat_cmpd;
-	char					*joined;
-	char					*temp;
-	char					**strs;
+	t_list			*nodes;
+	t_parsing_token *token;
+	t_token_op_data	*test;
+	t_list			*args_lst;
+	char 			**args;
 
-	(void)d;
-	ft_test_cmds(&cmds);
-	top = cmds;
-	cmd = top->content;
-	cat_lst = cmd->left->right->commands;
-	cat_token = cat_lst->content;
-	cat_cmpd = cat_token->word;
-	t_list *cat_lst = cmd->left->right->pipeline;
-	t_token_op_data *cat_token = cat_lst->content;
-	t_string_compound_lst	*cat_cmpd = cat_token->word;
-	char *joined;
-	char *temp;
-	char	**strs;
-	joined = NULL;
-	while (cat_lst)
+	args_lst = NULL;
+	args = NULL;
+	if (command_tree->type == command_pipeline)
 	{
-		cat_token = cat_lst->content;
-		cat_cmpd = cat_token->word;
-		if (cat_token->type == op_pipe)
+		nodes = command_tree->commands;
+		while (nodes)
 		{
-			temp = ft_strjoin_gc(joined, parse_cmd_args(cat_cmpd, d));
-			free(joined);
-			joined = temp;
+			token = nodes->content;
+			if (token->type == token_op)
+			{
+				test = token->data;
+				if (test->type == op_pipe)
+					break;
+			}
+			if (token->type == token_word)
+				args_lst = ft_lstmerge(args_lst, ft_parse_cmd_args(token->data, d));
+			nodes = nodes->next;
 		}
-		cat_lst = cat_lst->next;
+		args = ft_lsttostrs(args_lst);
+		ft_run_cmd(args, ft_str_env(d->envp), d);
 	}
-	strs = ft_split_gc(joined, ' ');
-	while (*strs)
-	{
-		ft_putchar_fd('>', 1);
-		ft_putstr_fd(*(strs++), 1);
-		ft_putchar_fd('\n', 1);
-	}
-	/*while (*top)
-	{
-		cmd = top->content;
-		if (cmd->type == op_pipe)
-		{
-			cmd->
-		}
-		top = top->next;
-	}*/
+}
+
+void	ft_exec(t_command_node *command_tree, t_shell_data *d)
+{
+	if (command_tree->type == command_pipeline)
+		ft_run_pipeline(command_tree, d);
+	while (wait(NULL) > 0)
+		;
 }

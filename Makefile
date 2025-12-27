@@ -6,7 +6,7 @@
 #    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2025/12/27 09:53:27 by lomartin         ###   ########.fr        #
+#    Updated: 2025/12/27 09:56:32 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,6 @@ INCLUDES_DIR = -Iincludes -Ilibft/includes
 
 FILES = main\
 		readline\
-		exec\
 		builtin/cd\
 		builtin/echo\
 		builtin/env\
@@ -50,6 +49,7 @@ FILES = main\
 		parsing/command_utils\
 		parsing/command_visualizer\
 		parsing/command_visualizer_2\
+		execution/exec\
 		execution/wildcard\
 		utils/utils\
 		utils/exec_utils\

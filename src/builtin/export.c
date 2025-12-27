@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 21:36:46 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/21 22:38:30 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 11:18:49 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	ft_export(char **args, t_shell_data *data)
 	t_dict	var_entry;
 
 	i = -1;
+	args++;
 	while (args[++i])
 	{
 		set_mode = ft_strhasequal(args[i]);
