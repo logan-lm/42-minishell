@@ -74,7 +74,7 @@ void	ft_print_ast_visual(t_command_node *node, char *prefix)
 		ft_prepare_prefix(prefix, next_prefix, 1);
 		ft_print_ast_visual(node->right, next_prefix);
 	}
-	else if (node->type == command_pipeline)
+	else if (node->type == command_pipeline && node->commands)
 	{
 		ft_printf("%sPIPELINE\n", prefix);
 		ft_prepare_prefix(prefix, next_prefix, 1);

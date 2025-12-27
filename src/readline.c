@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 14:29:37 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 14:33:11 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	ft_readline(t_shell_data *d)
 	token_lst = ft_get_tokens(prompt);
 	command_tree = ft_build_ast(token_lst);
 	ft_print_ast_visual(command_tree, "");
-	ft_printf("\n");
 	ft_exec(command_tree, d);
 	ft_clear_gc_id(malloc_id_token);
 	ft_clear_gc_id(malloc_id_ast);

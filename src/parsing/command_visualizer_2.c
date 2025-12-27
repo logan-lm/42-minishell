@@ -35,7 +35,10 @@ void	ft_print_word_content(t_string_compound_lst *lst, char *prefix)
 			ft_printf("%s%s", prefix, "└╴ ");
 		else
 			ft_printf("%s%s", prefix, "├╴ ");
-		ft_printf("(%d): %s\n", lst->type, lst->str);
+		ft_printf("(%d) ", lst->type);
+		if (lst->is_name)
+			ft_printf("[VAR_NAME] ");
+		ft_printf(": %s\n", lst->str);
 		lst = lst->next;
 	}
 }

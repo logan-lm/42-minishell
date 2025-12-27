@@ -36,6 +36,7 @@ FILES = main\
 		parsing/envp\
 		parsing/token_word_parsing_compound\
 		parsing/token_word_parsing\
+		parsing/token_word_name\
 		parsing/token_operator_parsing\
 		parsing/token_operator_parsing_2\
 		parsing/token_parser_errors\
