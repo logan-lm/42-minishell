@@ -17,11 +17,13 @@ t_string_compound_lst	*ft_get_word_element(char *str, char **s)
 {
 	size_t					i;
 	t_string_compound_lst	*ret;
+	char					*word_substr;
 
 	i = 0;
 	while (str[i] && ft_strchr("|&()<> '\"\t", str[i]) == 0)
 		i++;
-	ret = ft_get_string_token_node(str, i, word_replace_vars);
+	word_substr = ft_substr_gc_id(str, 0, i, malloc_id_token);
+	ret = ft_build_word_token(word_substr);
 	*s = str + i;
 	return (ret);
 }
@@ -40,7 +42,7 @@ t_string_compound_lst	*ft_get_word_element_quote(char *str, char **s)
 		ft_token_missing_delimiter_error("\'");
 		return (0);
 	}
-	ret = ft_get_string_token_node(str, i, word_true);
+	ret = ft_get_string_token_node(str, i, word_true, 0);
 	*s = str + i + 1;
 	return (ret);
 }
@@ -59,7 +61,28 @@ t_string_compound_lst	*ft_get_word_element_dquote(char *str, char **s)
 		ft_token_missing_delimiter_error("\"");
 		return (0);
 	}
-	ret = ft_get_string_token_node(str, i, word_replace_vars);
+	ret = ft_get_string_token_node(str, i, word_replace_vars, 0);
 	*s = str + i + 1;
 	return (ret);
+}
+
+t_string_compound_lst	*ft_get_escaped_character(char *str, char **s)
+{
+	t_string_compound_lst	*new_compound;
+
+	new_compound = ft_malloc_id(sizeof(t_string_compound_lst), malloc_id_token);
+	new_compound->type = word_true;
+	new_compound->next = 0;
+	str = *s;
+	if (str[1] == '\0')
+	{
+		new_compound->str = ft_substr_gc_id(str, 0, 1, malloc_id_token);
+		*s += 1;
+	}
+	else
+	{
+		new_compound->str = ft_substr_gc_id(str, 1, 1, malloc_id_token);
+		*s += 2;
+	}
+	return (new_compound);
 }

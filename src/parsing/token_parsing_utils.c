@@ -24,7 +24,7 @@ void	ft_print_lst(t_string_compound_lst *lst, int depth)
 	while (lst)
 	{
 		ft_print_offset(depth);
-		ft_printf("%d:%s\n", lst->type, lst->str);
+		ft_printf("%d:%s___\n", lst->type, lst->str);
 		lst = lst->next;
 	}
 }

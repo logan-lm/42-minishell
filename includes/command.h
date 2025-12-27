@@ -24,7 +24,6 @@ typedef enum e_command_node_type
 	command_subshell
 }							t_command_node_type;
 
-
 /// PIPELINE :
 /// commands contains a t_parsing_tokens list
 /// (word, redirections, pipes, subshell), the pipeline content

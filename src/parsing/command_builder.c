@@ -30,7 +30,7 @@ int	ft_is_comparison_op(t_list *token_iterator)
 	{
 		if (((t_token_op_data *)token->data)->type == op_or)
 			return (command_or);
-		else if ((((t_token_op_data *)token->data)->type == op_and))
+		else if (((t_token_op_data *)token->data)->type == op_and)
 			return (command_and);
 	}
 	return (0);
@@ -45,7 +45,7 @@ int	ft_get_command_type(t_list *token_iterator)
 	{
 		if (((t_token_op_data *)token->data)->type == op_or)
 			return (command_or);
-		else if ((((t_token_op_data *)token->data)->type == op_and))
+		else if (((t_token_op_data *)token->data)->type == op_and)
 			return (command_and);
 	}
 	else if (token->type == token_subshell)

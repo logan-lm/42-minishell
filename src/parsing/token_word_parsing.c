@@ -38,7 +38,7 @@ void	ft_add_compound_to_back(t_list *token,
 }
 
 t_string_compound_lst	*ft_get_string_token_node(char *str, size_t len,
-		t_token_word_type word_type)
+		t_token_word_type word_type, int is_name)
 {
 	char					*substr;
 	t_string_compound_lst	*str_comp;
@@ -48,6 +48,7 @@ t_string_compound_lst	*ft_get_string_token_node(char *str, size_t len,
 	str_comp->str = substr;
 	str_comp->type = word_type;
 	str_comp->next = 0;
+	str_comp->is_name = is_name;
 	return (str_comp);
 }
 
@@ -71,7 +72,7 @@ t_list	*ft_get_word(char *str, char **s)
 
 	token = ft_get_word_token();
 	str = *s;
-	while (*str && ft_strchr("|&()<>= \t", *str) == 0)
+	while (*str && ft_strchr("|&()<> \t", *str) == 0)
 	{
 		if (*str == '\'')
 			new_compound = ft_get_word_element_quote(str, s);
@@ -88,25 +89,4 @@ t_list	*ft_get_word(char *str, char **s)
 		str = *s;
 	}
 	return (token);
-}
-
-t_string_compound_lst *ft_get_escaped_character(char *str, char **s)
-{
-	t_string_compound_lst	*new_compound;
-
-	new_compound = ft_malloc_id(sizeof(t_string_compound_lst), malloc_id_token);
-	new_compound->type = word_true;
-	new_compound->next = 0;
-	str = *s;
-	if (str[1] == '\0')
-	{
-		new_compound->str = ft_substr_gc_id(str, 0, 1, malloc_id_token);
-		*s += 1;
-	}
-	else
-	{
-		new_compound->str = ft_substr_gc_id(str, 1, 1, malloc_id_token);
-		*s += 2;
-	}
-	return (new_compound);
 }

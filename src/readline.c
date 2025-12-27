@@ -39,7 +39,6 @@ void	ft_readline(t_shell_data *d)
 	token_lst = ft_get_tokens(prompt);
 	command_tree = ft_build_ast(token_lst);
 	ft_print_ast_visual(command_tree, "");
-	ft_printf("\n");
 	ft_clear_gc_id(malloc_id_token);
 	ft_clear_gc_id(malloc_id_ast);
 }
