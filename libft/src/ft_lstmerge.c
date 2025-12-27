@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 13:55:10 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 14:16:32 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 19:31:16 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_list	*ft_lstmerge(t_list *dest, t_list *src)
 {
 	while (src)
 	{
-		ft_lstadd_back(&dest, src);
+		ft_lstadd_back(&dest, ft_lstnew(src->content));
 		src = src->next;
 	}
 	return (dest);

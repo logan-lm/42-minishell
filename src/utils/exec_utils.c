@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:24:08 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 14:03:40 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 19:08:28 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@ char	**ft_lsttostrs(t_list *lst)
 	int		i;
 
 	i = 0;
-	strs = ft_malloc(ft_lstsize(lst) * sizeof(char *));
+	strs = ft_malloc(ft_lstsize(lst) * (sizeof(char *) + 1));
 	while (lst)
 	{
 		strs[i] = lst->content;
 		lst = lst->next;
 		++i;
 	}
+	strs[i] = NULL;
 	return (strs);
 }
 
@@ -58,7 +59,7 @@ char	*ft_wordtostr(char *word, t_shell_data *data)
 		temp = ft_malloc((i - j + 2) * sizeof(char));
 		ft_strlcpy(temp, word + j, i - j + 1);
 		str = ft_strjoin_gc(str, temp);
-		free(temp);
+		ft_free(temp);
 		j = i + 1;
 		temp = ft_getvarname(word + j);
 		str = ft_strjoin_gc(str, ft_getvar(data->vars, data->envp, temp));

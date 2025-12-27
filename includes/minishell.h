@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 14:13:47 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 19:33:30 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int			ft_env(char **args, t_shell_data *data);
 int			ft_set_var(char **args, t_shell_data *data);
 void		ft_free_strs(char **strs);
 char		**ft_lsttostrs(t_list *lst);
+int			ft_is_varset(char *cmd);
 
 void		ft_gc_debug(char *str);
 

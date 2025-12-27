@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 14:26:15 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 19:23:39 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ char	*ft_check_paths(char *cmdname, t_list *envp)
 	temp = ft_dictmap(envp, "PATH");
 	paths = ft_split_gc(temp, ':');
 	i = 0;
-	free(temp);
 	while (paths[i])
 	{
 		temp = ft_strjoin_mult_gc(3, paths[i], "/", cmdname);
@@ -111,7 +110,7 @@ char	*ft_check_paths(char *cmdname, t_list *envp)
 			ft_free_strs(paths);
 			return (temp);
 		}
-		free (temp);
+		ft_free(temp);
 		i++;
 	}
 	ft_free_strs(paths);
@@ -125,8 +124,6 @@ char	*ft_cmd_path(char *cmd, t_list *envp)
 
 	if (ft_ispath(cmd))
 		return (ft_parse_path(cmd, envp));
-	if (ft_get_builtin(cmd))
-		return("builtin");
 	path = ft_check_paths(cmd, envp);
 	if (path)
 		return (path);
@@ -136,12 +133,13 @@ char	*ft_cmd_path(char *cmd, t_list *envp)
 	return (NULL);
 }
 
-void	ft_run_builtin(void	*(builtin)(char **, t_shell_data *), char **args, t_shell_data *data)
+void	ft_run_builtin(void *(builtin)(char **, t_shell_data *), char **args,
+		t_shell_data *data)
 {
 	builtin(args, data);
 }
 
-int		ft_run_cmd(char **args, char **envp, t_shell_data *data)
+int	ft_run_cmd(char **args, char **envp, t_shell_data *data)
 {
 	int		pid;
 	void	*cmdpath;
@@ -165,33 +163,30 @@ int		ft_run_cmd(char **args, char **envp, t_shell_data *data)
 void	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 {
 	t_list			*nodes;
-	t_parsing_token *token;
+	t_parsing_token	*token;
 	t_token_op_data	*test;
 	t_list			*args_lst;
-	char 			**args;
+	char			**args;
 
 	args_lst = NULL;
 	args = NULL;
-	if (command_tree->type == command_pipeline)
+	nodes = command_tree->commands;
+	while (nodes)
 	{
-		nodes = command_tree->commands;
-		while (nodes)
+		token = nodes->content;
+		if (token->type == token_op)
 		{
-			token = nodes->content;
-			if (token->type == token_op)
-			{
-				test = token->data;
-				if (test->type == op_pipe)
-					break;
-			}
-			if (token->type == token_word)
-				args_lst = ft_lstmerge(args_lst, ft_parse_cmd_args(token->data, d));
-			nodes = nodes->next;
+			test = token->data;
+			if (test->type == op_pipe)
+				break ;
 		}
-		args = ft_lsttostrs(args_lst);
-		if (args)
-			ft_run_cmd(args, ft_str_env(d->envp), d);
+		if (token->type == token_word)
+			args_lst = ft_lstmerge(args_lst, ft_parse_cmd_args(token->data, d));
+		nodes = nodes->next;
 	}
+	args = ft_lsttostrs(args_lst);
+	if (args)
+		ft_run_cmd(args, ft_str_env(d->envp), d);
 }
 
 void	ft_exec(t_command_node *command_tree, t_shell_data *d)
@@ -201,4 +196,3 @@ void	ft_exec(t_command_node *command_tree, t_shell_data *d)
 	while (wait(NULL) > 0)
 		;
 }
-

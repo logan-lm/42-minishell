@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 14:33:11 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 19:06:39 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ft_int_handler(int sig)
 {
+	while (wait(NULL) > 0)
+		;
 	(void)sig;
 	printf("\n");
 	rl_replace_line("", 0);

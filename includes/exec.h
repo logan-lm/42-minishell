@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/22 22:41:08 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/27 19:14:59 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 # define EXEC_H
 # include "minishell.h"
 
-struct		s_pipe
+struct s_command
 {
-	int		pipefd[2];
+	char	*cmdname;
 	char	**args;
-}			t_pipe;
-
-char		*ft_getvarname(char *str);
+	int		fdin;
+	int		fdout;
+}			t_command;
 
 #endif
