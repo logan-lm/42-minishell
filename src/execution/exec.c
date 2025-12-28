@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/28 19:25:25 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/28 21:07:17 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ char	*ft_check_paths(char *cmdname, t_list *envp)
 	int		i;
 
 	temp = ft_dictmap(envp, "PATH");
+	if (!temp)
+		return (NULL);
 	paths = ft_split_gc(temp, ':');
 	i = 0;
 	while (paths[i])
@@ -133,19 +135,22 @@ char	*ft_cmd_path(char *cmd, t_list *envp)
 }
 
 int	ft_run_builtin(int(builtin)(char **, t_shell_data *, int fdout),
-		t_command *cmd, t_shell_data *data, int last)
+		t_command *cmd, t_shell_data *data, void *next)
 {
 	int fdout;
+	int exit_status;
 	int pipefd[2];
 
 	fdout = cmd->fdout;
 	pipe(pipefd);
-	if (!last && fdout == STDOUT_FILENO)
+	if (next && fdout == STDOUT_FILENO)
 		fdout = pipefd[1];
 	else
 		close(pipefd[1]);
-	builtin(cmd->args, data, fdout);
+	exit_status = builtin(cmd->args, data, fdout);
 	// HANDLE FUNCTION ERROR
+	if (!next)
+		return (exit_status);
 	return (pipefd[0]);
 }
 
@@ -158,7 +163,7 @@ int	ft_run_cmd(int fdin, t_command *cmd, t_shell_data *data, void *next)
 
 	cmdpath = ft_get_builtin(cmd->args[0]);
 	if (cmdpath)
-		return (ft_run_builtin(cmdpath, cmd, data, 1));
+		return (ft_run_builtin(cmdpath, cmd, data, next));
 	if (ft_strncmp(cmd->args[0], "FAILED_OPEN", 12))
 		cmdpath = ft_cmd_path(cmd->args[0], data->envp);
 	pipe(pipefd);

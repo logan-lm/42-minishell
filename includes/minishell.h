@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/28 17:44:55 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/28 20:59:58 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 
 typedef struct s_shell_data
 {
-	char	*pwd;
 	t_list	*envp;
 	t_list	*vars;
 }			t_shell_data;

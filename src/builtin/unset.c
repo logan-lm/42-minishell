@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 22:13:50 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/28 11:06:53 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/28 21:02:04 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,5 @@ int	ft_unset(char **args, t_shell_data *data, int fdout)
 		ft_dictdel(&data->vars, *args);
 		args++;
 	}
-	return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 10:02:31 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 14:15:09 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/28 20:52:03 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	ft_bzero(&d, sizeof(t_shell_data));
 	ft_init_envp(envp, &d);
-	ft_putchar_fd('\n', 1);
 	signal(SIGINT, ft_int_handler);
 	while (1)
 	{

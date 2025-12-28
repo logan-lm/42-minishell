@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:44:59 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/28 11:06:08 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/28 20:54:34 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static t_list	*ft_parse_args(char **args, t_echo_data *data)
 	t_list	*new;
 
 	strs = NULL;
-	if (!strncmp("-n", *args, 3))
+	if (*args && !strncmp("-n", *args, 3))
 	{
 		data->no_newline = 1;
 		args++;
