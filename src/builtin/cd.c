@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 11:56:23 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/28 21:00:18 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/28 21:21:01 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ int	ft_cd(char **args, t_shell_data *data, int fdout)
 	if (!args)
 		return (puterr(no_arg, NULL));
 	if (*(args + 1))
-		ft_putstr_fd("cd: too many arguments\n", 2);
+	{
+		ft_putstr_fd("minishell : cd: too many arguments\n", 2);
+		return (EXIT_FAILURE);
+	}
 	else if (!args[0] || !*args[0])
 	{
 		home = ft_dictmap(data->envp, "HOME");

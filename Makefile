@@ -6,12 +6,12 @@
 #    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2025/12/28 17:37:20 by lomartin         ###   ########.fr        #
+#    Updated: 2025/12/28 21:35:22 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS += -Wall -Wextra
+CFLAGS += -Wall -Wextra -Werror
 DFLAGS += -g3 -Wall -Wextra -Werror -DBUILD_DEBUG=1
 LIBFT = libft/libft.a
 LIBFT_DEBUG = libft/libft_DEBUG.a
