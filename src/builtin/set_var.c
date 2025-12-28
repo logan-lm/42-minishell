@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 10:04:24 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 19:53:37 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/28 11:06:48 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,20 @@ int	ft_set_append_mode(char *varname)
 	return (0);
 }
 
-int	ft_set_var(char **args, t_shell_data *data)
+int	ft_set_var(char **args, t_shell_data *data, int fdout)
 {
 	t_dict	*var;
 	int		val;
 	char	*temp;
 	int		append_mode;
 
+	if (fdout != STDOUT_FILENO)
+		close(fdout);
 	while (*args)
 	{
-		var = ft_calloc(1, sizeof(t_dict));
+		var = ft_calloc_gc(1, sizeof(t_dict));
 		append_mode = ft_set_append_mode(*args);
-		var->key = ft_calloc(ft_strlen(*args) - append_mode, sizeof(char));
+		var->key = ft_calloc_gc(ft_strlen(*args) - append_mode, sizeof(char));
 		ft_strlcpy(var->key, *args, ft_strlen(*args) - append_mode);
 		val = 1;
 		if (append_mode)

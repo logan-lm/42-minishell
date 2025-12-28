@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:24:08 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 19:08:28 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/28 18:02:11 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ft_wordtostr(char *word, t_shell_data *data)
 	str = NULL;
 	while (word[++i] && word[i + 1])
 	{
-		if (word[i] != '$' || !ft_isalpha(word[i + 1]))
+		if (word[i] != '$' || (!ft_isalpha(word[i + 1]) && word[i + 1] != '?'))
 			continue ;
 		temp = ft_malloc((i - j + 2) * sizeof(char));
 		ft_strlcpy(temp, word + j, i - j + 1);
@@ -70,6 +70,6 @@ char	*ft_wordtostr(char *word, t_shell_data *data)
 	temp = ft_malloc((i - j + 2) * sizeof(char));
 	ft_strlcpy(temp, word + j, i - j + 1);
 	str = ft_strjoin_gc(str, temp);
-	free(temp);
+	ft_free(temp);
 	return (str);
 }

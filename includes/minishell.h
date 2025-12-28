@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 19:33:30 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/28 17:44:55 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ char		*ft_dictmap(t_list *list, char *key);
 void		ft_dictadd(t_list **list, char *key, char *value);
 t_dict		*ft_dictpop(t_list **list, char *key);
 void		ft_dictdel(t_list **list, char *key);
-int			ft_env(char **args, t_shell_data *data);
-int			ft_set_var(char **args, t_shell_data *data);
 void		ft_free_strs(char **strs);
 char		**ft_lsttostrs(t_list *lst);
 int			ft_is_varset(char *cmd);
@@ -62,11 +60,12 @@ void		ft_int_handler(int sig);
 void		ft_readline(t_shell_data *d);
 
 // EXEC
-void		ft_exec(t_command_node *command_tree, t_shell_data *d);
+int			ft_exec(t_command_node *command_tree, t_shell_data *d);
 char		*ft_wordtostr(char *word, t_shell_data *data);
 void		*ft_get_builtin(char *cmd);
 char		*ft_check_paths(char *cmdname, t_list *envp);
 char		*ft_cmd_path(char *cmd, t_list *envp);
+int			ft_run_cmds(t_list *commands, t_shell_data *d);
 
 //// BUILT-INS
 // ECHO
@@ -75,11 +74,13 @@ typedef struct s_echo_data
 	char	no_newline;
 }			t_echo_data;
 
-int			ft_echo(char **args, t_shell_data *data);
-int			ft_cd(char **args, t_shell_data *data);
-int			ft_pwd(char **args, t_shell_data *data);
-int			ft_export(char **args, t_shell_data *data);
-int			ft_unset(char **args, t_shell_data *data);
+int			ft_echo(char **args, t_shell_data *data, int fdout);
+int			ft_env(char **args, t_shell_data *data, int fdout);
+int			ft_cd(char **args, t_shell_data *data, int fdout);
+int			ft_pwd(char **args, t_shell_data *data, int fdout);
+int			ft_export(char **args, t_shell_data *data, int fdout);
+int			ft_unset(char **args, t_shell_data *data, int fdout);
+int			ft_set_var(char **args, t_shell_data *data, int fdout);
 
 //// PARSING
 void		ft_init_envp(char **envp, t_shell_data *data);

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 18:31:12 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/27 11:32:02 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/28 17:32:24 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ void	ft_free_strs(char **strs)
 
 	i = 0;
 	while (strs[i])
-		free(strs[i++]);
-	free(strs);
+		ft_free(strs[i++]);
+	ft_free(strs);
 }
