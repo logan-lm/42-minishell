@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 21:36:46 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/28 21:55:59 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/29 16:25:59 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,15 @@ int	ft_export(char **args, t_shell_data *data, int fdout)
 	while (args[++i])
 	{
 		set_mode = ft_strhasequal(args[i]);
-		var_entry.key = ft_malloc((set_mode + 2) * sizeof(char));
-		ft_strlcpy(var_entry.key, args[i], set_mode + 2);
+		var_entry.key = ft_malloc((ft_strlen(args[i]) - set_mode + 1) * sizeof(char));
+		ft_strlcpy(var_entry.key, args[i], ft_strlen(args[i]) - set_mode + 1);
 		if (set_mode)
 		{
-			var_entry.value = ft_strdup_gc(args[i] + set_mode + 1);
+			var_entry.value = NULL;
+			if (args[i + 1] && !ft_is_varset(args[i + 1]))
+				var_entry.value = args[i + 1];
+			if (args[i + 1])
+				i++;
 			ft_dictadd(&data->vars, var_entry.key, var_entry.value);
 		}
 		else

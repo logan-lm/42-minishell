@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/28 21:52:02 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/29 15:46:50 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,48 @@
 #include "minishell.h"
 #include "parser.h"
 
+t_list	*ft_separate_cmdname(char *arg)
+{
+	char	*temp;
+	int		i;
+	int		j;
+	t_list	*args;
+
+	temp = ft_calloc_gc(ft_strclen(arg, ' '), sizeof(char));
+	i = 0;
+	j = 0;
+	args = NULL;
+	while (arg[j] != ' ')
+		temp[i++] = arg[j++];
+	temp[i] = '\0';
+	ft_lstadd_front(&args, ft_lstnew_gc(temp));
+	while (arg[j] == ' ')
+		j++;
+	temp = ft_calloc_gc(ft_strlen(temp + j), sizeof(char));
+	i = 0;
+	while (arg[j])
+		temp[i++] = arg[j++];
+	temp[i] = '\0';
+	ft_lstadd_back(&args, ft_lstnew_gc(temp));
+	return (args);
+}
+
 t_list	*ft_parse_cmd_args(t_string_compound_lst *tokens, t_shell_data *data)
 {
 	t_list	*args;
+	char	*arg;
 
 	args = NULL;
 	while (tokens)
 	{
 		if (tokens->type == word_replace_vars)
-			ft_lstadd_back(&args, ft_lstnew(ft_wordtostr(tokens->str, data)));
+		{
+			arg = ft_wordtostr(tokens->str, data);
+			if (!args && ft_str_hasspace(arg))
+				args = ft_separate_cmdname(arg);
+			else
+				ft_lstadd_back(&args, ft_lstnew(arg));
+		}
 		else if (tokens->type == word_true)
 			ft_lstadd_back(&args, ft_lstnew(tokens->str));
 		tokens = tokens->next;
@@ -252,7 +285,7 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 
 	commands = NULL;
 	has_pipe = 1;
-	while (has_pipe)
+	while (command_tree->commands && has_pipe)
 	{
 		cmd = ft_calloc_gc(1, sizeof(t_command));
 		cmd->args = ft_parse_cmd(command_tree->commands, d);

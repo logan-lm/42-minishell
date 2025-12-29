@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 15:00:36 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/27 13:58:18 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/29 15:22:15 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ int					ft_isdigit(char c);
 int					ft_isalnum(char c);
 int					ft_isascii(char c);
 int					ft_isprint(char c);
+int					ft_isspace(int c);
 size_t				ft_strlen(const char *str);
+int					ft_strclen(const char *str, char c);
 int					ft_toupper(int c);
 int					ft_toupper(int c);
 int					ft_tolower(int c);

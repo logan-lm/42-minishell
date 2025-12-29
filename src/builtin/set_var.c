@@ -6,32 +6,11 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 10:04:24 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/28 11:06:48 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/29 15:57:59 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* static void	ft_join_parts(char **parts, t_dict *var)
-{
-	char	*temp;
-	int		i;
-
-	i = 0;
-	while (parts[++i])
-	{
-		temp = ft_strjoin_gc(var->value, parts[i]);
-		ft_free(var->value);
-		ft_free(parts[i]);
-		var->value = temp;
-		if (parts[i + 1])
-		{
-			temp = ft_strjoin_gc(var->value, "=");
-			free(var->value);
-			var->value = temp;
-		}
-	}
-} */
 
 int	ft_set_append_mode(char *varname)
 {
