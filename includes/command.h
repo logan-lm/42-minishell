@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 10:20:04 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/27 14:14:30 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/29 22:05:44 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,17 @@ typedef enum e_command_node_type
 {
 	command_pipeline,
 	command_or,
-	command_and,
-	command_subshell
+	command_and
 }							t_command_node_type;
 
 /// PIPELINE :
 /// commands contains a t_parsing_tokens list
 /// (word, redirections, pipes, subshell), the pipeline content
-/// if a token of a pipeline is of type subshell, its data
+/// if the token of a pipeline is of type subshell, its data
 /// will be a t_command_node * of type subshell.
-/// Tis is a terminal operation, left and right are always NULL,
+/// This is a terminal operation, left and right are always NULL,
 /// nothing can follow a pipe
-///
-/// SUBSHELL :
-/// commands is NULL, the content is always a single command assigned to left
-///
+
 /// OR / || :
 /// Both left and right contain a command.
 /// commands is NULL
