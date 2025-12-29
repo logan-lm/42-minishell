@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 10:19:02 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/26 12:05:41 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/29 14:32:55 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,6 @@ int	ft_is_comparison_op(t_list *token_iterator)
 		else if (((t_token_op_data *)token->data)->type == op_and)
 			return (command_and);
 	}
-	return (0);
-}
-
-int	ft_get_command_type(t_list *token_iterator)
-{
-	t_parsing_token	*token;
-
-	token = (t_parsing_token *)token_iterator->content;
-	if (token->type == token_op)
-	{
-		if (((t_token_op_data *)token->data)->type == op_or)
-			return (command_or);
-		else if (((t_token_op_data *)token->data)->type == op_and)
-			return (command_and);
-	}
-	else if (token->type == token_subshell)
-		return (command_subshell);
 	return (0);
 }
 
