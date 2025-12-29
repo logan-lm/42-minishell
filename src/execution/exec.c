@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/29 15:46:50 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/29 22:23:16 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,11 @@ t_list	*ft_parse_cmd_args(t_string_compound_lst *tokens, t_shell_data *data)
 {
 	t_list	*args;
 	char	*arg;
+	char	*joined;
+	char	*temp;
 
 	args = NULL;
+	joined = NULL;
 	while (tokens)
 	{
 		if (tokens->type == word_replace_vars)
@@ -55,12 +58,22 @@ t_list	*ft_parse_cmd_args(t_string_compound_lst *tokens, t_shell_data *data)
 			if (!args && ft_str_hasspace(arg))
 				args = ft_separate_cmdname(arg);
 			else
-				ft_lstadd_back(&args, ft_lstnew(arg));
+			{
+				temp = joined;
+				joined = ft_strjoin_gc(joined, arg);
+				ft_free(temp);
+			}
 		}
 		else if (tokens->type == word_true)
-			ft_lstadd_back(&args, ft_lstnew(tokens->str));
+		{
+			temp = joined;
+			joined = ft_strjoin_gc(joined, tokens->str);
+			ft_free(temp);
+		}
 		tokens = tokens->next;
 	}
+	if (joined)
+		ft_lstadd_back(&args, ft_lstnew_gc(joined));
 	return (args);
 }
 
@@ -97,7 +110,7 @@ int	ft_is_varset(char *cmd)
 	cmd++;
 	while (*cmd)
 	{
-		if (*cmd == '=')
+		if (*cmd == '=' || (*cmd == '+' && *(cmd + 1) == '='))
 			return (1);
 		if (!ft_isalnum(*cmd))
 			return (0);
@@ -292,9 +305,7 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 		cmd->fdin = ft_parse_fdin(command_tree->commands, d);
 		cmd->fdout = ft_parse_fdout(command_tree->commands, d);
 		if (cmd->fdin < 0 || cmd->fdout < 0)
-		{
 			cmd->args[0] = "FAILED_OPEN";
-		}
 		ft_lstadd_back(&commands, ft_lstnew_gc(cmd));
 		has_pipe = ft_has_pipe(command_tree->commands);
 		if (has_pipe)
@@ -315,8 +326,6 @@ int	ft_exec(t_command_node *command_tree, t_shell_data *d)
 		exit_status = ft_and(command_tree, d);
 	if (command_tree->type == command_or)
 		exit_status = ft_or(command_tree, d);
-	if (command_tree->type == command_subshell)
-		exit_status = ft_subshell(command_tree, d);
 	while (wait(NULL) > 0)
 		;
 	return (exit_status);

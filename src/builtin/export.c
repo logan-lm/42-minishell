@@ -6,11 +6,21 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 21:36:46 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/29 16:25:59 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/29 23:02:54 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	ft_set_append_mode(char *varname)
+{
+	size_t	varname_len;
+
+	varname_len = ft_strclen(varname, '=');
+	if (varname_len > 0 && varname[varname_len - 1] == '+')
+		return (1);
+	return (0);
+}
 
 static int	ft_strhasequal(char *str)
 {
@@ -27,6 +37,7 @@ int	ft_export(char **args, t_shell_data *data, int fdout)
 {
 	int		i;
 	int		set_mode;
+	int		append_mode;
 	t_dict	var_entry;
 
 	if (fdout != STDOUT_FILENO)
@@ -36,19 +47,14 @@ int	ft_export(char **args, t_shell_data *data, int fdout)
 	while (args[++i])
 	{
 		set_mode = ft_strhasequal(args[i]);
-		var_entry.key = ft_malloc((ft_strlen(args[i]) - set_mode + 1) * sizeof(char));
-		ft_strlcpy(var_entry.key, args[i], ft_strlen(args[i]) - set_mode + 1);
+		append_mode = ft_set_append_mode(args[i]);
+		var_entry.key = ft_malloc((ft_strclen(args[i], '=') + 2 - set_mode
+					- append_mode) * sizeof(char));
+		ft_strlcpy(var_entry.key, args[i], (ft_strclen(args[i], '=') + 2
+				- set_mode - append_mode));
 		if (set_mode)
-		{
-			var_entry.value = NULL;
-			if (args[i + 1] && !ft_is_varset(args[i + 1]))
-				var_entry.value = args[i + 1];
-			if (args[i + 1])
-				i++;
-			ft_dictadd(&data->vars, var_entry.key, var_entry.value);
-		}
-		else
-			var_entry.value = ft_dictmap(data->vars, args[i]);
+			ft_set_var((char *[2]){args[i], NULL}, data, fdout);
+		var_entry.value = ft_dictmap(data->vars, var_entry.key);
 		ft_dictadd(&data->envp, var_entry.key, var_entry.value);
 	}
 	return (EXIT_SUCCESS);
