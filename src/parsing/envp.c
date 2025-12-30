@@ -6,16 +6,21 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:41:16 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/30 15:57:54 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/30 22:23:17 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_init_envp(char **envp, t_shell_data *data)
+void	ft_init_envp(char **av, char **envp, t_shell_data *data)
 {
 	char	**part;
 
+	data->progname = ft_strchr(*av, '/');
+	if (data->progname)
+		data->progname++;
+	else
+		data->progname = *av;
 	while (*envp)
 	{
 		part = ft_split_gc(*envp, '=');
@@ -24,6 +29,7 @@ void	ft_init_envp(char **envp, t_shell_data *data)
 	}
 	ft_dictadd(&data->envp, "PWD", getcwd(NULL, 0));
 	ft_dictadd(&data->vars, "?", "0");
+	data->lines = 0;
 }
 
 /// @brief Exports env dict as char **

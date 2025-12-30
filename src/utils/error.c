@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/19 10:02:31 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/30 22:49:08 by lomartin         ###   ########.fr       */
+/*   Created: 2025/12/30 21:53:34 by lomartin          #+#    #+#             */
+/*   Updated: 2025/12/30 21:59:24 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **envp)
+int	ft_print_perror(char *err, char *progname)
 {
-	t_shell_data	d;
+	char *str;
 
-	(void)ac;
-	ft_bzero(&d, sizeof(t_shell_data));
-	ft_init_envp(av, envp, &d);
-	signal(SIGINT, ft_int_handler);
-	while (1)
-		ft_readline(&d);
+	str = ft_strjoin_mult_gc(3, progname, ": ", err);
+	perror(str);
+	ft_free(str);
+	return (EXIT_FAILURE);
+}
+
+int	ft_print_error(char *err, char *progname)
+{
+	char *str;
+
+	str = ft_strjoin_mult_gc(4, progname, ": ", err, "\n");
+	ft_putstr_fd(str, 2);
+	ft_free(str);
+	return (EXIT_FAILURE);
 }

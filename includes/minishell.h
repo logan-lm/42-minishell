@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/30 17:43:23 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/30 22:22:43 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@
 
 typedef struct s_shell_data
 {
+	char	*progname;
 	t_list	*envp;
 	t_list	*vars;
 	int		exit_status;
+	int		lines;
 }			t_shell_data;
 
 typedef struct s_dict
@@ -52,6 +54,8 @@ void		ft_dictdel(t_list **list, char *key);
 void		ft_free_strs(char **strs);
 char		**ft_lsttostrs(t_list *lst);
 int			ft_is_varset(char *cmd);
+int			ft_print_perror(char *err, char *progname);
+int			ft_print_error(char *err, char *progname);
 
 void		ft_gc_debug(char *str);
 
@@ -86,7 +90,7 @@ int			ft_set_var(char **args, t_shell_data *data, int fdin, int fdout);
 void		ft_shell_exit(char **args, t_shell_data *data, int fdin, int fdout);
 
 //// PARSING
-void		ft_init_envp(char **envp, t_shell_data *data);
+void		ft_init_envp(char **av, char **envp, t_shell_data *data);
 char		**ft_str_env(t_list *envp_d);
 t_list		*ft_get_matching_names(char **src, char *pattern);
 

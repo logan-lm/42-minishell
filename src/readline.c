@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/30 17:44:59 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/30 21:52:27 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_readline(t_shell_data *d)
 	t_command_node	*command_tree;
 
 	(void)d;
-	prompt = readline("\001\033[1;32m\002Mi-shell>\001\033[0m\002");
+	prompt = readline("\001\033[1;32m\002Minishell>\001\033[0m\002");
 	if (prompt == NULL)
 	{
 		ft_putstr_fd("exit\n", 1);

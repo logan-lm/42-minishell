@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 10:04:24 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/30 15:58:57 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/30 20:22:02 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,5 @@ int	ft_set_var(char **args, t_shell_data *data, int fdin, int fdout)
 		ft_free(var);
 		args++;
 	}
-	return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/30 17:43:13 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/30 22:23:43 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ int	ft_run_cmd(int fdin, t_command *cmd, t_shell_data *data, void *next)
 		dup2(pipefd[1], 1);
 		dup2(fdin, 0);
 		execve(cmdpath, cmd->args, ft_str_env(data->envp));
-		perror("minishell: ");
+		ft_print_perror("", data->progname);
 		exit (127);
 	}
 	if (fdin != STDIN_FILENO && fdin != STDOUT_FILENO)
@@ -312,6 +312,7 @@ int	ft_exec(t_command_node *command_tree, t_shell_data *d)
 	int	exit_status;
 
 	exit_status = EXIT_FAILURE;
+	d->lines++;
 	if (command_tree->type == command_pipeline)
 		exit_status = ft_run_pipeline(command_tree, d);
 	if (command_tree->type == command_and)

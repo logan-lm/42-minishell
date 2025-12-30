@@ -6,21 +6,20 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/30 16:06:18 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/30 22:35:24 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "exec.h"
 
-int	ft_open_heredoc(char *limiter)
+int	ft_open_heredoc(char *limiter, t_shell_data *data)
 {
 	char	*filename;
 	int		temp_w;
 	int		temp_r;
 	char	*buffer;
 	char	*line;
-	char	*err;
 
 	filename = ft_itoa_gc((long)limiter);
 	temp_w = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
@@ -29,20 +28,15 @@ int	ft_open_heredoc(char *limiter)
 	buffer = NULL;
 	if (temp_r == -1 || temp_w == -1)
 		return (1);
-	while (!is_limiter(line, limiter))
+	while (!ft_is_limiter(line, limiter))
 	{
 		ft_free(line);
 		buffer = readline("> ");
 		line = ft_strjoin_gc(buffer, "\n");
 		free(buffer);
 		if (!buffer)
-		{
-			err = ft_strjoin_mult_gc(3, "minishell: warning: here-document at line ?? delimited by end-of-file (wanted `", limiter, "')\n");
-			ft_putstr_fd(err, 2);
-			ft_free(err);
-			return (-1);
-		}
-		if (is_limiter(line, limiter))
+			return(ft_heredoc_eof_err(data, limiter, temp_w, temp_r));
+		if (ft_is_limiter(line, limiter))
 			break ;
 		write(temp_w, line, ft_strlen(line));
 	}
@@ -71,14 +65,14 @@ int	ft_parse_fdin(t_list *nodes, t_shell_data *d)
 			{
 				args_lst = ft_parse_cmd_args(op_token->word, d);
 				if (ft_str_hasspace(args_lst->content))
-					return (ft_exp_err(fd, op_token->word->str));
+					return (ft_exp_err(fd, op_token->word->str, d->progname));
 				fd = open(args_lst->content, O_RDONLY);
 				ft_lstclear_gc(&args_lst, ft_free);
 			}
 			if (fd < 0)
-				return (ft_open_err(fd, op_token->word->str));
+				return (ft_open_err(fd, op_token->word->str, d->progname));
 			if (op_token->type == op_heredoc)
-				fd = ft_open_heredoc(op_token->word->str);
+				fd = ft_open_heredoc(op_token->word->str, d);
 		}
 		nodes = nodes->next;
 	}
@@ -108,7 +102,7 @@ int	ft_parse_fdout(t_list *nodes, t_shell_data *d)
 					close(fd);
 				args_lst = ft_parse_cmd_args(op_token->word, d);
 				if (ft_str_hasspace(args_lst->content))
-					return (ft_exp_err(fd, op_token->word->str));
+					return (ft_exp_err(fd, op_token->word->str, d->progname));
 				fd = open(args_lst->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 				ft_lstclear_gc(&args_lst, ft_free);
 			}
@@ -119,7 +113,7 @@ int	ft_parse_fdout(t_list *nodes, t_shell_data *d)
 				fd = open(op_token->word->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			}
 			if (fd < 0)
-				return (ft_open_err(fd, op_token->word->str));
+				return (ft_open_err(fd, op_token->word->str, d->progname));
 		}
 		nodes = nodes->next;
 	}

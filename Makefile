@@ -6,7 +6,7 @@
 #    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2025/12/30 17:43:45 by lomartin         ###   ########.fr        #
+#    Updated: 2025/12/30 22:04:00 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ FILES = main\
 		execution/redirects\
 		execution/redirects_utils\
 		execution/wildcard\
+		utils/error\
 		utils/utils\
 		utils/exec_utils\
 		utils/dict_utils\
