@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 10:04:24 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/29 23:01:24 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/30 15:58:57 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,15 @@ static int	ft_set_append_mode(char *varname)
 	return (0);
 }
 
-int	ft_set_var(char **args, t_shell_data *data, int fdout)
+int	ft_set_var(char **args, t_shell_data *data, int fdin, int fdout)
 {
 	t_dict	*var;
 	int		name_len;
 	int		append_mode;
 	char	*temp;
 
+	if(fdin != STDIN_FILENO)
+		close(fdin);
 	if (fdout != STDOUT_FILENO)
 		close(fdout);
 	while (*args)

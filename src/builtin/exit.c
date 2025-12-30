@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/21 22:13:50 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/30 16:04:55 by lomartin         ###   ########.fr       */
+/*   Created: 2025/12/30 17:39:16 by lomartin          #+#    #+#             */
+/*   Updated: 2025/12/30 17:49:15 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_unset(char **args, t_shell_data *data, int fdin, int fdout)
+void ft_shell_exit(char **args, t_shell_data *data, int fdin, int fdout)
 {
-	if(fdin != STDIN_FILENO)
-		close(fdin);
-	if (fdout != STDOUT_FILENO)
-		close(fdout);
-	args++;
-	while (*args)
-	{
-		ft_dictdel(&data->envp, *args);
-		ft_dictdel(&data->vars, *args);
-		args++;
-	}
-	return (0);
+	(void)args;
+	close(fdin);
+	close(fdout);
+	while (wait(NULL) > 0)
+		;
+	ft_putstr_fd("exit\n", 1);
+	ft_exit(data->exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/29 16:00:27 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/30 17:44:59 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_readline(t_shell_data *d)
 
 	(void)d;
 	prompt = readline("\001\033[1;32m\002Mi-shell>\001\033[0m\002");
-	if (prompt == NULL || !ft_strncmp(prompt, "exit", 5))
+	if (prompt == NULL)
 	{
 		ft_putstr_fd("exit\n", 1);
 		ft_exit(EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/29 22:48:19 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/30 14:11:56 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int			ft_has_pipe(t_list *nodes);
 t_list		*ft_next_cmd(t_list *nodes);
 int			ft_and(t_command_node *command_tree, t_shell_data *data);
 int			ft_or(t_command_node *command_tree, t_shell_data *data);
-int			ft_subshell(t_command_node *command_tree, t_shell_data *data);
+int			ft_subshell(char **args, t_shell_data *data, int fdout);
 int			ft_open_err(int fd, char *filename);
 int			is_limiter(char *str, char *limiter);
 int			ft_str_hasspace(char *str);

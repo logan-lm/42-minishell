@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/29 22:23:16 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/30 17:43:13 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,22 +77,6 @@ t_list	*ft_parse_cmd_args(t_string_compound_lst *tokens, t_shell_data *data)
 	return (args);
 }
 
-int	exec_cmd(char **args, char **envp, int fd_in, int fd_out)
-{
-	int	pid;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		dup2(fd_in, 0);
-		dup2(fd_out, 1);
-		execve(args[0], args, envp);
-		perror("minishell: ");
-	}
-	close(fd_in);
-	return (pid);
-}
-
 int	ft_ispath(char *str)
 {
 	while (*str)
@@ -133,6 +117,10 @@ void	*ft_get_builtin(char *cmd)
 		return (ft_unset);
 	if (!ft_strncmp(cmd, "export", 7))
 		return (ft_export);
+	if (!ft_strncmp(cmd, "exit", 6))
+		return (ft_shell_exit);
+	if (!ft_strncmp(cmd, "()", 3))
+		return (ft_subshell);
 	if (ft_is_varset(cmd))
 		return (ft_set_var);
 	return (NULL);
@@ -180,8 +168,8 @@ char	*ft_cmd_path(char *cmd, t_list *envp)
 	return (NULL);
 }
 
-int	ft_run_builtin(int(builtin)(char **, t_shell_data *, int fdout),
-		t_command *cmd, t_shell_data *data, void *next)
+int	ft_run_builtin(int(builtin)(char **, t_shell_data *, int fdin, int fdout),
+		t_command *cmd, t_shell_data *data, void *next, int fdin)
 {
 	int fdout;
 	int exit_status;
@@ -193,7 +181,7 @@ int	ft_run_builtin(int(builtin)(char **, t_shell_data *, int fdout),
 		fdout = pipefd[1];
 	else
 		close(pipefd[1]);
-	exit_status = builtin(cmd->args, data, fdout);
+	exit_status = builtin(cmd->args, data, fdin, fdout);
 	// HANDLE FUNCTION ERROR
 	if (!next)
 		return (exit_status);
@@ -205,11 +193,10 @@ int	ft_run_cmd(int fdin, t_command *cmd, t_shell_data *data, void *next)
 	int		pid;
 	int		pipefd[2];
 	void	*cmdpath;
-	int		exit_status;
 
 	cmdpath = ft_get_builtin(cmd->args[0]);
 	if (cmdpath)
-		return (ft_run_builtin(cmdpath, cmd, data, next));
+		return (ft_run_builtin(cmdpath, cmd, data, next, fdin));
 	if (ft_strncmp(cmd->args[0], "FAILED_OPEN", 12))
 		cmdpath = ft_cmd_path(cmd->args[0], data->envp);
 	pipe(pipefd);
@@ -238,8 +225,8 @@ int	ft_run_cmd(int fdin, t_command *cmd, t_shell_data *data, void *next)
 	if (!next)
 	{
 		close(pipefd[0]);
-		waitpid(pid, &exit_status, 0);
-		return (WEXITSTATUS(exit_status));
+		waitpid(pid, &data->exit_status, 0);
+		return (WEXITSTATUS(data->exit_status));
 	}
 	return (pipefd[0]);
 }
@@ -282,6 +269,11 @@ char	**ft_parse_cmd(t_list *nodes, t_shell_data *d)
 			op_token = token->data;
 			if (op_token->type == op_pipe)
 				break ;
+		}
+		if (token->type == token_subshell)
+		{
+			ft_lstadd_back(&args_lst, ft_lstnew_gc("()"));
+			ft_lstadd_back(&args_lst, ft_lstnew_gc(token->data));
 		}
 		if (token->type == token_word)
 			args_lst = ft_lstmerge(args_lst, ft_parse_cmd_args(token->data, d));

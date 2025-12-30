@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 21:36:46 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/29 23:02:54 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/30 16:03:13 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,15 @@ static int	ft_strhasequal(char *str)
 	return (0);
 }
 
-int	ft_export(char **args, t_shell_data *data, int fdout)
+int	ft_export(char **args, t_shell_data *data, int fdin, int fdout)
 {
 	int		i;
 	int		set_mode;
 	int		append_mode;
 	t_dict	var_entry;
 
+	if(fdin != STDIN_FILENO)
+		close(fdin);
 	if (fdout != STDOUT_FILENO)
 		close(fdout);
 	i = -1;
@@ -53,7 +55,7 @@ int	ft_export(char **args, t_shell_data *data, int fdout)
 		ft_strlcpy(var_entry.key, args[i], (ft_strclen(args[i], '=') + 2
 				- set_mode - append_mode));
 		if (set_mode)
-			ft_set_var((char *[2]){args[i], NULL}, data, fdout);
+			ft_set_var((char *[2]){args[i], NULL}, data, fdin, fdout);
 		var_entry.value = ft_dictmap(data->vars, var_entry.key);
 		ft_dictadd(&data->envp, var_entry.key, var_entry.value);
 	}

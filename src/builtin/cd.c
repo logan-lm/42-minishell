@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 11:56:23 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/29 22:14:04 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/30 15:59:00 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,13 @@ static void	set_pwd(t_shell_data *data, char *new_pwd)
 	ft_dictadd(&data->envp, "PWD", new_pwd);
 }
 
-int	ft_cd(char **args, t_shell_data *data, int fdout)
+int	ft_cd(char **args, t_shell_data *data, int fdin, int fdout)
 {
 	char	*home;
 	char	*path;
 
+	if(fdin != STDIN_FILENO)
+		close(fdin);
 	if (fdout != STDOUT_FILENO)
 		close(fdout);
 	args++;

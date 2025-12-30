@@ -6,7 +6,7 @@
 #    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2025/12/29 10:24:58 by lomartin         ###   ########.fr        #
+#    Updated: 2025/12/30 17:43:45 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,9 +29,11 @@ FILES = main\
 		builtin/cd\
 		builtin/echo\
 		builtin/env\
+		builtin/exit\
 		builtin/export\
 		builtin/pwd\
 		builtin/set_var\
+		builtin/subshell\
 		builtin/unset\
 		parsing/envp\
 		parsing/token_word_parsing_compound\

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:44:59 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/28 20:54:34 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/30 15:59:03 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,14 @@ static t_list	*ft_parse_args(char **args, t_echo_data *data)
 // @param args pointers on strings as echo command arguments (-n in first arg)
 // @return void
 //
-int	ft_echo(char **args, t_shell_data *s_data, int fdout)
+int	ft_echo(char **args, t_shell_data *s_data, int fdin, int fdout)
 {
 	t_echo_data	data;
 	t_list		*strs;
 	t_list		*temp;
 
+	if(fdin != STDIN_FILENO)
+		close(fdin);
 	(void)s_data;
 	args++;
 	data.no_newline = 0;
