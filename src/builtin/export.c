@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 21:36:46 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/30 16:03:13 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/31 14:14:49 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_export(char **args, t_shell_data *data, int fdin, int fdout)
 	int		append_mode;
 	t_dict	var_entry;
 
-	if(fdin != STDIN_FILENO)
+	if (fdin != STDIN_FILENO)
 		close(fdin);
 	if (fdout != STDOUT_FILENO)
 		close(fdout);

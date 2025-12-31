@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 22:25:23 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/30 15:59:06 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/31 14:14:42 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_env(char **args, t_shell_data *data, int fdin, int fdout)
 	t_list	*envp;
 	t_dict	*var;
 
-	if(fdin != STDIN_FILENO)
+	if (fdin != STDIN_FILENO)
 		close(fdin);
 	(void)args;
 	envp = data->envp;

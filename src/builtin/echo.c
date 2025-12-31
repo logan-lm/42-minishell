@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:44:59 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/30 15:59:03 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/31 14:15:20 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_echo(char **args, t_shell_data *s_data, int fdin, int fdout)
 	t_list		*strs;
 	t_list		*temp;
 
-	if(fdin != STDIN_FILENO)
+	if (fdin != STDIN_FILENO)
 		close(fdin);
 	(void)s_data;
 	args++;

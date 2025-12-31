@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 21:53:34 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/30 21:59:24 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/31 14:12:19 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_print_perror(char *err, char *progname)
 {
-	char *str;
+	char	*str;
 
 	str = ft_strjoin_mult_gc(3, progname, ": ", err);
 	perror(str);
@@ -24,7 +24,7 @@ int	ft_print_perror(char *err, char *progname)
 
 int	ft_print_error(char *err, char *progname)
 {
-	char *str;
+	char	*str;
 
 	str = ft_strjoin_mult_gc(4, progname, ": ", err, "\n");
 	ft_putstr_fd(str, 2);

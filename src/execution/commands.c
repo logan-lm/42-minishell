@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 10:13:32 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/29 10:14:18 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/31 15:32:40 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_has_pipe(t_list *nodes)
 	return (0);
 }
 
-t_list *ft_next_cmd(t_list *nodes)
+t_list	*ft_next_cmd(t_list *nodes)
 {
 	t_parsing_token	*token;
 	t_token_op_data	*op_token;
@@ -48,4 +48,30 @@ t_list *ft_next_cmd(t_list *nodes)
 		nodes = nodes->next;
 	}
 	return (NULL);
+}
+
+t_list	*ft_separate_cmdname(char *arg)
+{
+	char	*temp;
+	int		i;
+	int		j;
+	t_list	*args;
+
+	temp = ft_calloc_gc(ft_strclen(arg, ' '), sizeof(char));
+	i = 0;
+	j = 0;
+	args = NULL;
+	while (arg[j] != ' ')
+		temp[i++] = arg[j++];
+	temp[i] = '\0';
+	ft_lstadd_front(&args, ft_lstnew_gc(temp));
+	while (arg[j] == ' ')
+		j++;
+	temp = ft_calloc_gc(ft_strlen(temp + j), sizeof(char));
+	i = 0;
+	while (arg[j])
+		temp[i++] = arg[j++];
+	temp[i] = '\0';
+	ft_lstadd_back(&args, ft_lstnew_gc(temp));
+	return (args);
 }

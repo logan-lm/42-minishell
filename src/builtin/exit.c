@@ -6,19 +6,46 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 17:39:16 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/30 17:49:15 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/31 16:25:34 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_shell_exit(char **args, t_shell_data *data, int fdin, int fdout)
+static int	ft_str_isdigit(char *str)
 {
-	(void)args;
-	close(fdin);
-	close(fdout);
+	while (*str)
+	{
+		if (!ft_isdigit(*(str)++))
+			return (0);
+	}
+	return (1);
+}
+
+int	ft_shell_exit(char **args, t_shell_data *data, int fdin, int fdout)
+{
+	char *err;
+
+	if (fdin != STDIN_FILENO)
+		close(fdin);
+	args++;
 	while (wait(NULL) > 0)
 		;
-	ft_putstr_fd("exit\n", 1);
+	ft_putstr_fd("exit\n", fdout);
+	if (fdout != STDOUT_FILENO)
+		close(fdout);
+	if (*args)
+	{
+		if (!ft_str_isdigit(*args))
+		{
+			err = ft_strjoin_mult_gc(3, "exit: ", *args, ": numeric argument required");
+			ft_print_error(err, data->progname);
+			ft_exit(2);
+		}
+		if (*(args + 1))
+			return (ft_print_error("exit: too many arguments", data->progname));
+		data->exit_status = ft_atoi(*args);
+	}
 	ft_exit(data->exit_status);
+	return (EXIT_SUCCESS);
 }

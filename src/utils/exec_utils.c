@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:24:08 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/29 14:13:26 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/31 14:37:39 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,30 @@ char	*ft_wordtostr(char *word, t_shell_data *data)
 	str = ft_strjoin_gc(str, temp);
 	ft_free(temp);
 	return (str);
+}
+
+int	ft_ispath(char *str)
+{
+	while (*str)
+	{
+		if (*(str++) == '/')
+			return (1);
+	}
+	return (0);
+}
+
+int	ft_is_varset(char *cmd)
+{
+	if (!ft_isalpha(*cmd) && *(cmd + 1))
+		return (0);
+	cmd++;
+	while (*cmd)
+	{
+		if (*cmd == '=' || (*cmd == '+' && *(cmd + 1) == '='))
+			return (1);
+		if (!ft_isalnum(*cmd))
+			return (0);
+		cmd++;
+	}
+	return (0);
 }

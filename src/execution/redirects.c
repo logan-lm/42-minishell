@@ -6,12 +6,12 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/30 22:35:24 by lomartin         ###   ########.fr       */
+/*   Updated: 2025/12/31 14:13:24 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "exec.h"
+#include "minishell.h"
 
 int	ft_open_heredoc(char *limiter, t_shell_data *data)
 {
@@ -35,7 +35,7 @@ int	ft_open_heredoc(char *limiter, t_shell_data *data)
 		line = ft_strjoin_gc(buffer, "\n");
 		free(buffer);
 		if (!buffer)
-			return(ft_heredoc_eof_err(data, limiter, temp_w, temp_r));
+			return (ft_heredoc_eof_err(data, limiter, temp_w, temp_r));
 		if (ft_is_limiter(line, limiter))
 			break ;
 		write(temp_w, line, ft_strlen(line));
@@ -49,7 +49,7 @@ int	ft_parse_fdin(t_list *nodes, t_shell_data *d)
 {
 	t_parsing_token	*token;
 	t_token_op_data	*op_token;
-	t_list		*args_lst;
+	t_list			*args_lst;
 	int				fd;
 
 	fd = STDIN_FILENO;
@@ -103,14 +103,16 @@ int	ft_parse_fdout(t_list *nodes, t_shell_data *d)
 				args_lst = ft_parse_cmd_args(op_token->word, d);
 				if (ft_str_hasspace(args_lst->content))
 					return (ft_exp_err(fd, op_token->word->str, d->progname));
-				fd = open(args_lst->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				fd = open(args_lst->content, O_WRONLY | O_CREAT | O_TRUNC,
+						0644);
 				ft_lstclear_gc(&args_lst, ft_free);
 			}
 			if (op_token->type == op_out_redirect_append)
 			{
 				if (fd != STDOUT_FILENO)
 					close(fd);
-				fd = open(op_token->word->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
+				fd = open(op_token->word->str, O_WRONLY | O_CREAT | O_APPEND,
+						0644);
 			}
 			if (fd < 0)
 				return (ft_open_err(fd, op_token->word->str, d->progname));
