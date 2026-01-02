@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/02 18:32:48 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/02 19:41:35 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_list *ft_expand_wildcard(char *word)
 t_list	*ft_check_wildcards(t_list *args)
 {
 	t_list	*curr;
+	t_list	*next;
 	char	*arg;
 	int		i;
 
@@ -77,18 +78,20 @@ t_list	*ft_check_wildcards(t_list *args)
 	while (curr)
 	{
 		arg = curr->content;
+		next = curr->next;
 		i = -1;
 		while (arg[++i])
 		{
 			if (arg[i] == '*')
 			{
 				curr->next = ft_expand_wildcard(arg);
+				ft_lstlast(curr->next)->next = next;
 				ft_lstdelone_fr_gc(&args, curr, ft_free);
-				curr = args;
+				next = args;
 				break ;
 			}
 		}
-		curr = curr->next;
+		curr = next;
 	}
 	return (args);
 }
