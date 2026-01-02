@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/02 19:41:35 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/02 20:12:38 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_append_followingpath(t_list *filenames, char *word)
 	}
 }
 
-t_list *ft_expand_wildcard(char *word)
+t_list	*ft_expand_wildcard(char *word)
 {
 	size_t	path_len;
 	char	*path;
@@ -126,17 +126,12 @@ char	*ft_wordtostr(char *word, t_shell_data *data)
 	joined = ft_strdup("");
 	while (*word)
 	{
-		if (*(word + 1) && *word == '$' && (ft_isalpha(*(word + 1)) || *(word + 1) == '?'))
+		if (*(word + 1) && *word == '$' && (ft_isalpha(*(word + 1)) || *(word
+					+ 1) == '?'))
 		{
 			joined = ft_expand_var(&word, joined, data);
 			continue ;
 		}
-		/* if (*word == '*')
-		{
-			args = ft_lstmerge(args, ft_expand_wildcard(&word, args));
-			curr = ft_lstlast(args);
-			continue ;
-		} */
 		joined = ft_copy_nonspecial(&word, joined);
 	}
 	return (joined);

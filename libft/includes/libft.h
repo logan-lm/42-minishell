@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 15:00:36 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/02 11:59:28 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/02 20:33:39 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,9 @@ int					ft_putdouble(double n);
 int					ft_putdouble_p(double n, int decimals);
 
 void				ft_str_to_upper(char *str);
+char				*ft_str_to_upper_gc(char *str);
 void				ft_str_to_lower(char *str);
+char				*ft_str_to_lower_gc(char *str);
 
 typedef struct s_list
 {

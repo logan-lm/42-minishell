@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:33:13 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/02 17:42:29 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/02 20:19:49 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ char	**ft_get_sorted_dircontent(char *path, int dir)
 	while (read)
 	{
 		if (*(read->d_name) != '.' && (!dir || read->d_type == DT_DIR))
-			ft_lstadd_front(&filenames, ft_lstnew(ft_strjoin_gc(path, read->d_name)));
+			ft_lstadd_front(&filenames, ft_lstnew(ft_strjoin_gc(path,
+						read->d_name)));
 		read = readdir(dirp);
 	}
 	closedir(dirp);

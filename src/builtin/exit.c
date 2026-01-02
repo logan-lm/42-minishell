@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 17:39:16 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/31 16:25:34 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/02 20:13:32 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	ft_str_isdigit(char *str)
 
 int	ft_shell_exit(char **args, t_shell_data *data, int fdin, int fdout)
 {
-	char *err;
+	char	*err;
 
 	if (fdin != STDIN_FILENO)
 		close(fdin);
@@ -38,7 +38,8 @@ int	ft_shell_exit(char **args, t_shell_data *data, int fdin, int fdout)
 	{
 		if (!ft_str_isdigit(*args))
 		{
-			err = ft_strjoin_mult_gc(3, "exit: ", *args, ": numeric argument required");
+			err = ft_strjoin_mult_gc(3, "exit: ", *args,
+					": numeric argument required");
 			ft_print_error(err, data->progname);
 			ft_exit(2);
 		}

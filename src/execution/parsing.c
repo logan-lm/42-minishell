@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 14:38:16 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/02 16:11:19 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/02 20:13:02 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 #include "minishell.h"
 
 t_list	*ft_parse_cmd(t_list **nodes, t_shell_data *d)
- {
+{
 	t_parsing_token	*token;
 	t_token_op_data	*op_token;
 	t_list			*args_lst;
 	t_list			*nodes_cpy;
 
-    args_lst = NULL;
+	args_lst = NULL;
 	nodes_cpy = *nodes;
-  	while (nodes_cpy)
+	while (nodes_cpy)
 	{
 		token = nodes_cpy->content;
 		op_token = token->data;
@@ -42,7 +42,7 @@ t_list	*ft_parse_cmd(t_list **nodes, t_shell_data *d)
 		{
 			token->type = token_op;
 			op_token->type = op_pipe;
-			break;
+			break ;
 		}
 		nodes_cpy = nodes_cpy->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/02 16:06:14 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/02 20:16:06 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	ft_run_builtin(int(builtin)(char **a, t_shell_data *d, int in, int out),
 	else
 		close(pipefd[1]);
 	exit_status = builtin(cmd->args, data, fdin, fdout);
-	// HANDLE FUNCTION ERROR
 	if (!next)
 		return (exit_status);
 	return (pipefd[0]);
@@ -101,7 +100,7 @@ int	ft_run_cmds(t_list *commands, t_shell_data *d)
 	return (fd_in);
 }
 
-int ft_forked_run(t_list *commands, t_shell_data *d)
+int	ft_forked_run(t_list *commands, t_shell_data *d)
 {
 	int	pid;
 	int	status;
@@ -113,9 +112,10 @@ int ft_forked_run(t_list *commands, t_shell_data *d)
 	return (WEXITSTATUS(status));
 }
 
-int ft_is_only_varset(t_list *commands)
+int	ft_is_only_varset(t_list *commands)
 {
 	t_command	*cmd;
+
 	while (commands)
 	{
 		cmd = commands->content;
@@ -154,7 +154,6 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 	if (has_pipe && !ft_is_only_varset(commands))
 		return (ft_forked_run(commands, d));
 	return (ft_run_cmds(commands, d));
-	// ft_lstclear_gc(&commands);
 }
 
 int	ft_exec(t_command_node *command_tree, t_shell_data *d)
