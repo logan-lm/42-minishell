@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/31 16:21:45 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/02 16:10:53 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <stdio.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <sys/types.h>
+# include <dirent.h>
 # include <unistd.h>
 
 # ifndef BUILD_DEBUG

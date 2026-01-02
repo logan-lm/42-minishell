@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/31 14:13:24 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/01 18:17:37 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,14 @@ int	ft_parse_fdin(t_list *nodes, t_shell_data *d)
 			if (op_token->type == op_in_redirect)
 			{
 				args_lst = ft_parse_cmd_args(op_token->word, d);
-				if (ft_str_hasspace(args_lst->content))
-					return (ft_exp_err(fd, op_token->word->str, d->progname));
+				if (ft_str_hasspace(args_lst->content)
+					|| ft_strhasc(args_lst->content, '*'))
+					return (ft_exp_err(op_token->word->str, d->progname));
 				fd = open(args_lst->content, O_RDONLY);
 				ft_lstclear_gc(&args_lst, ft_free);
 			}
 			if (fd < 0)
-				return (ft_open_err(fd, op_token->word->str, d->progname));
+				return (ft_open_err(op_token->word->str, d->progname));
 			if (op_token->type == op_heredoc)
 				fd = ft_open_heredoc(op_token->word->str, d);
 		}
@@ -102,7 +103,7 @@ int	ft_parse_fdout(t_list *nodes, t_shell_data *d)
 					close(fd);
 				args_lst = ft_parse_cmd_args(op_token->word, d);
 				if (ft_str_hasspace(args_lst->content))
-					return (ft_exp_err(fd, op_token->word->str, d->progname));
+					return (ft_exp_err(op_token->word->str, d->progname));
 				fd = open(args_lst->content, O_WRONLY | O_CREAT | O_TRUNC,
 						0644);
 				ft_lstclear_gc(&args_lst, ft_free);
@@ -115,7 +116,7 @@ int	ft_parse_fdout(t_list *nodes, t_shell_data *d)
 						0644);
 			}
 			if (fd < 0)
-				return (ft_open_err(fd, op_token->word->str, d->progname));
+				return (ft_open_err(op_token->word->str, d->progname));
 		}
 		nodes = nodes->next;
 	}

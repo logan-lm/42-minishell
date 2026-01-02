@@ -6,30 +6,30 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 10:16:04 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/31 14:14:14 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/01 18:18:22 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_open_err(int fd, char *filename, char *progname)
+int	ft_open_err(char *filename, char *progname)
 {
 	char	*err;
 
 	err = ft_strjoin_gc(filename, ": ");
 	ft_print_perror(err, progname);
 	ft_free(err);
-	return (fd);
+	return (-1);
 }
 
-int	ft_exp_err(int fd, char *filename, char *progname)
+int	ft_exp_err(char *filename, char *progname)
 {
 	char	*err;
 
-	err = ft_strjoin_gc(filename, ": ambiguous redirect\n");
+	err = ft_strjoin_gc(filename, ": ambiguous redirect");
 	ft_print_error(err, progname);
 	ft_free(err);
-	return (fd);
+	return (-1);
 }
 
 int	ft_heredoc_eof_err(t_shell_data *data, char *limiter, int fd_w, int fd_r)

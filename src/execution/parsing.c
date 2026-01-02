@@ -6,14 +6,14 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 14:38:16 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/31 15:41:40 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/02 16:11:19 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "minishell.h"
 
-char	**ft_parse_cmd(t_list **nodes, t_shell_data *d)
+t_list	*ft_parse_cmd(t_list **nodes, t_shell_data *d)
  {
 	t_parsing_token	*token;
 	t_token_op_data	*op_token;
@@ -46,7 +46,7 @@ char	**ft_parse_cmd(t_list **nodes, t_shell_data *d)
 		}
 		nodes_cpy = nodes_cpy->next;
 	}
-	return (ft_lsttostrs(args_lst));
+	return (args_lst);
 }
 
 char	*ft_check_paths(char *cmdname, t_list *envp)

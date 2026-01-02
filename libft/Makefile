@@ -6,7 +6,7 @@
 #    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/31 16:15:41 by pberne            #+#    #+#              #
-#    Updated: 2025/12/29 15:22:00 by lomartin         ###   ########.fr        #
+#    Updated: 2026/01/02 11:58:10 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRC_DIR = src/
 OBJ_DIR = obj/
 INCLUDES_DIR = -Iincludes
 
-FILES = ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint ft_isspace\
+FILES = ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint ft_isspace ft_strhasc\
 		ft_strlen ft_strclen ft_toupper ft_tolower ft_strchr ft_strrchr\
 		ft_strcapitalize\
 		ft_strncmp ft_memchr ft_memcmp ft_strnstr ft_atoi\
@@ -39,7 +39,7 @@ FILES = ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint ft_isspace\
 		ft_split ft_split_gc\
 		ft_strmapi ft_striteri ft_putchar_fd ft_putstr_fd\
 		ft_putendl_fd ft_putnbr_fd\
-		ft_lstnew ft_lstadd_front ft_lstsize ft_lstlast\
+		ft_lstnew ft_lstadd_front ft_lstsize ft_lstlast ft_lstsort\
 		ft_lstadd_back ft_lstdelone ft_lstdelone_fr ft_lstclear ft_lstiter\
 		ft_lstmap\
 		ft_lstmerge\

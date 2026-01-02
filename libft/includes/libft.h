@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 15:00:36 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/29 15:22:15 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/02 11:59:28 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int					ft_isalnum(char c);
 int					ft_isascii(char c);
 int					ft_isprint(char c);
 int					ft_isspace(int c);
+int					ft_strhasc(const char *str, char c);
 size_t				ft_strlen(const char *str);
 int					ft_strclen(const char *str, char c);
 int					ft_toupper(int c);
@@ -135,6 +136,7 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 t_list				*ft_lstmerge(t_list *dest, t_list *src);
 t_list				*ft_lst_find(t_list *lst, int (*ft_cmp)(void *, void *),
 						void *cmp_value);
+void				ft_lstsort(t_list **begin_list, int (*cmp)());
 char				*get_next_line(int fd);
 
 long				ft_free_batch(long ret, int nb, ...);

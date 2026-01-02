@@ -6,13 +6,13 @@
 #    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2025/12/31 14:40:38 by lomartin         ###   ########.fr        #
+#    Updated: 2026/01/02 11:30:54 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS += -Wall -Wextra -Werror
-DFLAGS += -g3 -Wall -Wextra -Werror -DBUILD_DEBUG=1
+DFLAGS += -g3 -DBUILD_DEBUG=1
 LIBFT = libft/libft.a
 LIBFT_DEBUG = libft/libft_DEBUG.a
 LIB_FLAGS = -lreadline
@@ -56,6 +56,8 @@ FILES = main\
 		execution/conditions\
 		execution/exec\
 		execution/parsing\
+		execution/parsing_args\
+		execution/readdir\
 		execution/redirects\
 		execution/redirects_utils\
 		execution/wildcard\

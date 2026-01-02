@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/31 16:47:27 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/02 16:06:14 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 {
 	int			has_pipe;
 	t_list		*commands;
+	t_list		*tmp_args;
 	t_command	*cmd;
 
 	commands = NULL;
@@ -137,7 +138,8 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 	while (command_tree->commands)
 	{
 		cmd = ft_calloc_gc(1, sizeof(t_command));
-		cmd->args = ft_parse_cmd(&command_tree->commands, d);
+		tmp_args = ft_parse_cmd(&command_tree->commands, d);
+		cmd->args = ft_lsttostrs(ft_check_wildcards(tmp_args));
 		cmd->fdin = ft_parse_fdin(command_tree->commands, d);
 		cmd->fdout = ft_parse_fdout(command_tree->commands, d);
 		if (cmd->fdin < 0 || cmd->fdout < 0)
