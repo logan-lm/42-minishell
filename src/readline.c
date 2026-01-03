@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/30 21:52:27 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/03 22:51:23 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,36 @@ void	ft_int_handler(int sig)
 	rl_redisplay();
 }
 
-void	ft_readline(t_shell_data *d)
+void	ft_split_prompt(char *prompt, t_shell_data *d)
 {
-	char			*prompt;
+	char			**prompt_childs;
+	int				i;
 	t_list			*token_lst;
 	t_command_node	*command_tree;
 
-	(void)d;
+	prompt_childs = ft_split_gc(prompt, '\n');
+	i = -1;
+	while (prompt_childs[++i])
+	{
+		add_history(prompt_childs[i]);
+		if (BUILD_DEBUG)
+			ft_gc_debug(prompt_childs[i]);
+		else
+			ft_add_exit(prompt_childs[i], free);
+		token_lst = ft_get_tokens(prompt_childs[i]);
+		command_tree = ft_build_ast(token_lst);
+		ft_print_ast_visual(command_tree, "");
+		ft_dictadd(&d->vars, "?", ft_itoa_gc(ft_exec(command_tree, d)));
+		ft_clear_gc_id(malloc_id_token);
+		ft_clear_gc_id(malloc_id_ast);
+	}
+	ft_free_strs(prompt_childs);
+}
+
+void	ft_readline(t_shell_data *d)
+{
+	char			*prompt;
+
 	prompt = readline("\001\033[1;32m\002Minishell>\001\033[0m\002");
 	if (prompt == NULL)
 	{
@@ -38,15 +61,5 @@ void	ft_readline(t_shell_data *d)
 	}
 	if (*prompt == '\0')
 		return ;
-	add_history(prompt);
-	if (BUILD_DEBUG)
-		ft_gc_debug(prompt);
-	else
-		ft_add_exit(prompt, free);
-	token_lst = ft_get_tokens(prompt);
-	command_tree = ft_build_ast(token_lst);
-	ft_print_ast_visual(command_tree, "");
-	ft_dictadd(&d->vars, "?", ft_itoa_gc(ft_exec(command_tree, d)));
-	ft_clear_gc_id(malloc_id_token);
-	ft_clear_gc_id(malloc_id_ast);
+	ft_split_prompt(prompt, d);
 }

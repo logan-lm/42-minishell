@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/03 22:19:12 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/03 22:55:40 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ char	*ft_copy_nonspecial(char **word, char *src)
 		dest[i] = src[i];
 		i++;
 	}
-	free(src);
+	ft_free(src);
 	ft_strlcpy(dest + i, *word, (len + 1) - i);
 	*word += len - i;
 	return (dest);
@@ -163,7 +163,7 @@ t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data)
 			ft_lstdelone_fr_gc(src, ft_lstlast(*src), NULL);
 			while (splitted[++i])
 				ft_lstadd_back(src, ft_lstnew_gc(splitted[i]));
-			free(splitted);
+			ft_free(splitted);
 			continue ;
 		}
 		ft_lstlast(*src)->content = ft_copy_nonspecial(&word, ft_lstlast(*src)->content);
