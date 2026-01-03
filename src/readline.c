@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/03 22:51:23 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/03 23:07:56 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,13 @@ void	ft_split_prompt(char *prompt, t_shell_data *d)
 	t_command_node	*command_tree;
 
 	prompt_childs = ft_split_gc(prompt, '\n');
+	free(prompt);
 	i = -1;
 	while (prompt_childs[++i])
 	{
 		add_history(prompt_childs[i]);
 		if (BUILD_DEBUG)
 			ft_gc_debug(prompt_childs[i]);
-		else
-			ft_add_exit(prompt_childs[i], free);
 		token_lst = ft_get_tokens(prompt_childs[i]);
 		command_tree = ft_build_ast(token_lst);
 		ft_print_ast_visual(command_tree, "");

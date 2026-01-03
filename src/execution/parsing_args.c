@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/03 22:55:40 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/03 23:28:49 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ char	*ft_expand_var(char **word, char *src, t_shell_data *data)
 	if (!*varname)
 	{
 		dest = ft_strjoin(src, "$");
-		free(src);
+		ft_free(src);
 		return (dest);
 	}
 	varname_len = ft_strlen(varname);
 	*word += varname_len;
 	dest = ft_strjoin_gc(src, ft_getvar(data->vars, data->envp, varname));
-	free(src);
-	free(varname);
+	ft_free(src);
+	ft_free(varname);
 	return (dest);
 }
 
@@ -55,8 +55,8 @@ size_t	ft_pathsizebeforewildcard(char *word)
 	size_t	len;
 	size_t	i;
 
-	len = ft_strclen(word, '/') + 1;
 	i = -1;
+	len = 0;
 	while (word[len + ++i])
 	{
 		if (word[len + i] == '*')
@@ -98,6 +98,7 @@ t_list	*ft_check_wildcards(t_list *args, t_shell_data *data)
 {
 	t_list	*curr;
 	t_list	*next;
+	t_list	*temp;
 	char	*arg;
 	int		i;
 
@@ -111,12 +112,17 @@ t_list	*ft_check_wildcards(t_list *args, t_shell_data *data)
 		{
 			if (arg[i] == '*')
 			{
-				curr->next = ft_expand_wildcard(arg, data);
-				if (!curr->next)
-					return (args);
+				temp = ft_expand_wildcard(arg, data);
+				if (temp)
+					curr->next = temp;
+				else
+				{
+					ft_lstdelone_fr_gc(&args, curr, ft_free);
+					break ;
+				}
 				ft_lstlast(curr->next)->next = next;
 				ft_lstdelone_fr_gc(&args, curr, ft_free);
-				next = args;
+				next = temp;
 				break ;
 			}
 		}
