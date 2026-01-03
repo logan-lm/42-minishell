@@ -12,17 +12,19 @@
 
 #include "minishell.h"
 
-char	**ft_get_sorted_dircontent(char *path, int dir)
+t_list	*ft_get_sorted_dircontent(char *path, int dir)
 {
 	DIR				*dirp;
 	struct dirent	*read;
 	t_list			*filenames;
-	char			**fn;
+	//char			**fn;
 
 	if (*path)
 		dirp = opendir(path);
 	else
 		dirp = opendir(".");
+	if (!dirp)
+		return (NULL);
 	filenames = NULL;
 	read = readdir(dirp);
 	while (read)
@@ -34,7 +36,7 @@ char	**ft_get_sorted_dircontent(char *path, int dir)
 	}
 	closedir(dirp);
 	ft_lstsort(&filenames, ft_strcmp);
-	fn = ft_lsttostrs(filenames);
-	ft_lstclear(&filenames, NULL);
-	return (fn);
+	/*fn = ft_lsttostrs(filenames);
+	ft_lstclear(&filenames, NULL);*/
+	return (filenames);
 }

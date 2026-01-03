@@ -63,19 +63,21 @@ void	ft_combine_wildcards(char *pattern)
 /// @param src null terminated array of strings
 /// @param pattern patter is of format "a*b*c", variables have already been
 /// interpreted here.
-t_list	*ft_get_matching_names(char **src, char *pattern)
+t_list	*ft_get_matching_names(t_list *src, char *pattern)
 {
 	t_list	*lst;
 	int		i;
 
 	lst = 0;
 	i = 0;
+	if (!pattern)
+		return (src);
 	ft_combine_wildcards(pattern);
-	while (src[i])
+	while (src)
 	{
-		if (ft_is_pattern_matching(src[i], pattern))
-			ft_lstadd_back(&lst, ft_lstnew_gc_id(src[i], malloc_id_token));
-		i++;
+		if (ft_is_pattern_matching(src->content, pattern))
+			ft_lstadd_back(&lst, ft_lstnew_gc_id(src->content, malloc_id_token));
+		src = src->next;
 	}
 	return (lst);
 }

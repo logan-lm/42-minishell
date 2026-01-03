@@ -39,7 +39,7 @@ int			ft_ispath(char *str);
 char		*ft_get_cmdpath(char *cmd, t_list *envp);
 char		*ft_getvarname(char *str);
 t_list		*ft_parse_cmd(t_list **nodes, t_shell_data *d);
-char		**ft_get_sorted_dircontent(char *path, int dir);
-t_list		*ft_check_wildcards(t_list *args);
+t_list		*ft_get_sorted_dircontent(char *path, int dir);
+t_list		*ft_check_wildcards(t_list *args, t_shell_data *data);
 
 #endif

@@ -66,7 +66,7 @@ void	ft_lstsort(t_list **begin_list, int (*cmp)())
 		while (cmpr)
 		{
 			cmprnext = cmpr->next;
-			if ((*cmp)(ft_str_to_lower_gc((char *)curr->content), ft_str_to_lower_gc((char *)cmpr->content)) > 0)
+			if ((*cmp)(curr->content, cmpr->content) > 0)
 			{
 				ft_list_swap(begin_list, curr, cmpr);
 				next = cmpr;

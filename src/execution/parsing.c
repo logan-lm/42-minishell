@@ -114,38 +114,67 @@ void	*ft_get_builtin(char *cmd)
 	return (NULL);
 }
 
+t_list	*ft_parse_args_replace(t_string_compound_lst *tokens, t_list **src, t_shell_data *data)
+{
+	char	*arg;
+	char	*temp;
+	t_list	*cpy;
+
+	cpy = *src;
+	arg = ft_wordtostr(tokens->str, data);
+	if (!cpy && ft_str_hasspace(arg))
+		*src = ft_separate_cmdname(arg);
+	else
+	{
+		if (!cpy)
+			ft_lstadd_back(src, ft_lstnew_gc(arg));
+		else
+			while (cpy)
+			{
+				temp = (cpy)->content;
+				(cpy)->content = ft_strjoin_gc((cpy)->content, arg);
+				ft_free(temp);
+				cpy = cpy->next;
+			}
+	}
+	(*src) = ft_check_wildcards(*src, data);
+	return (*src);
+}
+
+t_list	*ft_parse_args_append(t_string_compound_lst *tokens, t_list **src)
+{
+	char	*temp;
+	t_list	*cpy;
+
+	cpy = *src;
+	if (!cpy)
+		ft_lstadd_back(src, ft_lstnew_gc(tokens->str));
+	else
+		while (cpy)
+		{
+			temp = (cpy)->content;
+			(cpy)->content = ft_strjoin_gc((cpy)->content, tokens->str);
+			ft_free(temp);
+			cpy = cpy->next;
+		}
+	return (*src);
+}
+
 t_list	*ft_parse_cmd_args(t_string_compound_lst *tokens, t_shell_data *data)
 {
 	t_list	*args;
-	char	*arg;
-	char	*joined;
-	char	*temp;
 
 	args = NULL;
-	joined = NULL;
+	data->wc_path = NULL;
 	while (tokens)
 	{
 		if (tokens->type == word_replace_vars)
-		{
-			arg = ft_wordtostr(tokens->str, data);
-			if (!args && ft_str_hasspace(arg))
-				args = ft_separate_cmdname(arg);
-			else
-			{
-				temp = joined;
-				joined = ft_strjoin_gc(joined, arg);
-				ft_free(temp);
-			}
-		}
+			args = ft_parse_args_replace(tokens, &args, data);
 		else if (tokens->type == word_true)
-		{
-			temp = joined;
-			joined = ft_strjoin_gc(joined, tokens->str);
-			ft_free(temp);
-		}
+			args = ft_parse_args_append(tokens, &args);
 		tokens = tokens->next;
 	}
-	if (joined)
-		ft_lstadd_back(&args, ft_lstnew_gc(joined));
+	printf("wc_path : %s\n", data->wc_path);
+	args = ft_get_matching_names(args, data->wc_path);
 	return (args);
 }

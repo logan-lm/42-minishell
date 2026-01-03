@@ -21,6 +21,12 @@ char	*ft_expand_var(char **word, char *src, t_shell_data *data)
 
 	*word += 1;
 	varname = ft_getvarname(*word);
+	if (!*varname)
+	{
+		dest = ft_strjoin(src, "$");
+		free(src);
+		return (dest);
+	}
 	varname_len = ft_strlen(varname);
 	*word += varname_len;
 	dest = ft_strjoin_gc(src, ft_getvar(data->vars, data->envp, varname));
@@ -44,30 +50,34 @@ void	ft_append_followingpath(t_list *filenames, char *word)
 	}
 }
 
-t_list	*ft_expand_wildcard(char *word)
+t_list	*ft_expand_wildcard(char *word, t_shell_data *data)
 {
 	size_t	path_len;
 	char	*path;
-	char	**filenames;
-	t_list	*good_filenames;
+	t_list	*filenames;
+	//t_list	*good_filenames;
 	int		dir;
 
+	if (!data->wc_path)
+		data->wc_path = word;
 	path_len = ft_strclen(word, '*');
 	path = ft_malloc(path_len + 1);
 	ft_strlcpy(path, word, path_len + 1);
 	dir = ft_strhasc(ft_strchr(word, '*'), '/');
 	filenames = ft_get_sorted_dircontent(path, dir);
+	if (!filenames)
+		return (NULL);
 	ft_free(path);
-	path = ft_malloc(path_len + 2);
+	/*path = ft_malloc(path_len + 2);
 	ft_strlcpy(path, word, path_len + 2);
-	good_filenames = ft_get_matching_names(filenames, path);
-	ft_free(path);
+	good_filenames = ft_get_matching_names(filenames, word);
+	ft_free(path);*/
 	if (dir)
-		ft_append_followingpath(good_filenames, word);
-	return (good_filenames);
+		ft_append_followingpath(filenames, word);
+	return (filenames);
 }
 
-t_list	*ft_check_wildcards(t_list *args)
+t_list	*ft_check_wildcards(t_list *args, t_shell_data *data)
 {
 	t_list	*curr;
 	t_list	*next;
@@ -84,7 +94,9 @@ t_list	*ft_check_wildcards(t_list *args)
 		{
 			if (arg[i] == '*')
 			{
-				curr->next = ft_expand_wildcard(arg);
+				curr->next = ft_expand_wildcard(arg, data);
+				if (!curr->next)
+					return (args);
 				ft_lstlast(curr->next)->next = next;
 				ft_lstdelone_fr_gc(&args, curr, ft_free);
 				next = args;
@@ -126,8 +138,8 @@ char	*ft_wordtostr(char *word, t_shell_data *data)
 	joined = ft_strdup("");
 	while (*word)
 	{
-		if (*(word + 1) && *word == '$' && (ft_isalpha(*(word + 1)) || *(word
-					+ 1) == '?'))
+		if (*word == '$' && (!*(word + 1) || (ft_isalpha(*(word + 1)) || *(word
+					+ 1) == '?')))
 		{
 			joined = ft_expand_var(&word, joined, data);
 			continue ;

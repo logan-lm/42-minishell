@@ -61,7 +61,7 @@ int	ft_run_cmd(int fdin, t_command *cmd, t_shell_data *data, void *next)
 		dup2(pipefd[1], 1);
 		dup2(fdin, 0);
 		execve(cmdpath, cmd->args, ft_str_env(data->envp));
-		ft_print_perror("", data->progname);
+		ft_print_perror(cmd->args[0], data->progname);
 		exit(127);
 	}
 	if (fdin != STDIN_FILENO && fdin != STDOUT_FILENO)
@@ -130,7 +130,6 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 {
 	int			has_pipe;
 	t_list		*commands;
-	t_list		*tmp_args;
 	t_command	*cmd;
 
 	commands = NULL;
@@ -138,8 +137,8 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 	while (command_tree->commands)
 	{
 		cmd = ft_calloc_gc(1, sizeof(t_command));
-		tmp_args = ft_parse_cmd(&command_tree->commands, d);
-		cmd->args = ft_lsttostrs(ft_check_wildcards(tmp_args));
+		cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands, d));
+		//cmd->args = ft_lsttostrs(ft_check_wildcards(tmp_args));
 		cmd->fdin = ft_parse_fdin(command_tree->commands, d);
 		cmd->fdout = ft_parse_fdout(command_tree->commands, d);
 		if (cmd->fdin < 0 || cmd->fdout < 0)

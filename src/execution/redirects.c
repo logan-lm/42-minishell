@@ -26,6 +26,7 @@ int	ft_open_heredoc(char *limiter, t_shell_data *data)
 	temp_r = open(filename, O_RDONLY);
 	unlink(filename);
 	buffer = NULL;
+	line = NULL;
 	if (temp_r == -1 || temp_w == -1)
 		return (1);
 	while (!ft_is_limiter(line, limiter))

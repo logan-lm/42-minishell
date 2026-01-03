@@ -15,15 +15,15 @@
 # include "command.h"
 # include "libft.h"
 # include "parser.h"
+# include <dirent.h>
 # include <errno.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <sys/stat.h>
-# include <sys/wait.h>
 # include <sys/types.h>
-# include <dirent.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 # ifndef BUILD_DEBUG
@@ -37,6 +37,7 @@ typedef struct s_shell_data
 	t_list	*vars;
 	int		exit_status;
 	int		lines;
+	char	*wc_path;
 }			t_shell_data;
 
 typedef struct s_dict
@@ -94,6 +95,6 @@ int			ft_shell_exit(char **args, t_shell_data *data, int fdin, int fdout);
 //// PARSING
 void		ft_init_envp(char **av, char **envp, t_shell_data *data);
 char		**ft_str_env(t_list *envp_d);
-t_list		*ft_get_matching_names(char **src, char *pattern);
+t_list		*ft_get_matching_names(t_list *src, char *pattern);
 
 #endif
