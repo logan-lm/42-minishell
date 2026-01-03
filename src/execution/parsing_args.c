@@ -50,6 +50,26 @@ void	ft_append_followingpath(t_list *filenames, char *word)
 	}
 }
 
+size_t	ft_pathsizebeforewildcard(char *word)
+{
+	size_t	len;
+	size_t	i;
+
+	len = ft_strclen(word, '/') + 1;
+	i = -1;
+	while (word[len + ++i])
+	{
+		if (word[len + i] == '*')
+			return (len);
+		if (word[len + i] == '/')
+		{
+			len += i + 1;
+			i = -1;
+		}
+	}
+	return (0);
+}
+
 t_list	*ft_expand_wildcard(char *word, t_shell_data *data)
 {
 	size_t	path_len;
@@ -60,7 +80,9 @@ t_list	*ft_expand_wildcard(char *word, t_shell_data *data)
 
 	if (!data->wc_path)
 		data->wc_path = word;
-	path_len = ft_strclen(word, '*');
+	path_len = 0;
+	if (ft_strhasc(word, '/'))
+		path_len = ft_pathsizebeforewildcard(word);
 	path = ft_malloc(path_len + 1);
 	ft_strlcpy(path, word, path_len + 1);
 	dir = ft_strhasc(ft_strchr(word, '*'), '/');
