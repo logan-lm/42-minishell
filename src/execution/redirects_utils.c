@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 10:16:04 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/01 18:18:22 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/03 23:34:12 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,12 @@ int	ft_heredoc_eof_err(t_shell_data *data, char *limiter, int fd_w, int fd_r)
 	char	*err;
 	char	*lines;
 
-	close(fd_r);
 	close(fd_w);
 	lines = ft_itoa_gc(data->lines);
 	err = ft_strjoin_mult_gc(5, "warning: here-document at line ", lines,
 			" delimited by end-of-file (wanted `", limiter, "')");
 	ft_print_error(err, data->progname);
-	ft_free(lines);
-	ft_free(err);
-	return (-1);
+	return (fd_r);
 }
 
 int	ft_is_limiter(char *str, char *limiter)
