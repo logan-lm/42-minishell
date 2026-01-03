@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/02 20:12:38 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/03 22:19:12 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,10 @@ t_list	*ft_expand_wildcard(char *word, t_shell_data *data)
 	size_t	path_len;
 	char	*path;
 	t_list	*filenames;
-	//t_list	*good_filenames;
 	int		dir;
 
 	if (!data->wc_path)
-		data->wc_path = word;
+		data->wc_path = ft_strdup_gc(word);
 	path_len = 0;
 	if (ft_strhasc(word, '/'))
 		path_len = ft_pathsizebeforewildcard(word);
@@ -90,10 +89,6 @@ t_list	*ft_expand_wildcard(char *word, t_shell_data *data)
 	if (!filenames)
 		return (NULL);
 	ft_free(path);
-	/*path = ft_malloc(path_len + 2);
-	ft_strlcpy(path, word, path_len + 2);
-	good_filenames = ft_get_matching_names(filenames, word);
-	ft_free(path);*/
 	if (dir)
 		ft_append_followingpath(filenames, word);
 	return (filenames);
@@ -153,20 +148,25 @@ char	*ft_copy_nonspecial(char **word, char *src)
 	return (dest);
 }
 
-char	*ft_wordtostr(char *word, t_shell_data *data)
+t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data)
 {
-	char	*joined;
+	char	**splitted;
+	int		i;
 
-	joined = ft_strdup("");
 	while (*word)
 	{
 		if (*word == '$' && (!*(word + 1) || (ft_isalpha(*(word + 1)) || *(word
 					+ 1) == '?')))
 		{
-			joined = ft_expand_var(&word, joined, data);
+			i = -1;
+			splitted = ft_split_gc(ft_expand_var(&word, ft_lstlast(*src)->content, data), ' ');
+			ft_lstdelone_fr_gc(src, ft_lstlast(*src), NULL);
+			while (splitted[++i])
+				ft_lstadd_back(src, ft_lstnew_gc(splitted[i]));
+			free(splitted);
 			continue ;
 		}
-		joined = ft_copy_nonspecial(&word, joined);
+		ft_lstlast(*src)->content = ft_copy_nonspecial(&word, ft_lstlast(*src)->content);
 	}
-	return (joined);
+	return (*src);
 }

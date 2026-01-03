@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 14:38:16 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/02 20:13:02 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/03 22:20:04 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,27 +116,9 @@ void	*ft_get_builtin(char *cmd)
 
 t_list	*ft_parse_args_replace(t_string_compound_lst *tokens, t_list **src, t_shell_data *data)
 {
-	char	*arg;
-	char	*temp;
-	t_list	*cpy;
-
-	cpy = *src;
-	arg = ft_wordtostr(tokens->str, data);
-	if (!cpy && ft_str_hasspace(arg))
-		*src = ft_separate_cmdname(arg);
-	else
-	{
-		if (!cpy)
-			ft_lstadd_back(src, ft_lstnew_gc(arg));
-		else
-			while (cpy)
-			{
-				temp = (cpy)->content;
-				(cpy)->content = ft_strjoin_gc((cpy)->content, arg);
-				ft_free(temp);
-				cpy = cpy->next;
-			}
-	}
+	if (!*src)
+		ft_lstadd_back(src, ft_lstnew_gc(ft_strdup_gc("")));
+	ft_wordtostr(tokens->str, src, data);
 	(*src) = ft_check_wildcards(*src, data);
 	return (*src);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 15:55:37 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/26 17:21:57 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/03 21:41:13 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,8 @@ void	ft_combine_wildcards(char *pattern)
 t_list	*ft_get_matching_names(t_list *src, char *pattern)
 {
 	t_list	*lst;
-	int		i;
 
 	lst = 0;
-	i = 0;
 	if (!pattern)
 		return (src);
 	ft_combine_wildcards(pattern);
