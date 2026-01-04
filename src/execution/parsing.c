@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 14:38:16 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/04 14:19:30 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/04 19:26:03 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*ft_check_paths(char *cmdname, t_list *envp)
 	while (paths[i])
 	{
 		temp = ft_strjoin_mult_gc(3, paths[i], "/", cmdname);
-		if (!access(temp, X_OK))
+		if (!access(temp, F_OK))
 		{
 			ft_free_strs(paths);
 			return (temp);
@@ -166,7 +166,7 @@ t_list	*ft_parse_cmd_args(t_string_compound_lst *tokens, t_shell_data *data)
 		}
 		tokens = tokens->next;
 	}
-	printf("wc_path : %s\n", data->wc_path);
+	//printf("wc_path : %s\n", data->wc_path);
 	args = ft_get_matching_names(args, data->wc_path);
 	return (args);
 }

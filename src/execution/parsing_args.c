@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/04 14:34:56 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/04 16:44:38 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,8 @@ t_list	*ft_check_wildcards(t_list *args, t_shell_data *data)
 					curr->next = temp;
 				else
 				{
-					ft_lstdelone_fr_gc(&args, curr, ft_free);
+					if (ft_lstsize(args) > 1)
+						ft_lstdelone_fr_gc(&args, curr, ft_free);
 					break ;
 				}
 				ft_lstlast(curr->next)->next = next;

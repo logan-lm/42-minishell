@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/02 20:16:06 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/04 20:31:04 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,22 @@ int	ft_run_cmd(int fdin, t_command *cmd, t_shell_data *data, void *next)
 			close(pipefd[1]);
 		return (127);
 	}
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		close(pipefd[0]);
 		dup2(pipefd[1], 1);
 		dup2(fdin, 0);
 		execve(cmdpath, cmd->args, ft_str_env(data->envp));
 		ft_print_perror(cmd->args[0], data->progname);
-		exit(127);
+		if (errno == 13)
+			exit (126);
+		exit (127);
 	}
+	g_pid = pid;
 	if (fdin != STDIN_FILENO && fdin != STDOUT_FILENO)
 		close(fdin);
 	if (pipefd[1] != STDOUT_FILENO)
@@ -72,6 +78,11 @@ int	ft_run_cmd(int fdin, t_command *cmd, t_shell_data *data, void *next)
 	{
 		close(pipefd[0]);
 		waitpid(pid, &data->exit_status, 0);
+		if (WIFSIGNALED(data->exit_status))
+		{
+			ft_sig_handler(WTERMSIG(data->exit_status));
+			return(128 + WTERMSIG(data->exit_status));
+		}
 		return (WEXITSTATUS(data->exit_status));
 	}
 	return (pipefd[0]);
@@ -158,16 +169,20 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 int	ft_exec(t_command_node *command_tree, t_shell_data *d)
 {
 	int	exit_status;
+	int	status;
 
 	exit_status = EXIT_FAILURE;
 	d->lines++;
 	if (command_tree->type == command_pipeline)
 		exit_status = ft_run_pipeline(command_tree, d);
-	if (command_tree->type == command_and)
+	else if (command_tree->type == command_and)
 		exit_status = ft_and(command_tree, d);
-	if (command_tree->type == command_or)
+	else if (command_tree->type == command_or)
 		exit_status = ft_or(command_tree, d);
-	while (wait(NULL) > 0)
+	while (wait(&status) > 0)
 		;
+	g_pid = 0;
+	signal(SIGINT, ft_sig_handler);
+	signal(SIGQUIT, SIG_IGN);
 	return (exit_status);
 }
