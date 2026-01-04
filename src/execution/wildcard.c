@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 15:55:37 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/03 21:41:13 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/04 23:05:46 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ t_list	*ft_get_matching_names(t_list *src, char *pattern)
 	while (src)
 	{
 		if (ft_is_pattern_matching(src->content, pattern))
-			ft_lstadd_back(&lst, ft_lstnew_gc_id(src->content, malloc_id_token));
+			ft_lstadd_back(&lst, ft_lstnew_gc_id(src->content,
+					malloc_id_token));
 		src = src->next;
 	}
 	return (lst);

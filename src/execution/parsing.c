@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 14:38:16 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/04 19:26:03 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/04 23:13:44 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ t_list	*ft_parse_args_append(t_string_compound_lst *tokens, t_list **src)
 	if (!cpy)
 		ft_lstadd_back(src, ft_lstnew_gc(tokens->str));
 	else
+	{
 		while (cpy)
 		{
 			temp = (cpy)->content;
@@ -139,6 +140,7 @@ t_list	*ft_parse_args_append(t_string_compound_lst *tokens, t_list **src)
 			ft_free(temp);
 			cpy = cpy->next;
 		}
+	}
 	return (*src);
 }
 
@@ -166,7 +168,6 @@ t_list	*ft_parse_cmd_args(t_string_compound_lst *tokens, t_shell_data *data)
 		}
 		tokens = tokens->next;
 	}
-	//printf("wc_path : %s\n", data->wc_path);
 	args = ft_get_matching_names(args, data->wc_path);
 	return (args);
 }

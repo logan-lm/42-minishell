@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 18:31:12 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/01 18:41:51 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/04 23:05:24 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 char	*ft_parse_path(char *path, t_list *envp)
 {
 	char	*parsed_path;
-	//char	*pwd;
 
 	if (!path)
 		return (path);
@@ -24,15 +23,6 @@ char	*ft_parse_path(char *path, t_list *envp)
 		parsed_path = ft_strjoin_gc(ft_getenv(envp, "HOME"), path + 1);
 		ft_free(path);
 	}
-	/* else if (*path != '/')
-	{
-		pwd = ft_dictmap(envp, "PWD");
-		if (pwd[ft_strlen(pwd) - 1] == '/')
-			parsed_path = ft_strjoin_gc(pwd, path);
-		else
-			parsed_path = ft_strjoin_mult_gc(3, pwd, "/", path);
-		ft_free(path);
-	} */
 	else
 		parsed_path = path;
 	return (parsed_path);

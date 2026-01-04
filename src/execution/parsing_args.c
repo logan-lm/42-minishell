@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/04 16:44:38 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/04 23:12:48 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,16 +160,17 @@ t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data)
 {
 	char	**splitted;
 	char	*temp;
-	char 	*arg;
+	char	*arg;
 	int		i;
 
 	while (*word)
 	{
 		if (*word == '$' && (!*(word + 1) || (ft_isalpha(*(word + 1)) || *(word
-					+ 1) == '?')))
+						+ 1) == '?')))
 		{
 			i = -1;
-			splitted = ft_split_gc(ft_expand_var(&word, ft_lstlast(*src)->content, data), ' ');
+			splitted = ft_split_gc(ft_expand_var(&word,
+						ft_lstlast(*src)->content, data), ' ');
 			if (data->wc_path)
 			{
 				temp = data->wc_path;
@@ -192,7 +193,8 @@ t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data)
 			ft_lstlast(*src)->content = arg;
 		}
 		else
-			ft_lstlast(*src)->content = ft_copy_nonspecial(&word, ft_lstlast(*src)->content);
+			ft_lstlast(*src)->content = ft_copy_nonspecial(&word,
+					ft_lstlast(*src)->content);
 	}
 	return (*src);
 }

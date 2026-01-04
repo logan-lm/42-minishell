@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/04 20:31:04 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/04 23:10:33 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "minishell.h"
 #include "parser.h"
 
-int	ft_run_builtin(int(builtin)(char **a, t_shell_data *d, int in, int out),
+int	ft_run_builtin(int (*builtin)(char **a, t_shell_data *d, int in, int out),
 		t_command *cmd, t_shell_data *data, void *next, int fdin)
 {
 	int	fdout;
@@ -81,7 +81,7 @@ int	ft_run_cmd(int fdin, t_command *cmd, t_shell_data *data, void *next)
 		if (WIFSIGNALED(data->exit_status))
 		{
 			ft_sig_handler(WTERMSIG(data->exit_status));
-			return(128 + WTERMSIG(data->exit_status));
+			return (128 + WTERMSIG(data->exit_status));
 		}
 		return (WEXITSTATUS(data->exit_status));
 	}
@@ -149,7 +149,6 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 	{
 		cmd = ft_calloc_gc(1, sizeof(t_command));
 		cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands, d));
-		//cmd->args = ft_lsttostrs(ft_check_wildcards(tmp_args));
 		cmd->fdin = ft_parse_fdin(command_tree->commands, d);
 		cmd->fdout = ft_parse_fdout(command_tree->commands, d);
 		if (cmd->fdin < 0 || cmd->fdout < 0)
