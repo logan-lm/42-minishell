@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 14:38:16 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/03 22:20:04 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/04 14:19:30 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ t_list	*ft_parse_args_append(t_string_compound_lst *tokens, t_list **src)
 t_list	*ft_parse_cmd_args(t_string_compound_lst *tokens, t_shell_data *data)
 {
 	t_list	*args;
+	char	*temp;
 
 	args = NULL;
 	data->wc_path = NULL;
@@ -153,7 +154,16 @@ t_list	*ft_parse_cmd_args(t_string_compound_lst *tokens, t_shell_data *data)
 		if (tokens->type == word_replace_vars)
 			args = ft_parse_args_replace(tokens, &args, data);
 		else if (tokens->type == word_true)
-			args = ft_parse_args_append(tokens, &args);
+		{
+			if (data->wc_path)
+			{
+				temp = data->wc_path;
+				data->wc_path = ft_strjoin_gc(data->wc_path, tokens->str);
+				free (temp);
+			}
+			else
+				args = ft_parse_args_append(tokens, &args);
+		}
 		tokens = tokens->next;
 	}
 	printf("wc_path : %s\n", data->wc_path);

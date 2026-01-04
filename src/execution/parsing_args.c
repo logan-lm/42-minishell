@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/03 23:28:49 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/04 14:34:56 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	ft_append_followingpath(t_list *filenames, char *word)
 	char	*temp;
 
 	post_wildcard = ft_strchr(word, '*') + 1;
+	post_wildcard = ft_strchr(post_wildcard, '/');
 	while (filenames)
 	{
 		temp = filenames->content;
@@ -157,6 +158,8 @@ char	*ft_copy_nonspecial(char **word, char *src)
 t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data)
 {
 	char	**splitted;
+	char	*temp;
+	char 	*arg;
 	int		i;
 
 	while (*word)
@@ -166,13 +169,29 @@ t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data)
 		{
 			i = -1;
 			splitted = ft_split_gc(ft_expand_var(&word, ft_lstlast(*src)->content, data), ' ');
-			ft_lstdelone_fr_gc(src, ft_lstlast(*src), NULL);
+			if (data->wc_path)
+			{
+				temp = data->wc_path;
+				data->wc_path = ft_strjoin(data->wc_path, splitted[i++]);
+				free(temp);
+			}
+			else
+				ft_lstdelone_fr_gc(src, ft_lstlast(*src), NULL);
 			while (splitted[++i])
 				ft_lstadd_back(src, ft_lstnew_gc(splitted[i]));
 			ft_free(splitted);
 			continue ;
 		}
-		ft_lstlast(*src)->content = ft_copy_nonspecial(&word, ft_lstlast(*src)->content);
+		if (data->wc_path)
+		{
+			temp = data->wc_path;
+			arg = ft_copy_nonspecial(&word, ft_lstlast(*src)->content);
+			data->wc_path = ft_strjoin(data->wc_path, ft_strchr(arg, '/'));
+			free(temp);
+			ft_lstlast(*src)->content = arg;
+		}
+		else
+			ft_lstlast(*src)->content = ft_copy_nonspecial(&word, ft_lstlast(*src)->content);
 	}
 	return (*src);
 }
