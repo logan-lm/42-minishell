@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 11:56:23 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 10:12:37 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 17:55:52 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	puterr(t_cd_errmode err, char *path, char *progname)
 		return (ft_print_error("cd: HOME not set", progname));
 	if (err == no_access)
 	{
-		err_str = ft_strjoin_gc("cd: ", path);
+		err_str = ft_strjoin_gc_id("cd: ", path, malloc_id_exec);
 		ft_print_perror(err_str, progname);
 		ft_free(err_str);
 		return (EXIT_FAILURE);

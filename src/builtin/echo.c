@@ -26,7 +26,7 @@ static t_list	*ft_parse_args(char **args, t_echo_data *data)
 	}
 	while (*args)
 	{
-		new = ft_lstnew_gc(*args);
+		new = ft_lstnew_gc_id(*args, malloc_id_exec);
 		ft_lstadd_back(&strs, new);
 		args++;
 	}

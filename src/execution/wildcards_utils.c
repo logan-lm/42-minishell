@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 09:17:22 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 14:00:09 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 17:55:34 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	ft_append_followingpath(t_list *filenames, char *word)
 	while (filenames)
 	{
 		temp = filenames->content;
-		filenames->content = ft_strjoin_gc(filenames->content, post_wildcard);
+		filenames->content = ft_strjoin_gc_id(filenames->content, post_wildcard,
+				malloc_id_exec);
 		ft_free(temp);
 		filenames = filenames->next;
 	}
@@ -57,7 +58,7 @@ t_list	*ft_expand_wildcard(char *word, t_shell_data *data)
 	int		dir;
 
 	if (!data->wc_path)
-		data->wc_path = ft_strdup_gc(word);
+		data->wc_path = ft_strdup_gc_id(word, malloc_id_exec);
 	path_len = 0;
 	if (ft_strhasc(word, '/'))
 		path_len = ft_pathsizebeforewildcard(word);

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 17:31:10 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 18:03:36 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_split_prompt(char *prompt, t_shell_data *d)
 	t_list			*token_lst;
 	t_command_node	*command_tree;
 
-	prompt_childs = ft_split_gc(prompt, '\n');
+	prompt_childs = ft_split_gc_id(prompt, '\n', malloc_id_exec);
 	free(prompt);
 	i = -1;
 	while (prompt_childs[++i])
@@ -56,7 +56,8 @@ void	ft_split_prompt(char *prompt, t_shell_data *d)
 		command_tree = ft_build_ast(token_lst);
 		if (BUILD_DEBUG)
 			ft_print_ast_visual(command_tree, "");
-		ft_dictadd(&d->vars, "?", ft_itoa_gc(ft_exec(command_tree, d)));
+		ft_dictadd(&d->vars, "?", ft_itoa_gc_id(ft_exec(command_tree, d),
+				malloc_id_exec));
 		ft_clear_gc_id(malloc_id_token);
 		ft_clear_gc_id(malloc_id_ast);
 		ft_clear_gc_id(malloc_id_exec);
@@ -66,7 +67,7 @@ void	ft_split_prompt(char *prompt, t_shell_data *d)
 
 void	ft_readline(t_shell_data *d)
 {
-	char			*prompt;
+	char	*prompt;
 
 	g_sig = 0;
 	prompt = readline("\001\033[1;32m\002Minishell>\001\033[0m\002");

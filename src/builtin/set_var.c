@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 10:04:24 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/31 16:32:03 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 18:00:41 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,27 @@ static int	ft_set_append_mode(char *varname)
 	return (0);
 }
 
+/// n_l : namelen, a_m : append_mode
 int	ft_set_var(char **args, t_shell_data *data, int fdin, int fdout)
 {
 	t_dict	*var;
-	int		name_len;
-	int		append_mode;
+	int		n_l;
+	int		a_m;
 	char	*temp;
 
 	if (fdin != STDIN_FILENO)
 		close(fdin);
 	if (fdout != STDOUT_FILENO)
 		close(fdout);
-	var = ft_calloc_gc(1, sizeof(t_dict));
-	append_mode = ft_set_append_mode(*args);
-	name_len = ft_strclen(*args, '=');
-	var->key = ft_calloc_gc(name_len + 1 - append_mode, sizeof(char));
-	ft_strlcpy(var->key, *args, name_len + 1 - append_mode);
-	if (append_mode)
+	var = ft_calloc_gc_id(1, sizeof(t_dict), malloc_id_exec);
+	a_m = ft_set_append_mode(*args);
+	n_l = ft_strclen(*args, '=');
+	var->key = ft_calloc_gc_id(n_l + 1 - a_m, sizeof(char), malloc_id_exec);
+	ft_strlcpy(var->key, *args, n_l + 1 - a_m);
+	if (a_m)
 		var->value = ft_getvar(data->vars, data->envp, var->key);
 	temp = var->value;
-	var->value = ft_strjoin_gc(var->value, *args + name_len + 1);
+	var->value = ft_strjoin_gc_id(var->value, *args + n_l + 1, malloc_id_exec);
 	ft_free(temp);
 	if (ft_dictmap(data->envp, var->key))
 		ft_dictadd(&data->envp, var->key, var->value);

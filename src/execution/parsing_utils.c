@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 09:07:40 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 17:47:02 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 17:50:38 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ char	*ft_check_paths(char *cmdname, t_list *envp)
 	temp = ft_dictmap(envp, "PATH");
 	if (!temp)
 		return (NULL);
-	paths = ft_split_gc(temp, ':');
+	paths = ft_split_gc_id(temp, ':', malloc_id_exec);
 	i = 0;
 	while (paths[i])
 	{
-		temp = ft_strjoin_mult_gc(3, paths[i], "/", cmdname);
+		temp = ft_strjoin_mult_gc_id(malloc_id_exec, 3, paths[i], "/", cmdname);
 		if (!access(temp, F_OK))
 		{
 			ft_free_strs(paths);
@@ -49,7 +49,7 @@ char	*ft_get_cmdpath(char *cmd, t_list *envp)
 	path = ft_check_paths(cmd, envp);
 	if (path)
 		return (path);
-	err = ft_strjoin_gc(cmd, ": command not found \n");
+	err = ft_strjoin_gc_id(cmd, ": command not found \n", malloc_id_exec);
 	ft_putstr_fd(err, 2);
 	ft_free(err);
 	return (NULL);

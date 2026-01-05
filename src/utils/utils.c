@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 18:31:12 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 15:43:46 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 18:02:58 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ char	*ft_parse_path(char *path, t_list *envp)
 		return (path);
 	if (*path == '~')
 	{
-		parsed_path = ft_strjoin_gc(ft_getenv(envp, "HOME"), path + 1);
+		parsed_path = ft_strjoin_gc_id(ft_getenv(envp, "HOME"), path + 1,
+				malloc_id_exec);
 		ft_free(path);
 	}
 	else

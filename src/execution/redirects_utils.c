@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 10:16:04 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 11:50:20 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 17:53:47 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_open_err(char *filename, char *progname)
 {
 	char	*err;
 
-	err = ft_strjoin_gc(filename, ": ");
+	err = ft_strjoin_gc_id(filename, ": ", malloc_id_exec);
 	ft_print_perror(err, progname);
 	ft_free(err);
 	return (-1);
@@ -26,7 +26,7 @@ int	ft_exp_err(char *filename, char *progname)
 {
 	char	*err;
 
-	err = ft_strjoin_gc(filename, ": ambiguous redirect");
+	err = ft_strjoin_gc_id(filename, ": ambiguous redirect", malloc_id_exec);
 	ft_print_error(err, progname);
 	ft_free(err);
 	return (-1);
@@ -38,8 +38,9 @@ int	ft_heredoc_eof_err(t_shell_data *data, char *limiter, int fd_w, int fd_r)
 	char	*lines;
 
 	close(fd_w);
-	lines = ft_itoa_gc(data->lines);
-	err = ft_strjoin_mult_gc(5, "warning: here-document at line ", lines,
+	lines = ft_itoa_gc_id(data->lines, malloc_id_exec);
+	err = ft_strjoin_mult_gc_id(malloc_id_exec, 5,
+			"warning: here-document at line ", lines,
 			" delimited by end-of-file (wanted `", limiter, "')");
 	ft_print_error(err, data->progname);
 	return (fd_r);

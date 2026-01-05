@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 17:15:23 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 17:54:44 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_open_heredoc(char *limiter, t_shell_data *data)
 	t_hd_data	hd_data;
 
 	ft_bzero(&hd_data, sizeof(hd_data));
-	hd_data.filename = ft_itoa_gc((long)limiter);
+	hd_data.filename = ft_itoa_gc_id((long)limiter, malloc_id_exec);
 	hd_data.temp_w = open(hd_data.filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	hd_data.temp_r = open(hd_data.filename, O_RDONLY);
 	unlink(hd_data.filename);
@@ -28,7 +28,7 @@ int	ft_open_heredoc(char *limiter, t_shell_data *data)
 	{
 		ft_free(hd_data.line);
 		hd_data.buffer = readline("> ");
-		hd_data.line = ft_strjoin_gc(hd_data.buffer, "\n");
+		hd_data.line = ft_strjoin_gc_id(hd_data.buffer, "\n", malloc_id_exec);
 		free(hd_data.buffer);
 		if (!hd_data.buffer)
 			return (ft_heredoc_eof_err(data, limiter, hd_data.temp_w,

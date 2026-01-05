@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:24:08 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 10:03:05 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 18:02:28 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ char	**ft_lsttostrs(t_list *lst)
 	int		i;
 
 	i = 0;
-	strs = ft_malloc((ft_lstsize(lst) + 1) * (sizeof(char *)));
+	strs = ft_malloc_id((ft_lstsize(lst) + 1) * (sizeof(char *)),
+			malloc_id_exec);
 	while (lst)
 	{
 		strs[i] = lst->content;
@@ -37,7 +38,7 @@ char	*ft_getvarname(char *str)
 	len = 0;
 	while (ft_isalnum(str[++len]))
 		continue ;
-	varname = ft_malloc((len + 1) * sizeof(char));
+	varname = ft_malloc_id((len + 1) * sizeof(char), malloc_id_exec);
 	ft_strlcpy(varname, str, len + 1);
 	return (varname);
 }
