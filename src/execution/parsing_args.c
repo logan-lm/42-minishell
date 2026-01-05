@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 09:17:46 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:17:30 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ft_copy_nonspecial(char **word, char *src)
 	len = ft_strlen(src);
 	while ((*word)[++i] && (*word)[i] != '$')
 		++len;
-	dest = malloc((len + 1) * sizeof(char));
+	dest = ft_malloc((len + 1) * sizeof(char));
 	i = 0;
 	while (src && src[i])
 	{
@@ -63,6 +63,7 @@ t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data)
 	char	**splitted;
 	char	*temp;
 	char	*arg;
+	t_list	*last;
 	int		i;
 
 	while (*word)
@@ -86,17 +87,17 @@ t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data)
 			ft_free(splitted);
 			continue ;
 		}
+		last = ft_lstlast(*src);
 		if (data->wc_path)
 		{
 			temp = data->wc_path;
-			arg = ft_copy_nonspecial(&word, ft_lstlast(*src)->content);
+			arg = ft_copy_nonspecial(&word, last->content);
 			data->wc_path = ft_strjoin(data->wc_path, ft_strchr(arg, '/'));
 			free(temp);
-			ft_lstlast(*src)->content = arg;
+			last->content = arg;
 		}
 		else
-			ft_lstlast(*src)->content = ft_copy_nonspecial(&word,
-					ft_lstlast(*src)->content);
+			last->content = ft_copy_nonspecial(&word, last->content);
 	}
 	return (*src);
 }
