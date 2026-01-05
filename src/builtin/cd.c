@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 11:56:23 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 09:05:38 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 10:12:37 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,7 @@ int	ft_cd(char **args, t_shell_data *data, int fdin, int fdout)
 	args++;
 	if (!args)
 		return (puterr(no_arg, NULL, data->progname));
-	if (*(args + 1))
-		return (ft_print_error("cd: too many arguments", data->progname));
-	else if (!args[0] || !*args[0])
+	if (!args[0] || (!*args[0] && !*(args + 1)))
 	{
 		home = ft_dictmap(data->envp, "HOME");
 		if (!home)
@@ -79,6 +77,8 @@ int	ft_cd(char **args, t_shell_data *data, int fdin, int fdout)
 		set_pwd(data, home);
 		return (EXIT_SUCCESS);
 	}
+	if (*(args + 1))
+		return (ft_print_error("cd: too many arguments", data->progname));
 	path = ft_parse_path(args[0], data->envp);
 	if (!path)
 		ft_exit(EXIT_FAILURE);
