@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 10:41:33 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:52:28 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_run_cmd(int fdin, t_command *cmd, t_shell_data *data, void *next)
 	{
 		if (pipefd[1] != STDOUT_FILENO)
 			close(pipefd[1]);
-		return (127);
+		return (1);
 	}
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
