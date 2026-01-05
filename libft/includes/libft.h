@@ -72,7 +72,7 @@ char				*ft_strjoin_gc(char const *s1, char const *s2);
 char				*ft_strjoin_gc_id(char const *s1, char const *s2, int id);
 
 char				*ft_strjoin_mult(int nb, ...);
-char				*ft_strjoin_mult_gc(int nb, ...);
+char				*ft_strjoin_mult_gc_id(int id, int nb, ...);
 
 char				*ft_strtrim(char const *s1, char const *set);
 char				**ft_split(char const *s, char c);

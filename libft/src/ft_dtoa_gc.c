@@ -56,7 +56,7 @@ char	*ft_dtoa_p_full(double n, int decimals, int i)
 	}
 	decstr = ft_ultoa_gc(n);
 	decstr = ft_force_decimals(decstr, decimals);
-	outstr = ft_strjoin_mult_gc(3, intstr, ".", decstr);
+	outstr = ft_strjoin_mult_gc_id(0, 3, intstr, ".", decstr);
 	ft_free(intstr);
 	ft_free(decstr);
 	return (outstr);

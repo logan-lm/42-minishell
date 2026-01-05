@@ -12,13 +12,13 @@
 
 #include "libft.h"
 
-char	*ft_strjoin_list_gc(t_list *list, size_t size)
+char	*ft_strjoin_list_gc_id(t_list *list, size_t size, int id)
 {
 	char	*tempstr;
 	char	*temp;
 	char	*str;
 
-	str = ft_malloc(size + 1);
+	str = ft_malloc_id(size + 1, id);
 	tempstr = str;
 	str[size] = '\0';
 	while (list)
@@ -35,7 +35,7 @@ char	*ft_strjoin_list_gc(t_list *list, size_t size)
 	return (str);
 }
 
-char	*ft_strjoin_mult_gc(int nb, ...)
+char	*ft_strjoin_mult_gc_id(int id, int nb, ...)
 {
 	va_list	ap;
 	t_list	*list;
@@ -51,11 +51,11 @@ char	*ft_strjoin_mult_gc(int nb, ...)
 	{
 		temp = va_arg(ap, char *);
 		size += ft_strlen(temp);
-		ft_lstadd_back(&list, ft_lstnew_gc(temp));
+		ft_lstadd_back(&list, ft_lstnew_gc_id(temp, id));
 		i++;
 	}
 	va_end(ap);
-	temp = ft_strjoin_list_gc(list, size);
+	temp = ft_strjoin_list_gc_id(list, size, id);
 	ft_lstclear_gc(&list, 0);
 	return (temp);
 }
