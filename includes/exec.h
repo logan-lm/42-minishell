@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/04 23:14:52 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 09:34:18 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,23 @@ typedef struct s_open_data
 	t_list			*args_lst;
 	int				fd;
 }					t_open_data;
+
+typedef struct s_parsecmd_data
+{
+	t_parsing_token	*token;
+	t_token_op_data	*op_token;
+	t_list			*args_lst;
+	t_list			*nodes_cpy;
+}					t_parsecmd_data;
+
+typedef struct s_check_wildcards_data
+{
+	t_list			*curr;
+	t_list			*next;
+	t_list			*temp;
+	char			*arg;
+	int				i;
+}					t_check_wildcards_data;
 
 int					ft_parse_fdin(t_list *nodes, t_shell_data *d);
 int					ft_parse_fdout(t_list *nodes, t_shell_data *d);

@@ -6,115 +6,54 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 14:38:16 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/04 23:13:44 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 09:15:43 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "minishell.h"
 
-t_list	*ft_parse_cmd(t_list **nodes, t_shell_data *d)
+void	ft_parse_cmd_while(t_parsecmd_data *p_d, t_shell_data *d)
 {
-	t_parsing_token	*token;
-	t_token_op_data	*op_token;
-	t_list			*args_lst;
-	t_list			*nodes_cpy;
-
-	args_lst = NULL;
-	nodes_cpy = *nodes;
-	while (nodes_cpy)
+	while (p_d->nodes_cpy)
 	{
-		token = nodes_cpy->content;
-		op_token = token->data;
-		if (token->type == token_op)
+		p_d->token = p_d->nodes_cpy->content;
+		p_d->op_token = p_d->token->data;
+		if (p_d->token->type == token_op)
 		{
-			if (op_token->type == op_pipe)
+			if (p_d->op_token->type == op_pipe)
 				break ;
 		}
-		if (token->type == token_subshell)
+		if (p_d->token->type == token_subshell)
 		{
-			ft_lstadd_back(&args_lst, ft_lstnew_gc("()"));
-			ft_lstadd_back(&args_lst, ft_lstnew_gc(token->data));
+			ft_lstadd_back(&p_d->args_lst, ft_lstnew_gc("()"));
+			ft_lstadd_back(&p_d->args_lst, ft_lstnew_gc(p_d->token->data));
 		}
-		if (token->type == token_word)
-			args_lst = ft_lstmerge(args_lst, ft_parse_cmd_args(token->data, d));
-		if ((args_lst && ft_is_varset(ft_lstlast(args_lst)->content)))
+		if (p_d->token->type == token_word)
+			p_d->args_lst = ft_lstmerge(p_d->args_lst,
+					ft_parse_cmd_args(p_d->token->data, d));
+		if ((p_d->args_lst && ft_is_varset(ft_lstlast(p_d->args_lst)->content)))
 		{
-			token->type = token_op;
-			op_token->type = op_pipe;
+			p_d->token->type = token_op;
+			p_d->op_token->type = op_pipe;
 			break ;
 		}
-		nodes_cpy = nodes_cpy->next;
+		p_d->nodes_cpy = p_d->nodes_cpy->next;
 	}
-	return (args_lst);
 }
 
-char	*ft_check_paths(char *cmdname, t_list *envp)
+t_list	*ft_parse_cmd(t_list **nodes, t_shell_data *d)
 {
-	char	*temp;
-	char	**paths;
-	int		i;
+	t_parsecmd_data	p_d;
 
-	temp = ft_dictmap(envp, "PATH");
-	if (!temp)
-		return (NULL);
-	paths = ft_split_gc(temp, ':');
-	i = 0;
-	while (paths[i])
-	{
-		temp = ft_strjoin_mult_gc(3, paths[i], "/", cmdname);
-		if (!access(temp, F_OK))
-		{
-			ft_free_strs(paths);
-			return (temp);
-		}
-		ft_free(temp);
-		i++;
-	}
-	ft_free_strs(paths);
-	return (NULL);
+	p_d.args_lst = NULL;
+	p_d.nodes_cpy = *nodes;
+	ft_parse_cmd_while(&p_d, d);
+	return (p_d.args_lst);
 }
 
-char	*ft_get_cmdpath(char *cmd, t_list *envp)
-{
-	char	*path;
-	char	*err;
-
-	if (ft_ispath(cmd))
-		return (ft_parse_path(cmd, envp));
-	path = ft_check_paths(cmd, envp);
-	if (path)
-		return (path);
-	err = ft_strjoin_gc(cmd, ": command not found \n");
-	ft_putstr_fd(err, 2);
-	ft_free(err);
-	return (NULL);
-}
-
-void	*ft_get_builtin(char *cmd)
-{
-	if (!ft_strncmp(cmd, "cd", 3))
-		return (ft_cd);
-	if (!ft_strncmp(cmd, "pwd", 4))
-		return (ft_pwd);
-	if (!ft_strncmp(cmd, "env", 4))
-		return (ft_env);
-	if (!ft_strncmp(cmd, "echo", 5))
-		return (ft_echo);
-	if (!ft_strncmp(cmd, "unset", 6))
-		return (ft_unset);
-	if (!ft_strncmp(cmd, "export", 7))
-		return (ft_export);
-	if (!ft_strncmp(cmd, "exit", 6))
-		return (ft_shell_exit);
-	if (!ft_strncmp(cmd, "()", 3))
-		return (ft_subshell);
-	if (ft_is_varset(cmd))
-		return (ft_set_var);
-	return (NULL);
-}
-
-t_list	*ft_parse_args_replace(t_string_compound_lst *tokens, t_list **src, t_shell_data *data)
+t_list	*ft_parse_args_replace(t_string_compound_lst *tokens, t_list **src,
+		t_shell_data *data)
 {
 	if (!*src)
 		ft_lstadd_back(src, ft_lstnew_gc(ft_strdup_gc("")));
@@ -161,7 +100,7 @@ t_list	*ft_parse_cmd_args(t_string_compound_lst *tokens, t_shell_data *data)
 			{
 				temp = data->wc_path;
 				data->wc_path = ft_strjoin_gc(data->wc_path, tokens->str);
-				free (temp);
+				free(temp);
 			}
 			else
 				args = ft_parse_args_append(tokens, &args);

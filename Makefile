@@ -6,7 +6,7 @@
 #    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2026/01/02 11:30:54 by lomartin         ###   ########.fr        #
+#    Updated: 2026/01/05 09:26:19 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,10 +57,12 @@ FILES = main\
 		execution/exec\
 		execution/parsing\
 		execution/parsing_args\
+		execution/parsing_utils\
 		execution/readdir\
 		execution/redirects\
 		execution/redirects_utils\
 		execution/wildcard\
+		execution/wildcards_utils\
 		utils/error\
 		utils/utils\
 		utils/exec_utils\

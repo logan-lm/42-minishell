@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 21:36:46 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/03 23:49:12 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 09:06:28 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@ static int	ft_strhasequal(char *str)
 	return (0);
 }
 
+static void	ft_close_fd(int fdin, int fdout)
+{
+	if (fdin != STDIN_FILENO)
+		close(fdin);
+	if (fdout != STDOUT_FILENO)
+		close(fdout);
+}
+
 int	ft_export(char **args, t_shell_data *data, int fdin, int fdout)
 {
 	int		i;
@@ -40,10 +48,7 @@ int	ft_export(char **args, t_shell_data *data, int fdin, int fdout)
 	int		append_mode;
 	t_dict	var_entry;
 
-	if (fdin != STDIN_FILENO)
-		close(fdin);
-	if (fdout != STDOUT_FILENO)
-		close(fdout);
+	ft_close_fd(fdin, fdout);
 	i = -1;
 	args++;
 	while (args[++i])

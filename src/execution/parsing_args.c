@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/04 23:12:48 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 09:17:46 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,104 +33,6 @@ char	*ft_expand_var(char **word, char *src, t_shell_data *data)
 	ft_free(src);
 	ft_free(varname);
 	return (dest);
-}
-
-void	ft_append_followingpath(t_list *filenames, char *word)
-{
-	char	*post_wildcard;
-	char	*temp;
-
-	post_wildcard = ft_strchr(word, '*') + 1;
-	post_wildcard = ft_strchr(post_wildcard, '/');
-	while (filenames)
-	{
-		temp = filenames->content;
-		filenames->content = ft_strjoin_gc(filenames->content, post_wildcard);
-		ft_free(temp);
-		filenames = filenames->next;
-	}
-}
-
-size_t	ft_pathsizebeforewildcard(char *word)
-{
-	size_t	len;
-	size_t	i;
-
-	i = -1;
-	len = 0;
-	while (word[len + ++i])
-	{
-		if (word[len + i] == '*')
-			return (len);
-		if (word[len + i] == '/')
-		{
-			len += i + 1;
-			i = -1;
-		}
-	}
-	return (0);
-}
-
-t_list	*ft_expand_wildcard(char *word, t_shell_data *data)
-{
-	size_t	path_len;
-	char	*path;
-	t_list	*filenames;
-	int		dir;
-
-	if (!data->wc_path)
-		data->wc_path = ft_strdup_gc(word);
-	path_len = 0;
-	if (ft_strhasc(word, '/'))
-		path_len = ft_pathsizebeforewildcard(word);
-	path = ft_malloc(path_len + 1);
-	ft_strlcpy(path, word, path_len + 1);
-	dir = ft_strhasc(ft_strchr(word, '*'), '/');
-	filenames = ft_get_sorted_dircontent(path, dir);
-	if (!filenames)
-		return (NULL);
-	ft_free(path);
-	if (dir)
-		ft_append_followingpath(filenames, word);
-	return (filenames);
-}
-
-t_list	*ft_check_wildcards(t_list *args, t_shell_data *data)
-{
-	t_list	*curr;
-	t_list	*next;
-	t_list	*temp;
-	char	*arg;
-	int		i;
-
-	curr = args;
-	while (curr)
-	{
-		arg = curr->content;
-		next = curr->next;
-		i = -1;
-		while (arg[++i])
-		{
-			if (arg[i] == '*')
-			{
-				temp = ft_expand_wildcard(arg, data);
-				if (temp)
-					curr->next = temp;
-				else
-				{
-					if (ft_lstsize(args) > 1)
-						ft_lstdelone_fr_gc(&args, curr, ft_free);
-					break ;
-				}
-				ft_lstlast(curr->next)->next = next;
-				ft_lstdelone_fr_gc(&args, curr, ft_free);
-				next = temp;
-				break ;
-			}
-		}
-		curr = next;
-	}
-	return (args);
 }
 
 char	*ft_copy_nonspecial(char **word, char *src)

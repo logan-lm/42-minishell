@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:24:08 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/02 13:11:20 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 10:03:05 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	**ft_lsttostrs(t_list *lst)
 	int		i;
 
 	i = 0;
-	strs = ft_malloc(ft_lstsize(lst) * (sizeof(char *) + 1));
+	strs = ft_malloc((ft_lstsize(lst) + 1) * (sizeof(char *)));
 	while (lst)
 	{
 		strs[i] = lst->content;
