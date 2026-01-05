@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/04 23:10:33 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 10:24:24 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ int	ft_run_cmd(int fdin, t_command *cmd, t_shell_data *data, void *next)
 		execve(cmdpath, cmd->args, ft_str_env(data->envp));
 		ft_print_perror(cmd->args[0], data->progname);
 		if (errno == 13)
-			exit (126);
-		exit (127);
+			ft_exit(126);
+		ft_exit(127);
 	}
 	g_pid = pid;
 	if (fdin != STDIN_FILENO && fdin != STDOUT_FILENO)
@@ -118,7 +118,7 @@ int	ft_forked_run(t_list *commands, t_shell_data *d)
 
 	pid = fork();
 	if (pid == 0)
-		exit (ft_run_cmds(commands, d));
+		ft_exit(ft_run_cmds(commands, d));
 	waitpid(pid, &status, 0);
 	return (WEXITSTATUS(status));
 }

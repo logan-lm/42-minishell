@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 15:00:36 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/02 20:33:39 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 10:21:34 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 t_list				*ft_lstmerge(t_list *dest, t_list *src);
+t_list				*ft_lstmerge_id(t_list *dest, t_list *src, int id);
 t_list				*ft_lst_find(t_list *lst, int (*ft_cmp)(void *, void *),
 						void *cmp_value);
 void				ft_lstsort(t_list **begin_list, int (*cmp)());
