@@ -15,6 +15,7 @@
 void	ft_init_envp(char **av, char **envp, t_shell_data *data)
 {
 	char	**part;
+	char	*pwd;
 
 	data->progname = ft_strchr(*av, '/');
 	if (data->progname)
@@ -27,7 +28,9 @@ void	ft_init_envp(char **av, char **envp, t_shell_data *data)
 		ft_dictadd(&data->envp, part[0], part[1]);
 		envp++;
 	}
-	ft_dictadd(&data->envp, "PWD", getcwd(NULL, 0));
+	pwd = getcwd(NULL, 0);
+	ft_add_exit(pwd, free);
+	ft_dictadd(&data->envp, "PWD", pwd);
 	ft_dictadd(&data->vars, "?", "0");
 	data->lines = 0;
 }
