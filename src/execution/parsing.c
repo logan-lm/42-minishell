@@ -6,42 +6,39 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 14:38:16 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 17:52:17 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 18:17:25 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "minishell.h"
 
-void	ft_parse_cmd_while(t_parsecmd_data *p_d, t_shell_data *d)
+int	ft_parse_cmd_while(t_parsecmd_data *p_d, t_shell_data *d)
 {
-	while (p_d->nodes_cpy)
+	p_d->token = p_d->nodes_cpy->content;
+	p_d->op_token = p_d->token->data;
+	if (p_d->token->type == token_op)
 	{
-		p_d->token = p_d->nodes_cpy->content;
-		p_d->op_token = p_d->token->data;
-		if (p_d->token->type == token_op)
-		{
-			if (p_d->op_token->type == op_pipe)
-				break ;
-		}
-		if (p_d->token->type == token_subshell)
-		{
-			ft_lstadd_back(&p_d->args_lst, ft_lstnew_gc_id("()",
-					malloc_id_exec));
-			ft_lstadd_back(&p_d->args_lst, ft_lstnew_gc_id(p_d->token->data,
-					malloc_id_exec));
-		}
-		if (p_d->token->type == token_word)
-			p_d->args_lst = ft_lstmerge(p_d->args_lst,
-					ft_parse_cmd_args(p_d->token->data, d));
-		if ((p_d->args_lst && ft_is_varset(ft_lstlast(p_d->args_lst)->content)))
-		{
-			p_d->token->type = token_op;
-			p_d->op_token->type = op_pipe;
-			break ;
-		}
-		p_d->nodes_cpy = p_d->nodes_cpy->next;
+		if (p_d->op_token->type == op_pipe)
+			return (1);
 	}
+	if (p_d->token->type == token_subshell)
+	{
+		ft_lstadd_back(&p_d->args_lst, ft_lstnew_gc_id("()", malloc_id_exec));
+		ft_lstadd_back(&p_d->args_lst, ft_lstnew_gc_id(p_d->token->data,
+				malloc_id_exec));
+	}
+	if (p_d->token->type == token_word)
+		p_d->args_lst = ft_lstmerge(p_d->args_lst,
+				ft_parse_cmd_args(p_d->token->data, d));
+	if ((p_d->args_lst && ft_is_varset(ft_lstlast(p_d->args_lst)->content)))
+	{
+		p_d->token->type = token_op;
+		p_d->op_token->type = op_pipe;
+		return (1);
+	}
+	p_d->nodes_cpy = p_d->nodes_cpy->next;
+	return (0);
 }
 
 t_list	*ft_parse_cmd(t_list **nodes, t_shell_data *d)
@@ -50,7 +47,11 @@ t_list	*ft_parse_cmd(t_list **nodes, t_shell_data *d)
 
 	p_d.args_lst = NULL;
 	p_d.nodes_cpy = *nodes;
-	ft_parse_cmd_while(&p_d, d);
+	while (p_d.nodes_cpy)
+	{
+		if (ft_parse_cmd_while(&p_d, d) == 1)
+			break ;
+	}
 	return (p_d.args_lst);
 }
 
@@ -78,7 +79,8 @@ t_list	*ft_parse_args_append(t_string_compound_lst *tokens, t_list **src)
 		while (cpy)
 		{
 			temp = (cpy)->content;
-			(cpy)->content = ft_strjoin_gc_id((cpy)->content, tokens->str, malloc_id_exec);
+			(cpy)->content = ft_strjoin_gc_id((cpy)->content, tokens->str,
+					malloc_id_exec);
 			ft_free(temp);
 			cpy = cpy->next;
 		}
@@ -102,7 +104,8 @@ t_list	*ft_parse_cmd_args(t_string_compound_lst *tokens, t_shell_data *data)
 			if (data->wc_path)
 			{
 				temp = data->wc_path;
-				data->wc_path = ft_strjoin_gc_id(data->wc_path, tokens->str, malloc_id_exec);
+				data->wc_path = ft_strjoin_gc_id(data->wc_path, tokens->str,
+						malloc_id_exec);
 				free(temp);
 			}
 			else
