@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 11:17:30 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 15:38:36 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,46 +58,48 @@ char	*ft_copy_nonspecial(char **word, char *src)
 	return (dest);
 }
 
+void	ft_wordtostr_expand(char **word, t_list **src, t_shell_data *data,
+		t_wordtostr_data *w_d)
+{
+	w_d->i = -1;
+	w_d->splitted = ft_split_gc(ft_expand_var(word, ft_lstlast(*src)->content,
+				data), ' ');
+	if (data->wc_path)
+	{
+		w_d->temp = data->wc_path;
+		data->wc_path = ft_strjoin(data->wc_path, w_d->splitted[w_d->i++]);
+		free(w_d->temp);
+	}
+	else
+		ft_lstdelone_fr_gc(src, ft_lstlast(*src), NULL);
+	while (w_d->splitted[++w_d->i])
+		ft_lstadd_back(src, ft_lstnew_gc(w_d->splitted[w_d->i]));
+	ft_free(w_d->splitted);
+}
+
 t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data)
 {
-	char	**splitted;
-	char	*temp;
-	char	*arg;
-	t_list	*last;
-	int		i;
+	t_wordtostr_data	w_d;
 
 	while (*word)
 	{
 		if (*word == '$' && (!*(word + 1) || (ft_isalpha(*(word + 1)) || *(word
 						+ 1) == '?')))
 		{
-			i = -1;
-			splitted = ft_split_gc(ft_expand_var(&word,
-						ft_lstlast(*src)->content, data), ' ');
-			if (data->wc_path)
-			{
-				temp = data->wc_path;
-				data->wc_path = ft_strjoin(data->wc_path, splitted[i++]);
-				free(temp);
-			}
-			else
-				ft_lstdelone_fr_gc(src, ft_lstlast(*src), NULL);
-			while (splitted[++i])
-				ft_lstadd_back(src, ft_lstnew_gc(splitted[i]));
-			ft_free(splitted);
+			ft_wordtostr_expand(&word, src, data, &w_d);
 			continue ;
 		}
-		last = ft_lstlast(*src);
+		w_d.last = ft_lstlast(*src);
 		if (data->wc_path)
 		{
-			temp = data->wc_path;
-			arg = ft_copy_nonspecial(&word, last->content);
-			data->wc_path = ft_strjoin(data->wc_path, ft_strchr(arg, '/'));
-			free(temp);
-			last->content = arg;
+			w_d.temp = data->wc_path;
+			w_d.arg = ft_copy_nonspecial(&word, w_d.last->content);
+			data->wc_path = ft_strjoin(data->wc_path, ft_strchr(w_d.arg, '/'));
+			free(w_d.temp);
+			w_d.last->content = w_d.arg;
 		}
 		else
-			last->content = ft_copy_nonspecial(&word, last->content);
+			w_d.last->content = ft_copy_nonspecial(&word, w_d.last->content);
 	}
 	return (*src);
 }

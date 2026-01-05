@@ -6,7 +6,7 @@
 #    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/31 16:15:41 by pberne            #+#    #+#              #
-#    Updated: 2026/01/02 20:33:55 by lomartin         ###   ########.fr        #
+#    Updated: 2026/01/05 15:22:02 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = libft.a
 D_NAME = libft_DEBUG.a
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -O3 -Wall -Wextra -Werror
 DFLAGS = -g3 -Wall -Wextra -Werror
 SRC_DIR = src/
 OBJ_DIR = obj/

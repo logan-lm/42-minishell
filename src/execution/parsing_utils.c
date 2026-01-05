@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 09:07:40 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 09:09:12 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 15:21:25 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,18 @@ void	*ft_get_builtin(char *cmd)
 	if (ft_is_varset(cmd))
 		return (ft_set_var);
 	return (NULL);
+}
+
+int	ft_is_only_varset(t_list *commands)
+{
+	t_command	*cmd;
+
+	while (commands)
+	{
+		cmd = commands->content;
+		if (!ft_is_varset(*(cmd->args)))
+			return (0);
+		commands = commands->next;
+	}
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 09:17:22 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 09:37:42 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 14:00:09 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,31 +73,44 @@ t_list	*ft_expand_wildcard(char *word, t_shell_data *data)
 	return (filenames);
 }
 
+void	ft_check_wildcard_while(t_list **args, t_shell_data *data,
+		t_check_wildcards_data *w_d)
+{
+	while (w_d->arg[++w_d->i])
+	{
+		if (w_d->arg[w_d->i] == '*')
+		{
+			w_d->temp = ft_expand_wildcard(w_d->arg, data);
+			if (!w_d->temp)
+			{
+				if (ft_lstsize(*args) > 1)
+					ft_lstdelone_fr_gc(args, w_d->curr, ft_free);
+				break ;
+			}
+			w_d->curr->next = w_d->temp;
+			ft_lstlast(w_d->curr->next)->next = w_d->next;
+			ft_lstdelone_fr_gc(args, w_d->curr, ft_free);
+			w_d->next = w_d->temp;
+			break ;
+		}
+	}
+}
+
 t_list	*ft_check_wildcards(t_list *args, t_shell_data *data)
 {
 	t_check_wildcards_data	w_d;
 
+	if (!args)
+		return (args);
+	ft_bzero(&w_d, sizeof(w_d));
 	w_d.curr = args;
-	w_d.arg = w_d.curr->content;
-	w_d.next = w_d.curr->next;
-	w_d.i = -1;
-	while (w_d.arg[++w_d.i])
+	while (w_d.curr)
 	{
-		if (w_d.arg[w_d.i] == '*')
-		{
-			w_d.temp = ft_expand_wildcard(w_d.arg, data);
-			if (!w_d.temp)
-			{
-				if (ft_lstsize(args) > 1)
-					ft_lstdelone_fr_gc(&args, w_d.curr, ft_free);
-				break ;
-			}
-			w_d.curr->next = w_d.temp;
-			ft_lstlast(w_d.curr->next)->next = w_d.next;
-			ft_lstdelone_fr_gc(&args, w_d.curr, ft_free);
-			w_d.next = w_d.temp;
-			break ;
-		}
+		w_d.arg = w_d.curr->content;
+		w_d.next = w_d.curr->next;
+		w_d.i = -1;
+		ft_check_wildcard_while(&args, data, &w_d);
+		w_d.curr = w_d.next;
 	}
 	return (args);
 }
