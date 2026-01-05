@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:44:59 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/31 14:15:20 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:23:02 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_echo(char **args, t_shell_data *s_data, int fdin, int fdout)
 		strs = strs->next;
 		if (strs)
 			ft_putchar_fd(' ', fdout);
-		free(temp);
+		ft_free(temp);
 	}
 	if (!data.no_newline)
 		ft_putchar_fd('\n', fdout);
