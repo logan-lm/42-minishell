@@ -77,6 +77,7 @@ char				*ft_strjoin_mult_gc(int nb, ...);
 char				*ft_strtrim(char const *s1, char const *set);
 char				**ft_split(char const *s, char c);
 char				**ft_split_gc(char const *s, char c);
+char				**ft_split_gc_id(char const *s, char c, int id);
 
 char				*ft_itoa(int n);
 char				*ft_ltoa(long n);

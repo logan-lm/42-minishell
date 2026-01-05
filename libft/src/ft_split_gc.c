@@ -12,37 +12,37 @@
 
 #include "libft.h"
 
-char	**ft_malloc_split_gc(int depth)
+char	**ft_malloc_split_gc_id(int depth, int id)
 {
 	char	**out;
 
-	out = ft_malloc(sizeof(char *) * (depth + 1));
+	out = ft_malloc_id(sizeof(char *) * (depth + 1), id);
 	out[depth] = 0;
 	return (out);
 }
 
-char	**ft_split_r_gc(char *str, char c, int index, int depth)
+char	**ft_split_r_gc(char *str, char c, t_v2i index_depth, int id)
 {
 	char	**out;
 	int		start;
 	int		end;
 
-	while (str[index] && str[index] == c)
-		index++;
-	if (!str[index])
-		return (ft_malloc_split_gc(depth));
-	start = index;
-	while (str[index] && str[index] != c)
-		index++;
-	end = index;
-	out = ft_split_r_gc(str, c, index, depth + 1);
-	out[depth] = ft_substr_gc(str, start, end - start);
+	while (str[index_depth.x] && str[index_depth.x] == c)
+		index_depth.x++;
+	if (!str[index_depth.x])
+		return (ft_malloc_split_gc_id(index_depth.y, id));
+	start = index_depth.x;
+	while (str[index_depth.x] && str[index_depth.x] != c)
+		index_depth.x++;
+	end = index_depth.x;
+	out = ft_split_r_gc(str, c, (t_v2i){index_depth.x, index_depth.y + 1}, id);
+	out[index_depth.y] = ft_substr_gc(str, start, end - start);
 	return (out);
 }
 
 char	**ft_split_gc(char const *s, char c)
 {
-	return (ft_split_r_gc((char *)s, c, 0, 0));
+	return (ft_split_r_gc((char *)s, c, (t_v2i){0, 0}, 0));
 }
 
 void	ft_free_split_gc(char **tab)
@@ -56,4 +56,9 @@ void	ft_free_split_gc(char **tab)
 		i++;
 	}
 	ft_free(tab);
+}
+
+char	**ft_split_gc_id(char const *s, char c, int id)
+{
+	return (ft_split_r_gc((char *)s, c, (t_v2i){0, 0}, id));
 }
