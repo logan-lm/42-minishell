@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 14:39:25 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/31 14:14:52 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:22:07 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ int	ft_pwd(char **args, t_shell_data *data, int fdin, int fdout)
 	(void)args;
 	(void)data;
 	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (1);
+	ft_add_exit(pwd, free);
 	ft_putstr_fd(pwd, fdout);
 	free(pwd);
 	ft_putchar_fd('\n', fdout);
