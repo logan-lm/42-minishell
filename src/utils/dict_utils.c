@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:25:46 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 18:01:25 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 18:40:00 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_dictmap(t_list *list, char *key)
 	{
 		elem = list->content;
 		if (!ft_strncmp(elem->key, key, key_len + 1))
-			return (ft_strdup_gc_id(elem->value, malloc_id_exec));
+			return (ft_strdup_gc(elem->value));
 		list = list->next;
 	}
 	return (NULL);
@@ -117,6 +117,6 @@ void	ft_dictadd(t_list **list, char *key, char *value)
 		elem = ft_malloc(sizeof(t_dict));
 		elem->key = key;
 		elem->value = value;
-		ft_lstadd_front(list, ft_lstnew_gc_id(elem, malloc_id_exec));
+		ft_lstadd_front(list, ft_lstnew_gc(elem));
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 18:03:36 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 19:34:33 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,19 @@ void	ft_split_prompt(char *prompt, t_shell_data *d)
 	t_list			*token_lst;
 	t_command_node	*command_tree;
 
-	prompt_childs = ft_split_gc_id(prompt, '\n', malloc_id_exec);
-	free(prompt);
+	prompt_childs = ft_split_gc(prompt, '\n');
 	i = -1;
 	while (prompt_childs[++i])
 	{
+		ft_clear_gc_id(malloc_id_exec);
 		add_history(prompt_childs[i]);
-		if (BUILD_DEBUG)
-			ft_gc_debug(prompt_childs[i]);
 		token_lst = ft_get_tokens(prompt_childs[i]);
 		command_tree = ft_build_ast(token_lst);
 		if (BUILD_DEBUG)
 			ft_print_ast_visual(command_tree, "");
-		ft_dictadd(&d->vars, "?", ft_itoa_gc_id(ft_exec(command_tree, d),
-				malloc_id_exec));
+		ft_dictadd(&d->vars, "?", ft_itoa_gc(ft_exec(command_tree, d)));
 		ft_clear_gc_id(malloc_id_token);
 		ft_clear_gc_id(malloc_id_ast);
-		ft_clear_gc_id(malloc_id_exec);
 	}
 	ft_free_strs(prompt_childs);
 }
@@ -79,4 +75,7 @@ void	ft_readline(t_shell_data *d)
 	if (*prompt == '\0')
 		return ;
 	ft_split_prompt(prompt, d);
+	if (BUILD_DEBUG)
+		ft_gc_debug(prompt);
+	free(prompt);
 }

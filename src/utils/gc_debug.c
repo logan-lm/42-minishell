@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gc_debug.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 17:36:19 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/22 17:45:36 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/05 18:59:07 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	ft_gc_debug(char *str)
 		ft_gc_print_count_id(1);
 	if (strcmp(str, "p2") == 0)
 		ft_gc_print_count_id(2);
+	if (strcmp(str, "p3") == 0)
+		ft_gc_print_count_id(3);
 	if (strcmp(str, "m0") == 0)
 		ft_malloc(10);
 	if (strcmp(str, "m1") == 0)

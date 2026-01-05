@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 10:04:24 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 18:00:41 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 18:29:00 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,15 @@ int	ft_set_var(char **args, t_shell_data *data, int fdin, int fdout)
 		close(fdin);
 	if (fdout != STDOUT_FILENO)
 		close(fdout);
-	var = ft_calloc_gc_id(1, sizeof(t_dict), malloc_id_exec);
+	var = ft_calloc_gc(1, sizeof(t_dict));
 	a_m = ft_set_append_mode(*args);
 	n_l = ft_strclen(*args, '=');
-	var->key = ft_calloc_gc_id(n_l + 1 - a_m, sizeof(char), malloc_id_exec);
+	var->key = ft_calloc_gc(n_l + 1 - a_m, sizeof(char));
 	ft_strlcpy(var->key, *args, n_l + 1 - a_m);
 	if (a_m)
 		var->value = ft_getvar(data->vars, data->envp, var->key);
 	temp = var->value;
-	var->value = ft_strjoin_gc_id(var->value, *args + n_l + 1, malloc_id_exec);
+	var->value = ft_strjoin_gc(var->value, *args + n_l + 1);
 	ft_free(temp);
 	if (ft_dictmap(data->envp, var->key))
 		ft_dictadd(&data->envp, var->key, var->value);

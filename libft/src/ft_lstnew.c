@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 18:48:55 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/22 17:23:14 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/05 19:11:41 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,5 @@ t_list	*ft_lstnew_gc_id(void *content, int id)
 
 t_list	*ft_lstnew_gc(void *content)
 {
-	t_list	*new;
-
-	new = ft_malloc(sizeof(t_list));
-	new->next = 0;
-	new->content = content;
-	return (new);
+	return (ft_lstnew_gc_id(content, 0));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_parser_errors.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 11:50:46 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/21 14:23:24 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/05 18:21:12 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	ft_token_syntax_error(char *c)
 {
 	char	*str;
 
-	str = ft_strjoin_mult_gc(3, "syntax error near unexpected token `", c,
-			"\'\n");
+	str = ft_strjoin_mult_gc_id(malloc_id_token, 3,
+			"syntax error near unexpected token `", c, "\'\n");
 	ft_putstr_fd(str, 2);
 	ft_free(str);
 }
@@ -27,7 +27,7 @@ void	ft_token_missing_delimiter_error(char *c)
 {
 	char	*str;
 
-	str = ft_strjoin_mult_gc(3, "Missing closing delimiter `", c, "\'\n");
+	str = ft_strjoin_mult_gc_id(malloc_id_token, 3, "Missing closing delimiter `", c, "\'\n");
 	ft_putstr_fd(str, 2);
 	ft_free(str);
 }

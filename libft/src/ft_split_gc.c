@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 22:58:29 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/12 17:56:54 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 19:05:24 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**ft_split_r_gc(char *str, char c, t_v2i index_depth, int id)
 		index_depth.x++;
 	end = index_depth.x;
 	out = ft_split_r_gc(str, c, (t_v2i){index_depth.x, index_depth.y + 1}, id);
-	out[index_depth.y] = ft_substr_gc(str, start, end - start);
+	out[index_depth.y] = ft_substr_gc_id(str, start, end - start, id);
 	return (out);
 }
 

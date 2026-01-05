@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:41:16 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/30 22:23:17 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 19:15:54 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,15 @@ char	**ft_str_env(t_list *envp_d)
 	t_dict	*elem;
 
 	lst_len = ft_lstsize(envp_d);
-	envp = ft_malloc((lst_len + 1) * sizeof(char *));
+	envp = ft_malloc_id((lst_len + 1) * sizeof(char *), malloc_id_exec);
 	i = -1;
 	while (++i < lst_len)
 	{
 		elem = envp_d->content;
 		if (elem->value)
-			envp[i] = ft_strjoin_mult_gc(3, elem->key, "=", elem->value);
+			envp[i] = ft_strjoin_mult_gc_id(malloc_id_exec, 3, elem->key, "=", elem->value);
 		else
-			envp[i] = ft_strjoin_gc(elem->key, "=");
+			envp[i] = ft_strjoin_gc_id(elem->key, "=", malloc_id_exec);
 		envp_d = envp_d->next;
 	}
 	envp[i] = NULL;
