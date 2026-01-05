@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 15:00:36 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/05 17:41:21 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 18:10:22 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 size_t				ft_strlcat(char *dst, const char *src, size_t size);
 char				*ft_strdup(const char *s1);
 char				*ft_strdup_gc(const char *s1);
+char				*ft_strdup_gc_id(const char *s1, int id);
 void				*ft_calloc(size_t nmemb, size_t size);
 void				*ft_calloc_gc(size_t nmemb, size_t size);
 void				*ft_calloc_gc_id(size_t nmemb, size_t size, int id);
