@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 15:38:36 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 17:44:23 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ char	*ft_expand_var(char **word, char *src, t_shell_data *data)
 	}
 	varname_len = ft_strlen(varname);
 	*word += varname_len;
-	dest = ft_strjoin_gc(src, ft_getvar(data->vars, data->envp, varname));
+	dest = ft_strjoin_gc_id(src, ft_getvar(data->vars, data->envp, varname),
+			malloc_id_exec);
 	ft_free(src);
 	ft_free(varname);
 	return (dest);
@@ -62,8 +63,8 @@ void	ft_wordtostr_expand(char **word, t_list **src, t_shell_data *data,
 		t_wordtostr_data *w_d)
 {
 	w_d->i = -1;
-	w_d->splitted = ft_split_gc(ft_expand_var(word, ft_lstlast(*src)->content,
-				data), ' ');
+	w_d->splitted = ft_split_gc(ft_expand_var(word,
+				ft_lstlast(*src)->content, data), ' ');
 	if (data->wc_path)
 	{
 		w_d->temp = data->wc_path;
@@ -73,7 +74,8 @@ void	ft_wordtostr_expand(char **word, t_list **src, t_shell_data *data,
 	else
 		ft_lstdelone_fr_gc(src, ft_lstlast(*src), NULL);
 	while (w_d->splitted[++w_d->i])
-		ft_lstadd_back(src, ft_lstnew_gc(w_d->splitted[w_d->i]));
+		ft_lstadd_back(src, ft_lstnew_gc_id(w_d->splitted[w_d->i],
+				malloc_id_exec));
 	ft_free(w_d->splitted);
 }
 
@@ -94,8 +96,9 @@ t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data)
 		{
 			w_d.temp = data->wc_path;
 			w_d.arg = ft_copy_nonspecial(&word, w_d.last->content);
-			data->wc_path = ft_strjoin(data->wc_path, ft_strchr(w_d.arg, '/'));
-			free(w_d.temp);
+			data->wc_path = ft_strjoin_gc_id(data->wc_path, ft_strchr(w_d.arg,
+						'/'), malloc_id_exec);
+			ft_free(w_d.temp);
 			w_d.last->content = w_d.arg;
 		}
 		else

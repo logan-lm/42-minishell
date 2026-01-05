@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 15:00:36 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/05 10:21:34 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 17:41:21 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ char				*ft_strdup(const char *s1);
 char				*ft_strdup_gc(const char *s1);
 void				*ft_calloc(size_t nmemb, size_t size);
 void				*ft_calloc_gc(size_t nmemb, size_t size);
+void				*ft_calloc_gc_id(size_t nmemb, size_t size, int id);
 char				*ft_substr(const char *str, unsigned int start, size_t len);
 char				*ft_substr_gc(const char *str, unsigned int start,
 						size_t len);
@@ -68,6 +69,7 @@ char				*ft_substr_gc_id(const char *str, unsigned int start,
 						size_t len, int id);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strjoin_gc(char const *s1, char const *s2);
+char				*ft_strjoin_gc_id(char const *s1, char const *s2, int id);
 
 char				*ft_strjoin_mult(int nb, ...);
 char				*ft_strjoin_mult_gc(int nb, ...);

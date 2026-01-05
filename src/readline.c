@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 16:28:31 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 17:31:10 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	ft_split_prompt(char *prompt, t_shell_data *d)
 		ft_dictadd(&d->vars, "?", ft_itoa_gc(ft_exec(command_tree, d)));
 		ft_clear_gc_id(malloc_id_token);
 		ft_clear_gc_id(malloc_id_ast);
+		ft_clear_gc_id(malloc_id_exec);
 	}
 	ft_free_strs(prompt_childs);
 }

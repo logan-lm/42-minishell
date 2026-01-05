@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 13:23:36 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/02 18:33:40 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 17:25:02 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ typedef enum e_malloc_id
 {
 	malloc_id_default,
 	malloc_id_token,
-	malloc_id_ast
+	malloc_id_ast,
+	malloc_id_exec
 }								t_malloc_id;
 
 /// @brief defines the type of a token

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc_gc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:15:57 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/08 17:10:10 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/05 17:28:43 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,20 @@ void	ft_calloc_full(void *ptr, size_t total, unsigned char *p)
 	}
 }
 
-void	*ft_calloc_gc(size_t nmemb, size_t size)
+void	*ft_calloc_gc_id(size_t nmemb, size_t size, int id)
 {
 	void	*ptr;
 
 	if (size != 0 && nmemb > ((size_t) -1 / size))
 		return (NULL);
-	ptr = ft_malloc(nmemb * size);
+	ptr = ft_malloc_id(nmemb * size, id);
 	if (!ptr)
 		return (NULL);
 	ft_calloc_full(ptr, nmemb * size, 0);
 	return (ptr);
+}
+
+void	*ft_calloc_gc(size_t nmemb, size_t size)
+{
+	return (ft_calloc_gc_id(nmemb, size, 0));
 }

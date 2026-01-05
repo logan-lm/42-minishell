@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 10:13:32 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/31 15:32:40 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 17:30:53 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,21 @@ t_list	*ft_separate_cmdname(char *arg)
 	int		j;
 	t_list	*args;
 
-	temp = ft_calloc_gc(ft_strclen(arg, ' '), sizeof(char));
+	temp = ft_calloc_gc_id(ft_strclen(arg, ' '), sizeof(char), malloc_id_exec);
 	i = 0;
 	j = 0;
 	args = NULL;
 	while (arg[j] != ' ')
 		temp[i++] = arg[j++];
 	temp[i] = '\0';
-	ft_lstadd_front(&args, ft_lstnew_gc(temp));
+	ft_lstadd_front(&args, ft_lstnew_gc_id(temp, malloc_id_exec));
 	while (arg[j] == ' ')
 		j++;
-	temp = ft_calloc_gc(ft_strlen(temp + j), sizeof(char));
+	temp = ft_calloc_gc_id(ft_strlen(temp + j), sizeof(char), malloc_id_exec);
 	i = 0;
 	while (arg[j])
 		temp[i++] = arg[j++];
 	temp[i] = '\0';
-	ft_lstadd_back(&args, ft_lstnew_gc(temp));
+	ft_lstadd_back(&args, ft_lstnew_gc_id(temp, malloc_id_exec));
 	return (args);
 }
