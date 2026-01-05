@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 15:21:30 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 23:10:51 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_hd_data
 	int				temp_r;
 	char			*buffer;
 	char			*line;
+	char			*temp;
 }					t_hd_data;
 
 typedef struct s_open_data
@@ -74,6 +75,7 @@ typedef struct s_runcmd_data
 
 int					ft_parse_fdin(t_list *nodes, t_shell_data *d);
 int					ft_parse_fdout(t_list *nodes, t_shell_data *d);
+void				ft_parse_heredocs(t_list *nodes, t_shell_data *d);
 int					ft_has_pipe(t_list *nodes);
 t_list				*ft_next_cmd(t_list *nodes);
 int					ft_and(t_command_node *command_tree, t_shell_data *data);
@@ -81,8 +83,8 @@ int					ft_or(t_command_node *command_tree, t_shell_data *data);
 int					ft_subshell(char **args, t_shell_data *data, int fdout);
 int					ft_open_err(char *filename, char *progname);
 int					ft_exp_err(char *filename, char *progname);
-int					ft_heredoc_eof_err(t_shell_data *data, char *limiter,
-						int fd_w, int fd_r);
+char				*ft_heredoc_eof_err(t_shell_data *data, char *limiter,
+						int fd_w, char *filename);
 int					ft_is_limiter(char *str, char *limiter);
 int					ft_str_hasspace(char *str);
 t_list				*ft_separate_cmdname(char *arg);

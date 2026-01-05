@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 17:54:44 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 23:53:20 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,37 +20,25 @@ int	ft_heredoc_handler()
 	return (0);
 }
 
-void	ft_parse_heredocs(t_open_data *o_d, t_shell_data *d)
+void	ft_sig_hd_handler(int sig)
 {
-	t_open_data     o_d;
-
-	while (nodes)
-	{
-		o_d.token = nodes->content;
-		if (o_d.token->type == token_op)
-		{
-			o_d.token_op = o_d.token->data;
-			if (o_d.op_token == op_heredoc)
-			{
-				o_d.token->word->str = ft_open_heredoc(o_d.token->word->str, d);
-				o_d.token->type = op_redirect_in;
-			}
-		}
-		nodes = nodes->next;	
-	}
+	g_sig = sig;
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
-int	ft_open_heredoc(char *limiter, t_shell_data *data)
+char	*ft_open_heredoc(char *limiter, t_shell_data *data)
 {
 	t_hd_data	hd_data;
 
 	ft_bzero(&hd_data, sizeof(hd_data));
-	hd_data.filename = ft_itoa_gc_id((long)limiter, malloc_id_exec);
+	hd_data.temp = ft_ltoa_gc((long)limiter);
+	hd_data.filename = ft_strjoin_gc_id("/tmp/heredoc_", hd_data.temp, malloc_id_exec);
+	ft_free(hd_data.temp);
 	hd_data.temp_w = open(hd_data.filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	hd_data.temp_r = open(hd_data.filename, O_RDONLY);
-	unlink(hd_data.filename);
-	if (hd_data.temp_r == -1 || hd_data.temp_w == -1)
-		return (1);
+	if (hd_data.temp_w == -1)
+		return (ft_strdup_gc_id("FAILED_OPEN", malloc_id_exec));
 	rl_event_hook = ft_heredoc_handler;
 	while (!ft_is_limiter(hd_data.line, limiter) && g_sig != SIGINT)
 	{
@@ -60,14 +48,43 @@ int	ft_open_heredoc(char *limiter, t_shell_data *data)
 		free(hd_data.buffer);
 		if (!hd_data.buffer)
 			return (ft_heredoc_eof_err(data, limiter, hd_data.temp_w,
-					hd_data.temp_r));
+					hd_data.filename));
 		if (ft_is_limiter(hd_data.line, limiter))
 			break ;
 		write(hd_data.temp_w, hd_data.line, ft_strlen(hd_data.line));
 	}
 	close(hd_data.temp_w);
 	ft_free(hd_data.line);
-	return (hd_data.temp_r);
+	return (hd_data.filename);
+}
+
+void	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
+{
+	t_open_data     o_d;
+
+	while (nodes)
+	{
+		o_d.token = nodes->content;
+		if (o_d.token && o_d.token->type == token_op)
+		{
+			o_d.op_token = o_d.token->data;
+			if (o_d.op_token->type == op_heredoc)
+			{
+				signal(SIGINT, ft_sig_hd_handler);
+				o_d.op_token->word->str = ft_open_heredoc(o_d.op_token->word->str, d);
+				signal(SIGINT, ft_sig_handler);
+				if (g_sig == SIGINT)
+				{
+					ft_free(o_d.op_token->word->str);
+					return ;
+				}
+				o_d.op_token->type = op_in_redirect;
+			}
+		}
+		if (o_d.token && o_d.token->type == token_subshell)
+			nodes = o_d.token->data;
+		nodes = nodes->next;	
+	}
 }
 
 static int	ft_open_file(t_open_data *o_d, t_shell_data *d)
@@ -83,7 +100,11 @@ static int	ft_open_file(t_open_data *o_d, t_shell_data *d)
 		return (-2);
 	}
 	if (o_d->op_token->type == op_in_redirect)
+	{
 		o_d->fd = open(o_d->args_lst->content, O_RDONLY);
+		if (ft_strncmp("/tmp/heredoc_", o_d->args_lst->content, 13))
+			unlink(o_d->args_lst->content);
+	}
 	else if (o_d->op_token->type == op_out_redirect_trunc)
 		o_d->fd = open(o_d->args_lst->content, O_WRONLY | O_CREAT | O_TRUNC,
 				0644);
@@ -114,8 +135,6 @@ int	ft_parse_fdin(t_list *nodes, t_shell_data *d)
 			}
 			if (o_d.fd < 0)
 				return (ft_open_err(o_d.op_token->word->str, d->progname));
-			if (o_d.op_token->type == op_heredoc)
-				o_d.fd = ft_open_heredoc(o_d.op_token->word->str, d);
 		}
 		nodes = nodes->next;
 	}

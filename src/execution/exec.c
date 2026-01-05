@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 18:22:41 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 23:42:59 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,10 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 	while (command_tree->commands)
 	{
 		cmd = ft_calloc_gc_id(1, sizeof(t_command), malloc_id_exec);
-		cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands, d));
 		ft_parse_heredocs(command_tree->commands, d);
+		if (g_sig == SIGINT)
+			return (130);
+		cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands, d));
 		cmd->fdin = ft_parse_fdin(command_tree->commands, d);
 		cmd->fdout = ft_parse_fdout(command_tree->commands, d);
 		if (cmd->fdin < 0 || cmd->fdout < 0)
@@ -93,8 +95,8 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 		if (has_pipe)
 			command_tree->commands = ft_next_cmd(command_tree->commands);
 	}
-	if (has_pipe && !ft_is_only_varset(commands))
-		return (ft_forked_run(commands, d));
+	/* if (has_pipe && !ft_is_only_varset(commands))
+		return (ft_forked_run(commands, d)); */
 	return (ft_run_cmds(commands, d));
 }
 
