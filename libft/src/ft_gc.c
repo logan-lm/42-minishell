@@ -34,8 +34,8 @@ void	ft_free_node_list(t_gc_node **first_node, int id)
 			{
 				prev->next = temp->next;
 			}
-			ft_free(temp->ptr);
-			ft_free(temp);
+			free(temp->ptr);
+			free(temp);
 		}
 		else
 			prev = temp;

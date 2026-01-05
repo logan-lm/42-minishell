@@ -15,17 +15,13 @@
 
 void	ft_execute_exit_fcts(t_list *list)
 {
-	t_list		*temp;
 	t_exit_data	*exit_data;
 
 	while (list)
 	{
-		temp = list;
 		exit_data = (t_exit_data *)list->content;
 		exit_data->f(exit_data->d);
 		list = list->next;
-		ft_free(exit_data);
-		ft_free(temp);
 	}
 }
 
