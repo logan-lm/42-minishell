@@ -13,6 +13,33 @@
 #include "exec.h"
 #include "minishell.h"
 
+int	ft_heredoc_handler()
+{
+	if (g_sig == SIGINT)
+		rl_done = 1;
+	return (0);
+}
+
+void	ft_parse_heredocs(t_open_data *o_d, t_shell_data *d)
+{
+	t_open_data     o_d;
+
+	while (nodes)
+	{
+		o_d.token = nodes->content;
+		if (o_d.token->type == token_op)
+		{
+			o_d.token_op = o_d.token->data;
+			if (o_d.op_token == op_heredoc)
+			{
+				o_d.token->word->str = ft_open_heredoc(o_d.token->word->str, d);
+				o_d.token->type = op_redirect_in;
+			}
+		}
+		nodes = nodes->next;	
+	}
+}
+
 int	ft_open_heredoc(char *limiter, t_shell_data *data)
 {
 	t_hd_data	hd_data;
@@ -24,6 +51,7 @@ int	ft_open_heredoc(char *limiter, t_shell_data *data)
 	unlink(hd_data.filename);
 	if (hd_data.temp_r == -1 || hd_data.temp_w == -1)
 		return (1);
+	rl_event_hook = ft_heredoc_handler;
 	while (!ft_is_limiter(hd_data.line, limiter) && g_sig != SIGINT)
 	{
 		ft_free(hd_data.line);

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-pid_t	g_sig;
+int	g_sig;
 
 int	main(int ac, char **av, char **envp)
 {
@@ -22,8 +22,8 @@ int	main(int ac, char **av, char **envp)
 	g_sig = 0;
 	ft_bzero(&d, sizeof(t_shell_data));
 	ft_init_envp(av, envp, &d);
-	d.sa.sa_handler = ft_sig_handler;
-	sigaction(SIGINT, &d.sa, NULL);
+	//d.sa.sa_handler = ft_sig_handler;
+	signal(SIGINT, ft_sig_handler);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 		ft_readline(&d);

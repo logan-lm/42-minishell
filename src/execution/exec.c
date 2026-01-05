@@ -81,6 +81,7 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 	{
 		cmd = ft_calloc_gc_id(1, sizeof(t_command), malloc_id_exec);
 		cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands, d));
+		ft_parse_heredocs(command_tree->commands, d);
 		cmd->fdin = ft_parse_fdin(command_tree->commands, d);
 		cmd->fdout = ft_parse_fdout(command_tree->commands, d);
 		if (cmd->fdin < 0 || cmd->fdout < 0)
