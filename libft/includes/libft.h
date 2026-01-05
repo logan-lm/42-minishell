@@ -80,6 +80,7 @@ char				**ft_split(char const *s, char c);
 char				**ft_split_gc(char const *s, char c);
 char				**ft_split_gc_id(char const *s, char c, int id);
 
+char				*ft_itoa_r(long n, int depth, int *total_depth, int offset);
 char				*ft_itoa(int n);
 char				*ft_ltoa(long n);
 char				*ft_ultoa(unsigned long n);
@@ -87,6 +88,7 @@ char				*ft_dtoa_p(double n, int decimals);
 char				*ft_dtoa(double n);
 
 char				*ft_itoa_gc(int n);
+char				*ft_itoa_gc_id(int n, int id);
 char				*ft_ltoa_gc(long n);
 char				*ft_ultoa_gc(unsigned long n);
 char				*ft_dtoa_p_gc(double n, int decimals);

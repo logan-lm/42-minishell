@@ -34,7 +34,7 @@ FILES = ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint ft_isspace ft_str
 		ft_strjoin\
 		ft_strjoin_mult\
 		ft_strtrim\
-		ft_itoa ft_itoa_gc\
+		ft_itoa ft_itoa_gc ft_itoa_gc_id\
 		ft_substr\
 		ft_split ft_split_gc\
 		ft_strmapi ft_striteri ft_putchar_fd ft_putstr_fd\
