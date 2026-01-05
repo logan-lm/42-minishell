@@ -14,7 +14,7 @@ NAME = libft.a
 D_NAME = libft_DEBUG.a
 
 CC = gcc
-CFLAGS = -O3 -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 DFLAGS = -g3 -Wall -Wextra -Werror
 SRC_DIR = src/
 OBJ_DIR = obj/

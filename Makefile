@@ -40,7 +40,6 @@ FILES = main\
 		parsing/token_word_parsing\
 		parsing/token_word_name\
 		parsing/token_operator_parsing\
-		parsing/token_operator_parsing_2\
 		parsing/token_parser_errors\
 		parsing/token_parser\
 		parsing/token_free\
@@ -68,8 +67,6 @@ FILES = main\
 		utils/exec_utils\
 		utils/dict_utils\
 		utils/gc_debug
-
-
 
 SRCS = $(addprefix $(SRC_DIR),  $(addsuffix .c, $(FILES)))
 
