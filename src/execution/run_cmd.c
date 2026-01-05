@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 15:18:24 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 15:50:29 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_run_cmd_child(t_command *cmd, t_shell_data *data, int fdin,
 int	ft_run_cmd_parent(int fdin, void *next, t_shell_data *data,
 		t_runcmd_data *r_d)
 {
-	g_pid = r_d->pid;
+	ft_setpid(r_d->pid);
 	if (fdin != STDIN_FILENO && fdin != STDOUT_FILENO)
 		close(fdin);
 	if (r_d->pipefd[1] != STDOUT_FILENO)

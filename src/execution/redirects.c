@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 15:37:36 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 17:06:17 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_open_heredoc(char *limiter, t_shell_data *data)
 	unlink(hd_data.filename);
 	if (hd_data.temp_r == -1 || hd_data.temp_w == -1)
 		return (1);
-	while (!ft_is_limiter(hd_data.line, limiter))
+	while (!ft_is_limiter(hd_data.line, limiter) && g_sig != SIGINT)
 	{
 		ft_free(hd_data.line);
 		hd_data.buffer = readline("> ");
@@ -40,6 +40,22 @@ int	ft_open_heredoc(char *limiter, t_shell_data *data)
 	close(hd_data.temp_w);
 	ft_free(hd_data.line);
 	return (hd_data.temp_r);
+}
+
+int	ft_fork_heredoc(char *limiter, t_shell_data *data)
+{
+	int	pid;
+	int	status;
+
+	pid = fork();
+	if (pid == 0)
+		ft_exit(ft_open_heredoc(limiter, data));
+	waitpid(pid, &status, WNOHANG);
+	while (g_sig == 0 && !WIFEXITED(status))
+	{
+		waitpid(pid, &status, WNOHANG);
+	}
+	return(WEXITSTATUS(status));
 }
 
 static int	ft_open_file(t_open_data *o_d, t_shell_data *d)

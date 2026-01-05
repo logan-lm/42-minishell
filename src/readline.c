@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 10:00:21 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 16:28:31 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 void	ft_sig_handler(int sig)
 {
+	g_sig = sig;
 	if (sig == SIGINT)
 	{
 		while (wait(NULL) > 0)
 			;
 		ft_putchar_fd('\n', 1);
-		if (g_pid == 0)
+		if (ft_getpid() == 0)
 		{
 			rl_replace_line("", 0);
 			rl_on_new_line();
@@ -66,6 +67,7 @@ void	ft_readline(t_shell_data *d)
 {
 	char			*prompt;
 
+	g_sig = 0;
 	prompt = readline("\001\033[1;32m\002Minishell>\001\033[0m\002");
 	if (prompt == NULL)
 	{

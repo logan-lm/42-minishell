@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/04 18:18:49 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 15:54:38 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 #  define BUILD_DEBUG 0
 # endif
 
-extern pid_t			g_pid;
+extern int	g_sig;
 
 typedef struct s_shell_data
 {
@@ -64,6 +64,8 @@ char					**ft_lsttostrs(t_list *lst);
 int						ft_is_varset(char *cmd);
 int						ft_print_perror(char *err, char *progname);
 int						ft_print_error(char *err, char *progname);
+int						ft_getpid(void);
+void					ft_setpid(int pid);
 
 void					ft_gc_debug(char *str);
 

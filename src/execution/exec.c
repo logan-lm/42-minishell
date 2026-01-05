@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 15:20:12 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/05 15:50:41 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	ft_exec(t_command_node *command_tree, t_shell_data *d)
 		exit_status = ft_or(command_tree, d);
 	while (wait(&status) > 0)
 		;
-	g_pid = 0;
+	ft_setpid(0);
 	signal(SIGINT, ft_sig_handler);
 	signal(SIGQUIT, SIG_IGN);
 	return (exit_status);

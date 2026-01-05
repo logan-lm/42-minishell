@@ -6,7 +6,7 @@
 #    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2026/01/05 15:23:41 by lomartin         ###   ########.fr        #
+#    Updated: 2026/01/05 15:52:27 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,11 +63,12 @@ FILES = main\
 		execution/run_cmd\
 		execution/wildcard\
 		execution/wildcards_utils\
-		utils/error\
-		utils/utils\
-		utils/exec_utils\
 		utils/dict_utils\
-		utils/gc_debug
+		utils/error\
+		utils/exec_utils\
+		utils/gc_debug\
+		utils/pid\
+		utils/utils
 
 SRCS = $(addprefix $(SRC_DIR),  $(addsuffix .c, $(FILES)))
 

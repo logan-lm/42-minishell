@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pid.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/19 10:02:31 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 15:55:16 by lomartin         ###   ########.fr       */
+/*   Created: 2026/01/05 15:44:14 by lomartin          #+#    #+#             */
+/*   Updated: 2026/01/05 16:12:51 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-pid_t	g_sig;
-
-int	main(int ac, char **av, char **envp)
+static int	ft_pid(int flag, int pid)
 {
-	t_shell_data		d;
+	static int	s_pid = 0;
 
-	(void)ac;
-	g_sig = 0;
-	ft_bzero(&d, sizeof(t_shell_data));
-	ft_init_envp(av, envp, &d);
-	d.sa.sa_handler = ft_sig_handler;
-	sigaction(SIGINT, &d.sa, NULL);
-	signal(SIGQUIT, SIG_IGN);
-	while (1)
-		ft_readline(&d);
+	if (flag == 0)
+		return (s_pid);
+	if (flag == 1)
+		s_pid = pid;
+	return (0);
 }
+
+int	ft_getpid(void)
+{
+	return(ft_pid(0, 0));
+}
+
+void	ft_setpid(int pid)
+{
+	ft_pid(1, pid);
+}
+
