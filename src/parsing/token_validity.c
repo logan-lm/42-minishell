@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 11:55:06 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/24 17:01:46 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/06 18:46:52 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_is_redirection_valid(t_token_op_type *token_type,
 }
 
 int	ft_is_operator_valid(t_token_op_type *token_type,
-		t_parsing_token *next_token)
+		t_parsing_token *next_token, t_parsing_token *prev_token)
 {
 	t_token_op_type	next_op;
 
@@ -40,13 +40,21 @@ int	ft_is_operator_valid(t_token_op_type *token_type,
 		|| *token_type == op_open_parenthesis)
 	{
 		if (next_token->type == token_end)
-			return (ft_token_syntax_error("newline"), 0);
+			return (ft_op_syntax_error(*token_type), 0);
 		if (next_token->type == token_op)
 		{
 			next_op = ((t_token_op_data *)next_token->data)->type;
+			if (*token_type != op_open_parenthesis && prev_token == NULL)
+				return (ft_op_syntax_error(*token_type), 0);
 			if (next_op == op_pipe || next_op == op_and || next_op == op_or
 				|| next_op == op_close_parenthesis)
-				return (ft_op_syntax_error(next_op), 0);
+			{
+				if (*token_type == op_open_parenthesis
+					&& next_op == op_close_parenthesis)
+					return (ft_op_syntax_error(next_op), 0);
+				else
+					return (ft_op_syntax_error(*token_type), 0);
+			}
 		}
 	}
 	return (1);

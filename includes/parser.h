@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 13:23:36 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/05 17:25:02 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/06 18:18:41 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ t_list							*ft_token_validity_checker(t_list *token_lst);
 int								ft_is_redirection_valid(t_token_op_type *tktp,
 									t_parsing_token *next_token);
 int								ft_is_operator_valid(t_token_op_type *tktp,
-									t_parsing_token *next_token);
+									t_parsing_token *next_token,
+									t_parsing_token *prev);
 
 /// Utils
 

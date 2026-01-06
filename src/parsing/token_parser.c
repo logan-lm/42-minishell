@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 10:07:46 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/26 15:48:12 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/06 18:43:11 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ t_list	*ft_get_tokens(char *str)
 		else
 		{
 			ft_clear_gc_id(malloc_id_token);
+			lst = 0;
 			break ;
 		}
 	}
