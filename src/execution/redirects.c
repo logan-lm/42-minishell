@@ -6,58 +6,12 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/06 11:02:52 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/06 12:18:25 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "minishell.h"
-
-int	ft_heredoc_handler(void)
-{
-	if (g_sig == SIGINT)
-		rl_done = 1;
-	return (0);
-}
-
-void	ft_sig_hd_handler(int sig)
-{
-	g_sig = sig;
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-char	*ft_open_heredoc(char *limiter, t_shell_data *data)
-{
-	t_hd_data	hd_data;
-
-	ft_bzero(&hd_data, sizeof(hd_data));
-	hd_data.temp = ft_ltoa_gc((long)limiter);
-	hd_data.filename = ft_strjoin_gc_id("/tmp/heredoc_", hd_data.temp,
-			malloc_id_exec);
-	ft_free(hd_data.temp);
-	hd_data.temp_w = open(hd_data.filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	if (hd_data.temp_w == -1)
-		return (ft_strdup_gc_id("FAILED_OPEN", malloc_id_exec));
-	rl_event_hook = ft_heredoc_handler;
-	while (!ft_is_limiter(hd_data.line, limiter) && g_sig != SIGINT)
-	{
-		ft_free(hd_data.line);
-		hd_data.buffer = readline("> ");
-		hd_data.line = ft_strjoin_gc_id(hd_data.buffer, "\n", malloc_id_exec);
-		free(hd_data.buffer);
-		if (!hd_data.buffer)
-			return (ft_heredoc_eof_err(data, limiter, hd_data.temp_w,
-					hd_data.filename));
-		if (ft_is_limiter(hd_data.line, limiter))
-			break ;
-		write(hd_data.temp_w, hd_data.line, ft_strlen(hd_data.line));
-	}
-	close(hd_data.temp_w);
-	ft_free(hd_data.line);
-	return (hd_data.filename);
-}
 
 void	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 {
@@ -72,14 +26,10 @@ void	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 			if (o_d.op_token->type == op_heredoc)
 			{
 				signal(SIGINT, ft_sig_hd_handler);
-				o_d.op_token->word->str = ft_open_heredoc(o_d.op_token->word->str,
-						d);
+				o_d.op_token->word->str = ft_o_hdoc(o_d.op_token->word->str, d);
 				signal(SIGINT, ft_sig_handler);
 				if (g_sig == SIGINT)
-				{
-					ft_free(o_d.op_token->word->str);
 					return ;
-				}
 				o_d.op_token->type = op_in_redirect;
 			}
 		}

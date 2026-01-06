@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 23:10:51 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/06 11:42:02 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,8 @@ int					ft_run_builtin(int (*builtin)(char **a, t_shell_data *d,
 							int in, int out), t_command *cmd,
 						t_shell_data *data, void *next, int fdin);
 int					ft_is_only_varset(t_list *commands);
+int					ft_heredoc_handler(void);
+void				ft_sig_hd_handler(int sig);
+char				*ft_o_hdoc(char *limiter, t_shell_data *data);
 
 #endif

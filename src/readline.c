@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 19:34:33 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/06 11:51:07 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	ft_readline(t_shell_data *d)
 	if (*prompt == '\0')
 		return ;
 	ft_split_prompt(prompt, d);
+	ft_unlink_hds(d);
 	if (BUILD_DEBUG)
 		ft_gc_debug(prompt);
 	free(prompt);

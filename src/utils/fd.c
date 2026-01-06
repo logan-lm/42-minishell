@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   fd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/30 21:53:34 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/06 12:19:00 by lomartin         ###   ########.fr       */
+/*   Created: 2026/01/06 11:45:19 by lomartin          #+#    #+#             */
+/*   Updated: 2026/01/06 11:46:15 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	ft_print_perror(char *err, char *progname)
+static int	ft_fd(int flag, int fd)
 {
-	char	*str;
+	static int	s_fd = 0;
 
-	str = ft_strjoin_mult_gc_id(malloc_id_exec, 3, progname, ": ", err);
-	perror(str);
-	ft_free(str);
-	return (EXIT_FAILURE);
+	if (flag == 0)
+		return (s_fd);
+	if (flag == 1)
+		s_fd = fd;
+	return (0);
 }
 
-int	ft_print_error(char *err, char *progname)
+int	ft_getfd(void)
 {
-	char	*str;
+	return (ft_fd(0, 0));
+}
 
-	str = ft_strjoin_mult_gc_id(malloc_id_exec, 4, progname, ": ", err, "\n");
-	ft_putstr_fd(str, 2);
-	ft_free(str);
-	return (EXIT_FAILURE);
+void	ft_setfd(int fd)
+{
+	ft_fd(1, fd);
 }
