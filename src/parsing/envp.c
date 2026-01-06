@@ -52,7 +52,8 @@ char	**ft_str_env(t_list *envp_d)
 	{
 		elem = envp_d->content;
 		if (elem->value)
-			envp[i] = ft_strjoin_mult_gc_id(malloc_id_exec, 3, elem->key, "=", elem->value);
+			envp[i] = ft_strjoin_mult_gc_id(malloc_id_exec, 3, elem->key, "=",
+					elem->value);
 		else
 			envp[i] = ft_strjoin_gc_id(elem->key, "=", malloc_id_exec);
 		envp_d = envp_d->next;

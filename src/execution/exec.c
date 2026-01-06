@@ -71,33 +71,31 @@ int	ft_forked_run(t_list *commands, t_shell_data *d)
 
 int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 {
-	int			has_pipe;
-	t_list		*commands;
-	t_command	*cmd;
+	t_run_pipeline_data	data;
 
-	commands = NULL;
-	has_pipe = 0;
+	ft_bzero(&data, sizeof(t_run_pipeline_data));
 	while (command_tree->commands)
 	{
-		cmd = ft_calloc_gc_id(1, sizeof(t_command), malloc_id_exec);
+		data.cmd = ft_calloc_gc_id(1, sizeof(t_command), malloc_id_exec);
 		ft_parse_heredocs(command_tree->commands, d);
 		if (g_sig == SIGINT)
 			return (130);
-		cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands, d));
-		cmd->fdin = ft_parse_fdin(command_tree->commands, d);
-		cmd->fdout = ft_parse_fdout(command_tree->commands, d);
-		if (cmd->fdin < 0 || cmd->fdout < 0)
-			cmd->args[0] = "FAILED_OPEN";
-		ft_lstadd_back(&commands, ft_lstnew_gc_id(cmd, malloc_id_exec));
+		data.cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands, d));
+		data.cmd->fdin = ft_parse_fdin(command_tree->commands, d);
+		data.cmd->fdout = ft_parse_fdout(command_tree->commands, d);
+		if (data.cmd->fdin < 0 || data.cmd->fdout < 0)
+			data.cmd->args[0] = "FAILED_OPEN";
+		ft_lstadd_back(&data.commands, ft_lstnew_gc_id(data.cmd,
+				malloc_id_exec));
 		if (!ft_next_cmd(command_tree->commands))
 			break ;
-		has_pipe = ft_has_pipe(command_tree->commands);
-		if (has_pipe)
+		data.has_pipe = ft_has_pipe(command_tree->commands);
+		if (data.has_pipe)
 			command_tree->commands = ft_next_cmd(command_tree->commands);
 	}
-	if (has_pipe && !ft_is_only_varset(commands))
-		return (ft_forked_run(commands, d));
-	return (ft_run_cmds(commands, d));
+	if (data.has_pipe && !ft_is_only_varset(data.commands))
+		return (ft_forked_run(data.commands, d));
+	return (ft_run_cmds(data.commands, d));
 }
 
 int	ft_exec(t_command_node *command_tree, t_shell_data *d)

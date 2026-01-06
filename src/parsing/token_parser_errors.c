@@ -27,7 +27,8 @@ void	ft_token_missing_delimiter_error(char *c)
 {
 	char	*str;
 
-	str = ft_strjoin_mult_gc_id(malloc_id_token, 3, "Missing closing delimiter `", c, "\'\n");
+	str = ft_strjoin_mult_gc_id(malloc_id_token, 3,
+			"Missing closing delimiter `", c, "\'\n");
 	ft_putstr_fd(str, 2);
 	ft_free(str);
 }

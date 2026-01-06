@@ -73,6 +73,13 @@ typedef struct s_runcmd_data
 	int				ret;
 }					t_runcmd_data;
 
+typedef struct s_run_pipeline_data
+{
+	int				has_pipe;
+	t_list			*commands;
+	t_command		*cmd;
+}					t_run_pipeline_data;
+
 int					ft_parse_fdin(t_list *nodes, t_shell_data *d);
 int					ft_parse_fdout(t_list *nodes, t_shell_data *d);
 void				ft_parse_heredocs(t_list *nodes, t_shell_data *d);

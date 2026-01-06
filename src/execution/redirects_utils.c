@@ -32,7 +32,8 @@ int	ft_exp_err(char *filename, char *progname)
 	return (-1);
 }
 
-char	*ft_heredoc_eof_err(t_shell_data *data, char *limiter, int fd_w, char *filename)
+char	*ft_heredoc_eof_err(t_shell_data *data, char *limiter, int fd_w,
+		char *filename)
 {
 	char	*err;
 	char	*lines;
