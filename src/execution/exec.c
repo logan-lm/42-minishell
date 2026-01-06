@@ -95,8 +95,8 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 		if (has_pipe)
 			command_tree->commands = ft_next_cmd(command_tree->commands);
 	}
-	/* if (has_pipe && !ft_is_only_varset(commands))
-		return (ft_forked_run(commands, d)); */
+	if (has_pipe && !ft_is_only_varset(commands))
+		return (ft_forked_run(commands, d));
 	return (ft_run_cmds(commands, d));
 }
 
