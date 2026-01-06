@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:14:34 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/06 12:18:39 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/06 12:21:03 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,10 @@ char	*ft_o_hdoc(char *limiter, t_shell_data *data)
 
 void	ft_unlink_hds(t_shell_data *data)
 {
-	t_list *hds;
+	t_list	*hds;
+	int		fd;
 
-	int fd = ft_getfd();
+	fd = ft_getfd();
 	close(fd);
 	hds = data->opened_hd;
 	while (hds)
