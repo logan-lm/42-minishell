@@ -28,7 +28,6 @@ char	*ft_itoa_r(long n, int depth, int *total_depth, int offset)
 	return (out);
 }
 
-
 char	*ft_itoa_gc(int n)
 {
 	return (ft_itoa_gc_id(n, 0));

@@ -31,7 +31,7 @@
 #  define BUILD_DEBUG 0
 # endif
 
-extern int	g_sig;
+extern int				g_sig;
 
 typedef struct s_shell_data
 {
@@ -57,7 +57,6 @@ char					*ft_getenv(t_list *envp, char *key);
 char					*ft_getvar(t_list *vars, t_list *envp, char *key);
 char					*ft_dictmap(t_list *list, char *key);
 void					ft_dictadd(t_list **list, char *key, char *value);
-void	ft_dict_insert_key_ascii(t_list **list, t_list *new_elem);
 t_dict					*ft_dictpop(t_list **list, char *key);
 void					ft_dictdel(t_list **list, char *key);
 void					ft_free_strs(char **strs);
