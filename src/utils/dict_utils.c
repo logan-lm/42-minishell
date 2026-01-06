@@ -117,6 +117,6 @@ void	ft_dictadd(t_list **list, char *key, char *value)
 		elem = ft_malloc(sizeof(t_dict));
 		elem->key = key;
 		elem->value = value;
-		ft_lstadd_front(list, ft_lstnew_gc(elem));
+		ft_dict_insert_key_ascii(list, ft_lstnew_gc_id(elem, malloc_id_exec));
 	}
 }

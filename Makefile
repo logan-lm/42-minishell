@@ -64,6 +64,7 @@ FILES = main\
 		execution/wildcard\
 		execution/wildcards_utils\
 		utils/dict_utils\
+		utils/dict_utils2\
 		utils/error\
 		utils/exec_utils\
 		utils/gc_debug\
