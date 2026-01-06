@@ -106,7 +106,7 @@ t_list	*ft_parse_cmd_args(t_string_compound_lst *tokens, t_shell_data *data)
 				temp = data->wc_path;
 				data->wc_path = ft_strjoin_gc_id(data->wc_path, tokens->str,
 						malloc_id_exec);
-				free(temp);
+				ft_free(temp);
 			}
 			else
 				args = ft_parse_args_append(tokens, &args);
