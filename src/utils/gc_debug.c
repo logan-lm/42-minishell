@@ -14,24 +14,24 @@
 
 void	ft_gc_debug(char *str)
 {
-	if (strcmp(str, "p0") == 0)
+	if (ft_strcmp(str, "p0") == 0)
 		ft_gc_print_count_id(0);
-	if (strcmp(str, "p1") == 0)
+	if (ft_strcmp(str, "p1") == 0)
 		ft_gc_print_count_id(1);
-	if (strcmp(str, "p2") == 0)
+	if (ft_strcmp(str, "p2") == 0)
 		ft_gc_print_count_id(2);
-	if (strcmp(str, "p3") == 0)
+	if (ft_strcmp(str, "p3") == 0)
 		ft_gc_print_count_id(3);
-	if (strcmp(str, "m0") == 0)
+	if (ft_strcmp(str, "m0") == 0)
 		ft_malloc(10);
-	if (strcmp(str, "m1") == 0)
+	if (ft_strcmp(str, "m1") == 0)
 		ft_malloc_id(20, 1);
-	if (strcmp(str, "m2") == 0)
+	if (ft_strcmp(str, "m2") == 0)
 		ft_malloc_id(30, 2);
-	if (strcmp(str, "c0") == 0)
+	if (ft_strcmp(str, "c0") == 0)
 		ft_clear_gc_id(0);
-	if (strcmp(str, "c1") == 0)
+	if (ft_strcmp(str, "c1") == 0)
 		ft_clear_gc_id(1);
-	if (strcmp(str, "c2") == 0)
+	if (ft_strcmp(str, "c2") == 0)
 		ft_clear_gc_id(2);
 }
