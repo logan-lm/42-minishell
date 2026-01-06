@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/06 20:51:45 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/06 22:12:19 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,12 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 {
 	t_run_pipeline_data	data;
 
+	data.fd_in = STDIN_FILENO;
 	ft_bzero(&data, sizeof(t_run_pipeline_data));
+	ft_parse_heredocs(command_tree->commands, d);
 	while (command_tree->commands)
 	{
 		data.cmd = ft_calloc_gc_id(1, sizeof(t_command), malloc_id_exec);
-		ft_parse_heredocs(command_tree->commands, d);
 		if (g_sig == SIGINT)
 			return (130);
 		data.cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands, d));
@@ -92,17 +93,20 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 		data.cmd->fdout = ft_parse_fdout(command_tree->commands, d);
 		if (data.cmd->fdin < 0 || data.cmd->fdout < 0)
 			data.cmd->args[0] = "FAILED_OPEN";
-		ft_lstadd_back(&data.commands, ft_lstnew_gc_id(data.cmd,
-				malloc_id_exec));
+		if (data.cmd->fdin != STDIN_FILENO)
+		{
+			if (data.fd_in != STDIN_FILENO)
+				close(data.fd_in);
+			data.fd_in = data.cmd->fdin;
+		}
+		data.fd_in = ft_run_cmd(data.fd_in, data.cmd, d, ft_next_cmd(command_tree->commands));
 		if (!ft_next_cmd(command_tree->commands))
 			break ;
 		data.has_pipe = ft_has_pipe(command_tree->commands);
 		if (data.has_pipe)
 			command_tree->commands = ft_next_cmd(command_tree->commands);
 	}
-	if (data.has_pipe && !ft_is_only_varset(data.commands))
-		return (ft_forked_run(data.commands, d));
-	return (ft_run_cmds(data.commands, d));
+	return (data.fd_in);
 }
 
 int	ft_exec(t_command_node *command_tree, t_shell_data *d)

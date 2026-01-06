@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/06 11:42:02 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/06 22:09:20 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_runcmd_data
 typedef struct s_run_pipeline_data
 {
 	int				has_pipe;
+	int				fd_in;
 	t_list			*commands;
 	t_command		*cmd;
 }					t_run_pipeline_data;
@@ -96,7 +97,7 @@ int					ft_is_limiter(char *str, char *limiter);
 int					ft_str_hasspace(char *str);
 t_list				*ft_separate_cmdname(char *arg);
 int					ft_ispath(char *str);
-char				*ft_get_cmdpath(char *cmd, t_list *envp);
+char				*ft_get_cmdpath(char *cmd, t_list *envp, t_shell_data *data);
 char				*ft_getvarname(char *str);
 t_list				*ft_parse_cmd(t_list **nodes, t_shell_data *d);
 t_list				*ft_get_sorted_dircontent(char *path, int dir);

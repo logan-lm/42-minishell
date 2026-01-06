@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 15:50:29 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/06 22:09:52 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_run_cmd(int fdin, t_command *cmd, t_shell_data *data, void *next)
 	if (r_d.cmdpath)
 		return (ft_run_builtin(r_d.cmdpath, cmd, data, next, fdin));
 	if (ft_strncmp(cmd->args[0], "FAILED_OPEN", 12))
-		r_d.cmdpath = ft_get_cmdpath(cmd->args[0], data->envp);
+		r_d.cmdpath = ft_get_cmdpath(cmd->args[0], data->envp, data);
 	pipe(r_d.pipefd);
 	if ((!next || cmd->fdout != STDOUT_FILENO) && !close(r_d.pipefd[1]))
 		r_d.pipefd[1] = cmd->fdout;
@@ -69,7 +69,7 @@ int	ft_run_cmd(int fdin, t_command *cmd, t_shell_data *data, void *next)
 	{
 		if (r_d.pipefd[1] != STDOUT_FILENO)
 			close(r_d.pipefd[1]);
-		return (1);
+		return (r_d.pipefd[1]);
 	}
 	signal(SIGINT, SIG_IGN);
 	r_d.pid = fork();
