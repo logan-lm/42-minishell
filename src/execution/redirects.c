@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/06 10:57:50 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/06 11:02:52 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,10 @@ void	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 	hd_data.temp_r = open(filename, O_RDONLY);
 	while (line[i])
 	{
-		if (line[i] == '$' && (!*(word + 1) || (ft_isalpha(*(word + 1)) || *(word
-						+ 1) == '?')))
+		if (line[i] == '$' && (!*(word + 1) || (ft_isalpha(*(word + 1))
+					|| *(word + 1) == '?')))
 	}
 } */
-
 static int	ft_open_file(t_open_data *o_d, t_shell_data *d)
 {
 	if ((o_d->op_token->type == op_out_redirect_trunc
