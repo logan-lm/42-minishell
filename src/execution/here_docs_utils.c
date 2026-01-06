@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:14:34 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/06 12:21:03 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/06 13:10:06 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	ft_unlink_hds(t_shell_data *data)
 	int		fd;
 
 	fd = ft_getfd();
-	close(fd);
+	if (fd != STDIN_FILENO)
+		close(fd);
 	hds = data->opened_hd;
 	while (hds)
 	{

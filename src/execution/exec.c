@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/06 11:50:40 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/06 13:20:07 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,16 @@ int	ft_run_builtin(int (*builtin)(char **a, t_shell_data *d, int in, int out),
 		fdout = pipefd[1];
 	else
 		close(pipefd[1]);
+	if (builtin == ft_shell_exit)
+		close(pipefd[0]);
 	exit_status = builtin(cmd->args, data, fdin, fdout);
+	if (pipefd[1] != STDOUT_FILENO && pipefd[1] != STDIN_FILENO)
+		close(pipefd[1]);
 	if (!next)
+	{
+		close(pipefd[0]);
 		return (exit_status);
+	}
 	return (pipefd[0]);
 }
 
