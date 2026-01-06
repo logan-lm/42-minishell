@@ -6,14 +6,14 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 23:53:20 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/06 10:57:50 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "minishell.h"
 
-int	ft_heredoc_handler()
+int	ft_heredoc_handler(void)
 {
 	if (g_sig == SIGINT)
 		rl_done = 1;
@@ -34,7 +34,8 @@ char	*ft_open_heredoc(char *limiter, t_shell_data *data)
 
 	ft_bzero(&hd_data, sizeof(hd_data));
 	hd_data.temp = ft_ltoa_gc((long)limiter);
-	hd_data.filename = ft_strjoin_gc_id("/tmp/heredoc_", hd_data.temp, malloc_id_exec);
+	hd_data.filename = ft_strjoin_gc_id("/tmp/heredoc_", hd_data.temp,
+			malloc_id_exec);
 	ft_free(hd_data.temp);
 	hd_data.temp_w = open(hd_data.filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (hd_data.temp_w == -1)
@@ -60,7 +61,7 @@ char	*ft_open_heredoc(char *limiter, t_shell_data *data)
 
 void	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 {
-	t_open_data     o_d;
+	t_open_data	o_d;
 
 	while (nodes)
 	{
@@ -71,7 +72,8 @@ void	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 			if (o_d.op_token->type == op_heredoc)
 			{
 				signal(SIGINT, ft_sig_hd_handler);
-				o_d.op_token->word->str = ft_open_heredoc(o_d.op_token->word->str, d);
+				o_d.op_token->word->str = ft_open_heredoc(o_d.op_token->word->str,
+						d);
 				signal(SIGINT, ft_sig_handler);
 				if (g_sig == SIGINT)
 				{
@@ -83,9 +85,36 @@ void	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 		}
 		if (o_d.token && o_d.token->type == token_subshell)
 			nodes = o_d.token->data;
-		nodes = nodes->next;	
+		nodes = nodes->next;
 	}
 }
+
+/* int	ft_open_heredoc(int fd, int filename)
+{
+	size_t		i;
+	char		*line;
+	char		*temp;
+	t_hd_data	hd_data;
+
+	i = 0;
+	line = get_next_line_count_gc(fd, &i);
+	while (i)
+	{
+		temp = line;
+		line = ft_strjoin_gc_id(temp, get_next_line_count_gc(fd, &i),
+				malloc_id_exec);
+		free(temp);
+	}
+	close(fd);
+	unlink(filename);
+	hd_data.temp_w = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	hd_data.temp_r = open(filename, O_RDONLY);
+	while (line[i])
+	{
+		if (line[i] == '$' && (!*(word + 1) || (ft_isalpha(*(word + 1)) || *(word
+						+ 1) == '?')))
+	}
+} */
 
 static int	ft_open_file(t_open_data *o_d, t_shell_data *d)
 {
