@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/07 16:38:35 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/07 17:04:27 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 	if (!*rp_d->cmd->args[0])
 		return (0);
 	r_d.cmdpath = ft_get_builtin(rp_d->cmd->args[0]);
-	if (r_d.cmdpath)
+	if (r_d.cmdpath && !rp_d->cmd->fork)
 		return (ft_run_builtin(r_d.cmdpath, rp_d, data, next));
-	/* else if (r_d.cmdpath && rp_d->cmd->fork)
-		return (ft_run_forked_builtin(r_d.cmdpath, rp_d, data, next)); */
+	else if (r_d.cmdpath && rp_d->cmd->fork)
+		return (ft_run_forked_builtin(r_d.cmdpath, rp_d, data, next));
 	if (ft_strncmp(rp_d->cmd->args[0], "FAILED_OPEN", 12))
 		r_d.cmdpath = ft_get_cmdpath(rp_d->cmd->args[0], data->envp, &rp_d->ret);
 	pipe(r_d.pipefd);
@@ -73,9 +73,9 @@ int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 	{
 		if (!rp_d->ret)
 			rp_d->ret = 1;
-		if (r_d.pipefd[1] != STDOUT_FILENO)
+		if (r_d.pipefd[1] != STDIN_FILENO)
 			close(r_d.pipefd[1]);
-		return (r_d.pipefd[1]);
+		return (r_d.pipefd[0]);
 	}
 	signal(SIGINT, SIG_IGN);
 	r_d.pid = fork();
