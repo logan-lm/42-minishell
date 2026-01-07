@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/07 14:14:28 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/07 15:39:48 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	ft_exec(t_command_node *command_tree, t_shell_data *d)
 	int	exit_status;
 	int	status;
 
-	if (!command_tree->commands)
+	if (!command_tree)
 		return (2);
 	exit_status = EXIT_FAILURE;
 	d->lines++;
