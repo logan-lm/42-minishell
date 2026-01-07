@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 10:16:04 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 23:11:10 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/07 17:32:06 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,7 @@
 
 int	ft_open_err(char *filename, char *progname)
 {
-	char	*err;
-
-	err = ft_strjoin_gc_id(filename, ": ", malloc_id_exec);
-	ft_print_perror(err, progname);
-	ft_free(err);
+	ft_print_perror(filename, progname);
 	return (-1);
 }
 

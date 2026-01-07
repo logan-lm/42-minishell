@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/07 17:17:39 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/07 17:35:26 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 			rp_d->ret = 1;
 		if (r_d.pipefd[1] != STDOUT_FILENO)
 			close(r_d.pipefd[1]);
+		if (!next)
+			close(r_d.pipefd[0]);
 		return (r_d.pipefd[0]);
 	}
 	signal(SIGINT, SIG_IGN);
