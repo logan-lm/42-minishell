@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/07 15:39:48 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/07 16:26:28 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	ft_run_builtin(int (*builtin)(char **a, t_shell_data *d, int in, int out),
 {
 	int			fd_in;
 	t_command	*cmd;
+	int			pid;
+	int			status;
 
 	fd_in = STDIN_FILENO;
 	while (commands)
@@ -65,8 +67,8 @@ int	ft_run_builtin(int (*builtin)(char **a, t_shell_data *d, int in, int out),
 	return (fd_in);
 } */
 
-int	ft_run_forked_builtin(int (*builtin)(char **a, t_shell_data *d, int in, int out),
-		t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
+int	ft_run_forked_builtin(int (*builtin)(char **a, t_shell_data *d, int in,
+			int out), t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 {
 	int	pid;
 	int	status;
@@ -76,6 +78,35 @@ int	ft_run_forked_builtin(int (*builtin)(char **a, t_shell_data *d, int in, int 
 		ft_exit(ft_run_builtin(builtin, rp_d, data, next));
 	waitpid(pid, &status, 0);
 	return (WEXITSTATUS(status));
+}
+
+t_list	*ft_ignore_varsets(t_list *nodes)
+{
+	t_list					*nodes_cpy;
+	t_parsing_token			*token;
+	t_string_compound_lst	*compounds;
+	int						setter;
+
+	setter = 0;
+	nodes_cpy = nodes;
+	while (nodes_cpy)
+	{
+		token = nodes_cpy->content;
+		if (token->type == token_word)
+		{
+			compounds = token->data;
+			if (compounds->is_name)
+				setter = 1;
+			else if (setter && !compounds->is_name)
+				return (nodes_cpy);
+			else
+				return (nodes);
+		}
+		else
+			return (nodes);
+		nodes_cpy = nodes_cpy->next;
+	}
+	return (nodes);
 }
 
 int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
@@ -89,6 +120,7 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 		return (130);
 	while (command_tree->commands)
 	{
+		command_tree->commands = ft_ignore_varsets(command_tree->commands);
 		data.cmd = ft_calloc_gc_id(1, sizeof(t_command), malloc_id_exec);
 		data.cmd->fork = data.pipeline;
 		data.cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands, d));
