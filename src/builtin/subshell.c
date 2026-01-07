@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 22:13:50 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 10:31:27 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/07 14:12:09 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	ft_subshell(char **args, t_shell_data *data, int fdin, int fdout)
 {
 	int	pid;
+	int	status;
 
 	args++;
 	pid = fork();
@@ -28,5 +29,6 @@ int	ft_subshell(char **args, t_shell_data *data, int fdin, int fdout)
 		close(fdin);
 	if (fdout != STDOUT_FILENO)
 		close(fdout);
-	return (0);
+	waitpid(pid, &status, 0);
+	return (WEXITSTATUS(status));
 }

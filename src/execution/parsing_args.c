@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 17:44:23 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/07 12:24:41 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ void	ft_wordtostr_expand(char **word, t_list **src, t_shell_data *data,
 		t_wordtostr_data *w_d)
 {
 	w_d->i = -1;
-	w_d->splitted = ft_split_gc(ft_expand_var(word,
-				ft_lstlast(*src)->content, data), ' ');
+	w_d->splitted = ft_split_gc_id(ft_expand_var(word,
+				ft_lstlast(*src)->content, data), ' ', malloc_id_exec);
 	if (data->wc_path)
 	{
 		w_d->temp = data->wc_path;
@@ -73,6 +73,9 @@ void	ft_wordtostr_expand(char **word, t_list **src, t_shell_data *data,
 	}
 	else
 		ft_lstdelone_fr_gc(src, ft_lstlast(*src), NULL);
+	if (!w_d->splitted[0])
+		ft_lstadd_back(src, ft_lstnew_gc_id(ft_strdup_gc_id("", malloc_id_exec),
+				malloc_id_exec));
 	while (w_d->splitted[++w_d->i])
 		ft_lstadd_back(src, ft_lstnew_gc_id(w_d->splitted[w_d->i],
 				malloc_id_exec));

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/06 22:09:52 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/07 14:11:58 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,26 +53,32 @@ int	ft_run_cmd_parent(int fdin, void *next, t_shell_data *data,
 	return (r_d->pipefd[0]);
 }
 
-int	ft_run_cmd(int fdin, t_command *cmd, t_shell_data *data, void *next)
+int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 {
 	t_runcmd_data	r_d;
 
-	r_d.cmdpath = ft_get_builtin(cmd->args[0]);
+	if (!*rp_d->cmd->args[0])
+		return (0);
+	r_d.cmdpath = ft_get_builtin(rp_d->cmd->args[0]);
 	if (r_d.cmdpath)
-		return (ft_run_builtin(r_d.cmdpath, cmd, data, next, fdin));
-	if (ft_strncmp(cmd->args[0], "FAILED_OPEN", 12))
-		r_d.cmdpath = ft_get_cmdpath(cmd->args[0], data->envp, data);
+		return (ft_run_builtin(r_d.cmdpath, rp_d, data, next));
+	/* else if (r_d.cmdpath && rp_d->cmd->fork)
+		return (ft_run_forked_builtin(r_d.cmdpath, rp_d, data, next)); */
+	if (ft_strncmp(rp_d->cmd->args[0], "FAILED_OPEN", 12))
+		r_d.cmdpath = ft_get_cmdpath(rp_d->cmd->args[0], data->envp, &rp_d->ret);
 	pipe(r_d.pipefd);
-	if ((!next || cmd->fdout != STDOUT_FILENO) && !close(r_d.pipefd[1]))
-		r_d.pipefd[1] = cmd->fdout;
-	if (!ft_strncmp(cmd->args[0], "FAILED_OPEN", 12) || !r_d.cmdpath)
+	if ((!next || rp_d->cmd->fdout != STDOUT_FILENO) && !close(r_d.pipefd[1]))
+		r_d.pipefd[1] = rp_d->cmd->fdout;
+	if (!ft_strncmp(rp_d->cmd->args[0], "FAILED_OPEN", 12) || !r_d.cmdpath)
 	{
+		if (!rp_d->ret)
+			rp_d->ret = 1;
 		if (r_d.pipefd[1] != STDOUT_FILENO)
 			close(r_d.pipefd[1]);
 		return (r_d.pipefd[1]);
 	}
 	signal(SIGINT, SIG_IGN);
 	r_d.pid = fork();
-	ft_run_cmd_child(cmd, data, fdin, &r_d);
-	return (ft_run_cmd_parent(fdin, next, data, &r_d));
+	ft_run_cmd_child(rp_d->cmd, data, rp_d->fd_in, &r_d);
+	return (ft_run_cmd_parent(rp_d->fd_in, next, data, &r_d));
 }

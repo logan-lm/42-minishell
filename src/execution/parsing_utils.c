@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 09:07:40 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/06 22:10:13 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/07 13:56:08 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*ft_check_paths(char *cmdname, t_list *envp)
 	return (NULL);
 }
 
-char	*ft_get_cmdpath(char *cmd, t_list *envp, t_shell_data *d)
+char	*ft_get_cmdpath(char *cmd, t_list *envp, int *ret)
 {
 	char	*path;
 	char	*err;
@@ -51,8 +51,8 @@ char	*ft_get_cmdpath(char *cmd, t_list *envp, t_shell_data *d)
 		return (path);
 	err = ft_strjoin_gc_id(cmd, ": command not found \n", malloc_id_exec);
 	if (errno == 13)
-		ft_dictadd(&d->vars, "?", ft_strdup_gc("126"));
-	ft_dictadd(&d->vars, "?", ft_strdup_gc("127"));
+		*ret = 126;
+	*ret = 127;
 	ft_putstr_fd(err, 2);
 	ft_free(err);
 	return (NULL);

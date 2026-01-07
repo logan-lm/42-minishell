@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:41:16 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 19:15:54 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/07 13:13:17 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_init_envp(char **av, char **envp, t_shell_data *data)
 	char	**part;
 	char	*pwd;
 
-	data->progname = ft_strchr(*av, '/');
+	data->progname = ft_strrchr(*av, '/');
 	if (data->progname)
 		data->progname++;
 	else
