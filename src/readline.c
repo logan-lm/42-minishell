@@ -51,7 +51,10 @@ void	ft_split_prompt(char *prompt, t_shell_data *d)
 		ft_clear_gc_id(malloc_id_exec);
 		add_history(prompt_childs[i]);
 		token_lst = ft_get_tokens(prompt_childs[i]);
-		command_tree = ft_build_ast(token_lst);
+		if (token_lst)
+			command_tree = ft_build_ast(token_lst);
+		else
+			command_tree = NULL;
 		if (BUILD_DEBUG)
 			ft_print_ast_visual(command_tree, "");
 		ft_dictadd(&d->vars, "?", ft_itoa_gc(ft_exec(command_tree, d)));
