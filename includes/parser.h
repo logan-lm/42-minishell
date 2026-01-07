@@ -64,8 +64,8 @@ typedef struct s_string_cmpd_lst
 	int							is_name;
 	char						*str;
 	int							is_naked;
+	int							heredoc_fd;
 	struct s_string_cmpd_lst	*next;
-
 }								t_string_compound_lst;
 
 typedef struct s_token_op_data
