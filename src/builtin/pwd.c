@@ -23,7 +23,6 @@ int	ft_pwd(char **args, t_shell_data *data, int fdin, int fdout)
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 		return (1);
-	ft_add_exit(pwd, free);
 	ft_putstr_fd(pwd, fdout);
 	free(pwd);
 	ft_putchar_fd('\n', fdout);

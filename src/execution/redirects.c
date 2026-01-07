@@ -64,7 +64,18 @@ void	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 		if (line[i] == '$' && (!*(word + 1) || (ft_isalpha(*(word + 1))
 					|| *(word + 1) == '?')))
 	}
-} */
+}*/
+
+int	ft_try_replace_fdin(int old, char *filename)
+{
+	int	fdin;
+
+	fdin = open(filename, O_RDONLY);
+	if (old != STDIN_FILENO)
+		close(old);
+	return (fdin);
+}
+
 static int	ft_open_file(t_open_data *o_d, t_shell_data *d)
 {
 	if ((o_d->op_token->type == op_out_redirect_trunc
@@ -79,7 +90,7 @@ static int	ft_open_file(t_open_data *o_d, t_shell_data *d)
 	}
 	if (o_d->op_token->type == op_in_redirect)
 	{
-		o_d->fd = open(o_d->args_lst->content, O_RDONLY);
+		o_d->fd = ft_try_replace_fdin(o_d->fd, o_d->args_lst->content);
 		if (!ft_strncmp("/tmp/heredoc_", o_d->args_lst->content, 13))
 			unlink(o_d->args_lst->content);
 	}

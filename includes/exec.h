@@ -100,8 +100,7 @@ int					ft_is_limiter(char *str, char *limiter);
 int					ft_str_hasspace(char *str);
 t_list				*ft_separate_cmdname(char *arg);
 int					ft_ispath(char *str);
-char				*ft_get_cmdpath(char *cmd, t_list *envp,
-						int *ret);
+char				*ft_get_cmdpath(char *cmd, t_list *envp, int *ret);
 char				*ft_getvarname(char *str);
 t_list				*ft_parse_cmd(t_list **nodes, t_shell_data *d);
 t_list				*ft_get_sorted_dircontent(char *path, int dir);
@@ -112,8 +111,9 @@ int					ft_run_builtin(int (*builtin)(char **a, t_shell_data *d,
 							int in, int out), t_run_pipeline_data *rp_d,
 						t_shell_data *data, void *next);
 int					ft_run_forked_builtin(int (*builtin)(char **a,
-							t_shell_data *d, int in, int out), t_run_pipeline_data *rp_d,
-						t_shell_data *data, void *next);
+							t_shell_data *d, int in, int out),
+						t_run_pipeline_data *rp_d, t_shell_data *data,
+						void *next);
 int					ft_is_only_varset(t_list *commands);
 int					ft_heredoc_handler(void);
 void				ft_sig_hd_handler(int sig);

@@ -2,4 +2,5 @@ minishell
 *.d
 *.o
 test/
+test/**
 minishell_debug
