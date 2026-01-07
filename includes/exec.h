@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/07 15:31:10 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/07 22:21:22 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ int					ft_or(t_command_node *command_tree, t_shell_data *data);
 int					ft_subshell(char **args, t_shell_data *data, int fdout);
 int					ft_open_err(char *filename, char *progname);
 int					ft_exp_err(char *filename, char *progname);
-char				*ft_heredoc_eof_err(t_shell_data *data, char *limiter,
-						int fd_w, char *filename);
+int					ft_heredoc_eof_err(t_shell_data *data, char *limiter,
+						int fd_r);
 int					ft_is_limiter(char *str, char *limiter);
 int					ft_str_hasspace(char *str);
 t_list				*ft_separate_cmdname(char *arg);
@@ -117,6 +117,9 @@ int					ft_run_forked_builtin(int (*builtin)(char **a,
 int					ft_is_only_varset(t_list *commands);
 int					ft_heredoc_handler(void);
 void				ft_sig_hd_handler(int sig);
-char				*ft_o_hdoc(char *limiter, t_shell_data *data);
+int					ft_o_hdoc(char *limiter, t_shell_data *data);
+char				*ft_copy_nonspecial(char **word, char *src);
+char				*ft_expand_word(char *word, t_shell_data *data);
+char				*ft_expand_word(char *word, t_shell_data *data);
 
 #endif

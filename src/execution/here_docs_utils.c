@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:14:34 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/07 14:45:48 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/07 22:22:53 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,27 @@ void	ft_sig_hd_handler(int sig)
 	rl_redisplay();
 }
 
-char	*ft_o_hdoc_while(char *limiter, t_hd_data *hd_data, t_shell_data *data)
+int ft_o_hdoc_while(char *limiter, t_hd_data *hd_data)
 {
 	while (!ft_is_limiter(hd_data->line, limiter) && g_sig != SIGINT)
 	{
 		ft_free(hd_data->line);
 		hd_data->buffer = readline("> ");
+		if (!hd_data->buffer)
+			return (1);
 		hd_data->line = ft_strjoin_gc_id(hd_data->buffer, "\n", malloc_id_exec);
 		free(hd_data->buffer);
-		if (!hd_data->buffer)
-			return (ft_heredoc_eof_err(data, limiter, hd_data->temp_w,
-					hd_data->filename));
 		if (ft_is_limiter(hd_data->line, limiter))
 			break ;
 		write(hd_data->temp_w, hd_data->line, ft_strlen(hd_data->line));
 	}
-	return (NULL);
+	return (0);
 }
 
-char	*ft_o_hdoc(char *limiter, t_shell_data *data)
+int	ft_o_hdoc(char *limiter, t_shell_data *data)
 {
 	t_hd_data	hd_data;
-	char		*ret;
+	int			ret;
 
 	ft_bzero(&hd_data, sizeof(hd_data));
 	hd_data.temp = ft_ltoa_gc((long)limiter);
@@ -57,19 +56,26 @@ char	*ft_o_hdoc(char *limiter, t_shell_data *data)
 			malloc_id_exec);
 	ft_free(hd_data.temp);
 	hd_data.temp_w = open(hd_data.filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	if (hd_data.temp_w == -1)
-		return (ft_strdup_gc_id("FAILED_OPEN", malloc_id_exec));
+	hd_data.temp_r = open(hd_data.filename, O_RDONLY);
+	unlink(hd_data.filename);
+	if (hd_data.temp_w == -1 || hd_data.temp_r == -1)
+	{
+		close(hd_data.temp_w);
+		close(hd_data.temp_r);
+		return (-1);
+	}
 	ft_lstadd_front(&data->opened_hd, ft_lstnew_gc_id(hd_data.filename,
 			malloc_id_exec));
 	ft_setfd(hd_data.temp_w);
 	rl_event_hook = ft_heredoc_handler;
-	ret = ft_o_hdoc_while(limiter, &hd_data, data);
+	ret = ft_o_hdoc_while(limiter, &hd_data);
 	rl_event_hook = NULL;
 	if (ret)
-		return (ret);
+		return (ft_heredoc_eof_err(data, limiter, hd_data.temp_r));
 	close(hd_data.temp_w);
 	ft_free(hd_data.line);
-	return (hd_data.filename);
+	ft_free(hd_data.filename);
+	return (hd_data.temp_r);
 }
 
 void	ft_unlink_hds(t_shell_data *data)

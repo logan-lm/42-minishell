@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/06 12:18:25 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/07 21:57:21 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ void	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 		if (o_d.token && o_d.token->type == token_op)
 		{
 			o_d.op_token = o_d.token->data;
-			if (o_d.op_token->type == op_heredoc)
+			if (o_d.op_token->type == op_heredoc && o_d.op_token->word->heredoc_fd == -1)
 			{
 				signal(SIGINT, ft_sig_hd_handler);
-				o_d.op_token->word->str = ft_o_hdoc(o_d.op_token->word->str, d);
+				o_d.op_token->word->heredoc_fd = ft_o_hdoc(o_d.op_token->word->str,
+						d);
 				signal(SIGINT, ft_sig_handler);
 				if (g_sig == SIGINT)
 					return ;
-				o_d.op_token->type = op_in_redirect;
 			}
 		}
 		if (o_d.token && o_d.token->type == token_subshell)
@@ -39,32 +39,49 @@ void	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 	}
 }
 
-/* int	ft_open_heredoc(int fd, int filename)
+int	ft_expand_heredoc(t_token_op_data *op_token, t_shell_data *d)
 {
-	size_t		i;
-	char		*line;
-	char		*temp;
+	size_t		read_bytes;
 	t_hd_data	hd_data;
+	char		buffer[BUFFER_SIZE + 1];
+	char		*joined;
+	char		*temp;
 
-	i = 0;
-	line = get_next_line_count_gc(fd, &i);
-	while (i)
+	joined = NULL;
+	read_bytes = 1;
+	ft_bzero(&hd_data, sizeof(hd_data));
+	while (read_bytes)
 	{
-		temp = line;
-		line = ft_strjoin_gc_id(temp, get_next_line_count_gc(fd, &i),
-				malloc_id_exec);
-		free(temp);
+		read_bytes = read(op_token->word->heredoc_fd, buffer, BUFFER_SIZE);
+		buffer[read_bytes] = '\0';
+		temp = joined;
+		joined = ft_strjoin_gc_id(joined, buffer, malloc_id_exec);
+		ft_free(temp);
 	}
-	close(fd);
-	unlink(filename);
-	hd_data.temp_w = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	hd_data.temp_r = open(filename, O_RDONLY);
-	while (line[i])
-	{
-		if (line[i] == '$' && (!*(word + 1) || (ft_isalpha(*(word + 1))
-					|| *(word + 1) == '?')))
-	}
-}*/
+	close(op_token->word->heredoc_fd);
+	hd_data.temp = ft_ltoa_gc((long)joined);
+	hd_data.filename = ft_strjoin_gc_id("/tmp/heredoc_", hd_data.temp,
+			malloc_id_exec);
+	ft_free(hd_data.temp);
+	hd_data.temp_w = open(hd_data.filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	hd_data.temp_r = open(hd_data.filename, O_RDONLY);
+	unlink(hd_data.filename);
+	ft_free(hd_data.filename);
+	temp = joined;
+	joined = ft_expand_word(joined, d);
+	ft_free(temp);
+	ft_putstr_fd(joined, hd_data.temp_w);
+	close(hd_data.temp_w);
+	ft_free(joined);
+	return (hd_data.temp_r);
+}
+
+int	ft_open_heredoc(t_token_op_data *op_token, t_shell_data *d)
+{
+	if (!op_token->word->is_naked)
+		return (op_token->word->heredoc_fd);
+	return (ft_expand_heredoc(op_token, d));
+}
 
 int	ft_try_replace_fdin(int old, char *filename)
 {
@@ -89,11 +106,9 @@ static int	ft_open_file(t_open_data *o_d, t_shell_data *d)
 		return (-2);
 	}
 	if (o_d->op_token->type == op_in_redirect)
-	{
 		o_d->fd = ft_try_replace_fdin(o_d->fd, o_d->args_lst->content);
-		if (!ft_strncmp("/tmp/heredoc_", o_d->args_lst->content, 13))
-			unlink(o_d->args_lst->content);
-	}
+	if (o_d->op_token->type == op_heredoc)
+		o_d->fd = ft_open_heredoc(o_d->op_token, d);
 	else if (o_d->op_token->type == op_out_redirect_trunc)
 		o_d->fd = open(o_d->args_lst->content, O_WRONLY | O_CREAT | O_TRUNC,
 				0644);
@@ -117,7 +132,8 @@ int	ft_parse_fdin(t_list *nodes, t_shell_data *d)
 			o_d.op_token = o_d.token->data;
 			if (o_d.op_token->type == op_pipe)
 				break ;
-			if (o_d.op_token->type == op_in_redirect)
+			if (o_d.op_token->type == op_in_redirect
+				|| o_d.op_token->type == op_heredoc)
 			{
 				if (ft_open_file(&o_d, d) == -2)
 					return (ft_exp_err(o_d.op_token->word->str, d->progname));

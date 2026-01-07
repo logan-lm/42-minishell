@@ -6,12 +6,12 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 09:07:40 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/07 13:56:08 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/07 22:14:58 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "exec.h"
+#include "minishell.h"
 
 char	*ft_check_paths(char *cmdname, t_list *envp)
 {
@@ -93,4 +93,35 @@ int	ft_is_only_varset(t_list *commands)
 		commands = commands->next;
 	}
 	return (1);
+}
+
+char	*ft_expand_word(char *word, t_shell_data *data)
+{
+	char	*dest;
+	char	*varname;
+	char	*temp;
+
+	dest = NULL;
+	if (!word)
+		return (NULL);
+	while (*word)
+	{
+		temp = dest;
+		if (*word == '$')
+		{
+			if (!word[1] || !ft_isalnum(word[1]))
+			{
+				dest = ft_strjoin_gc_id(dest, "$", malloc_id_exec);
+				word++;
+				continue ;
+			}
+			varname = ft_getvarname(word + 1);
+			word += ft_strlen(varname) + 1;
+			dest = ft_strjoin_gc_id(dest, ft_getvar(data->vars, data->envp, varname), malloc_id_exec);
+		}
+		else
+			dest = ft_copy_nonspecial(&word, dest);
+		ft_free(temp);
+	}
+	return (dest);
 }
