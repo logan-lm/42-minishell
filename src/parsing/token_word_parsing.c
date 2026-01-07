@@ -38,7 +38,7 @@ void	ft_add_compound_to_back(t_list *token,
 }
 
 t_string_compound_lst	*ft_get_string_token_node(char *str, size_t len,
-		t_token_word_type word_type, int is_name)
+		t_token_word_type word_type, t_v2i name_naked)
 {
 	char					*substr;
 	t_string_compound_lst	*str_comp;
@@ -48,7 +48,8 @@ t_string_compound_lst	*ft_get_string_token_node(char *str, size_t len,
 	str_comp->str = substr;
 	str_comp->type = word_type;
 	str_comp->next = 0;
-	str_comp->is_name = is_name;
+	str_comp->is_name = name_naked.x;
+	str_comp->is_naked = name_naked.y;
 	return (str_comp);
 }
 

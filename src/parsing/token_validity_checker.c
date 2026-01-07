@@ -53,6 +53,8 @@ void	ft_merge_redirection_token(t_list *token_lst)
 	next = token_lst->next;
 	nword = (t_string_compound_lst *)((t_parsing_token *)next->content)->data;
 	token_lst->next = next->next;
+	if (op_data->type == op_heredoc)
+		ft_format_hdoc_cmpd(nword);
 	op_data->word = nword;
 	ft_free(next->content);
 	ft_free(next);

@@ -42,7 +42,7 @@ t_string_compound_lst	*ft_get_word_element_quote(char *str, char **s)
 		ft_token_missing_delimiter_error("\'");
 		return (0);
 	}
-	ret = ft_get_string_token_node(str, i, word_true, 0);
+	ret = ft_get_string_token_node(str, i, word_true, (t_v2i){0, 0});
 	*s = str + i + 1;
 	return (ret);
 }
@@ -61,7 +61,7 @@ t_string_compound_lst	*ft_get_word_element_dquote(char *str, char **s)
 		ft_token_missing_delimiter_error("\"");
 		return (0);
 	}
-	ret = ft_get_string_token_node(str, i, word_replace_vars, 0);
+	ret = ft_get_string_token_node(str, i, word_replace_vars, (t_v2i){0, 0});
 	*s = str + i + 1;
 	return (ret);
 }
@@ -84,5 +84,6 @@ t_string_compound_lst	*ft_get_escaped_character(char *str, char **s)
 		new_compound->str = ft_substr_gc_id(str, 1, 1, malloc_id_token);
 		*s += 2;
 	}
+	new_compound->is_naked = 1;
 	return (new_compound);
 }

@@ -45,6 +45,7 @@ FILES = main\
 		parsing/token_free\
 		parsing/token_validity_checker\
 		parsing/token_validity\
+		parsing/token_heredoc_formatter\
 		parsing/token_parsing_utils\
 		parsing/token_build_subshells\
 		parsing/command_builder\

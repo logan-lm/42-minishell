@@ -42,7 +42,7 @@ int	ft_is_operator_valid(t_token_op_type *token_type,
 		if (next_token->type == token_end)
 			return (ft_op_syntax_error(*token_type), 0);
 		if (*token_type != op_open_parenthesis && prev_token == NULL)
-				return (ft_op_syntax_error(*token_type), 0);
+			return (ft_op_syntax_error(*token_type), 0);
 		if (next_token->type == token_op)
 		{
 			next_op = ((t_token_op_data *)next_token->data)->type;

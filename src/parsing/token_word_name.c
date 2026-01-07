@@ -43,19 +43,20 @@ t_string_compound_lst	*ft_build_word_token(char *str)
 		i++;
 	if (i > 0 && ft_isalpha(str[0]) && ft_is_assignement_op(str, &i))
 	{
-		ret = ft_get_string_token_node(str, i, word_true, 1);
+		ret = ft_get_string_token_node(str, i, word_true, (t_v2i){1, 1});
 		j = i;
 		while (str[j])
 			j++;
 		if (i != j)
 			ret->next = ft_get_string_token_node(str + i, j - i,
-					word_replace_vars, 0);
+					word_replace_vars, (t_v2i){0, 1});
 	}
 	else
 	{
 		while (str[i])
 			i++;
-		ret = ft_get_string_token_node(str, i, word_replace_vars, 0);
+		ret = ft_get_string_token_node(str, i, word_replace_vars, (t_v2i){0,
+				1});
 	}
 	return (ret);
 }

@@ -63,6 +63,7 @@ typedef struct s_string_cmpd_lst
 	t_token_word_type			type;
 	int							is_name;
 	char						*str;
+	int							is_naked;
 	struct s_string_cmpd_lst	*next;
 
 }								t_string_compound_lst;
@@ -89,13 +90,15 @@ t_list							*ft_merge_subshell_token_lst(t_list *iterator);
 t_list							*ft_get_word(char *str, char **s);
 t_string_compound_lst			*ft_build_word_token(char *str);
 t_string_compound_lst			*ft_get_string_token_node(char *str, size_t len,
-									t_token_word_type word_type, int is_name);
+									t_token_word_type word_type,
+									t_v2i name_naked);
 t_string_compound_lst			*ft_get_word_element(char *str, char **s);
 t_string_compound_lst			*ft_get_word_element_quote(char *str, char **s);
 t_string_compound_lst			*ft_get_word_element_dquote(char *str,
 									char **s);
 t_string_compound_lst			*ft_get_escaped_character(char *str, char **s);
 void							ft_remove_end_token(t_list **token_lst);
+void							ft_format_hdoc_cmpd(t_string_compound_lst *lst);
 
 // Errors
 
