@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:14:34 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/06 13:10:06 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/07 14:45:48 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ char	*ft_o_hdoc(char *limiter, t_shell_data *data)
 	ft_setfd(hd_data.temp_w);
 	rl_event_hook = ft_heredoc_handler;
 	ret = ft_o_hdoc_while(limiter, &hd_data, data);
+	rl_event_hook = NULL;
 	if (ret)
 		return (ret);
 	close(hd_data.temp_w);
