@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 09:07:40 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 14:58:30 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 18:42:18 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_check_paths(char *cmdname, t_list *envp)
 	while (paths[i])
 	{
 		temp = ft_strjoin_mult_gc_id(malloc_id_exec, 3, paths[i], "/", cmdname);
-		if (!access(temp, F_OK))
+		if (!ft_isdir(temp) && !access(temp, F_OK))
 		{
 			ft_free_strs(paths);
 			return (temp);
@@ -45,15 +45,24 @@ char	*ft_get_cmdpath(char *cmd, t_list *envp, int *ret, char *progname)
 	char	*err;
 
 	if (ft_ispath(cmd))
+	{
+		if (ft_isdir(cmd))
+		{
+			err = ft_strjoin_gc_id(cmd, ": Is a directory", malloc_id_exec);
+			ft_print_error(err, progname);
+			ft_free(err);
+			return (NULL);
+		}
 		return (ft_parse_path(cmd, envp));
+	}
 	path = ft_check_paths(cmd, envp);
 	if (path)
 		return (path);
+	ft_free(path);
 	err = ft_strjoin_gc_id(cmd, ": command not found", malloc_id_exec);
 	if (errno == 13)
 		*ret = 126;
 	*ret = 127;
-	//ft_putstr_fd(err, 2);
 	ft_print_error(err, progname);
 	ft_free(err);
 	return (NULL);

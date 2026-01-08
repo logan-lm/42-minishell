@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:24:08 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 18:02:28 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 19:05:44 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,20 @@ int	ft_is_varset(char *cmd)
 		cmd++;
 	}
 	return (0);
+}
+
+char	ft_isdir(char *path)
+{
+	struct stat	path_stat;
+
+	if (!path)
+		return (0);
+	ft_bzero(&path_stat, sizeof(path_stat));
+	stat(path, &path_stat);
+	if (!S_ISDIR(path_stat.st_mode))
+	{
+		errno = 20;
+		return (0);
+	}
+	return (1);
 }

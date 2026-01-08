@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 16:26:42 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 18:25:29 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int						ft_getfd(void);
 void					ft_setfd(int fd);
 int						ft_gethd(void);
 void					ft_sethd(int hd);
-void					ft_unlink_hds(t_shell_data *data);
+char					ft_isdir(char *path);
 
 void					ft_gc_debug(char *str);
 

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 17:51:42 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 19:47:10 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ int	ft_run_builtin(int (*builtin)(char **a, t_shell_data *d, int in, int out),
 		close(pipefd[0]);
 	exit_status = builtin(rp_d->cmd->args, data, rp_d->fd_in, fdout);
 	rp_d->ret = exit_status;
-	if (pipefd[1] != STDOUT_FILENO && pipefd[1] != STDIN_FILENO)
-		close(pipefd[1]);
+	close(pipefd[1]);
 	if (!next)
 	{
 		close(pipefd[0]);
@@ -64,8 +63,7 @@ int	ft_run_forked_builtin(int (*builtin)(char **a, t_shell_data *d, int in,
 		close(pipefd[0]);
 		ft_exit(builtin(rp_d->cmd->args, data, rp_d->fd_in, fdout));
 	}
-	if (pipefd[1] != STDOUT_FILENO && pipefd[1] != STDIN_FILENO)
-		close(pipefd[1]);
+	close(pipefd[1]);
 	if (!next)
 	{
 		close(pipefd[0]);
@@ -158,6 +156,10 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 		data.cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands, d));
 		if (!*data.cmd->args)
 		{
+			if (data.cmd->fdin > 2)
+				close(data.cmd->fdin);
+			if (data.cmd->fdout > 2)
+				close(data.cmd->fdout);
 			command_tree->commands = ft_next_cmd(command_tree->commands);
 			continue ;
 		}

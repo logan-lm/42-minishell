@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:14:34 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 17:55:58 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 18:24:23 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,21 +82,4 @@ int	ft_o_hdoc(char *limiter, t_shell_data *data)
 	close(hd_data.temp_w);
 	ft_free(hd_data.line);
 	return (hd_data.temp_r);
-}
-
-void	ft_unlink_hds(t_shell_data *data)
-{
-	t_list	*hds;
-	int		fd;
-
-	fd = ft_getfd();
-	if (fd != STDIN_FILENO)
-		close(fd);
-	hds = data->opened_hd;
-	while (hds)
-	{
-		unlink(hds->content);
-		hds = hds->next;
-	}
-	ft_lstclear_gc(&data->opened_hd, ft_free);
 }
