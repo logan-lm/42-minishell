@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 17:04:18 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 17:51:42 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,8 @@ t_list	*ft_assign_vars(t_list *nodes, t_shell_data *data)
 		{
 			compounds = token->data;
 			if (compounds->is_name)
-				ft_set_var((char *[2]){ft_expand_compound(compounds, data), NULL}, data, 0, 1);
+				ft_set_var((char *[2]){ft_expand_compound(compounds, data),
+					NULL}, data, 0, 1);
 			else
 				return (nodes_cpy);
 		}
@@ -143,7 +144,8 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 
 	ft_bzero(&data, sizeof(t_run_pipeline_data));
 	data.pipeline = ft_has_pipe(command_tree->commands);
-	ft_parse_heredocs(command_tree->commands, d);
+	if (ft_parse_heredocs(command_tree->commands, d) && g_sig != SIGINT)
+		return (1);
 	if (g_sig == SIGINT)
 		return (130);
 	while (command_tree->commands)

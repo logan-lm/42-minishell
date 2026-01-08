@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 17:01:21 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 17:51:22 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ typedef struct s_run_pipeline_data
 
 int					ft_parse_fd(t_list *nodes, t_shell_data *d,
 						t_run_pipeline_data *data);
-void				ft_parse_heredocs(t_list *nodes, t_shell_data *d);
+int					ft_parse_heredocs(t_list *nodes, t_shell_data *d);
 int					ft_has_pipe(t_list *nodes);
 t_list				*ft_next_cmd(t_list *nodes);
 int					ft_and(t_command_node *command_tree, t_shell_data *data);

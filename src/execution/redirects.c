@@ -6,14 +6,14 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 17:10:54 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 17:54:08 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "minishell.h"
 
-void	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
+int	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 {
 	t_open_data	o_d;
 
@@ -30,10 +30,11 @@ void	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 				o_d.op_token->word->heredoc_fd = ft_o_hdoc(o_d.op_token->word->str,
 						d);
 				sigaction(SIGINT, &d->sa, NULL);
-				if (g_sig == SIGINT)
+				if (g_sig == SIGINT || o_d.op_token->word->heredoc_fd < 0)
 				{
-					close(o_d.op_token->word->heredoc_fd);
-					return ;
+					if (o_d.op_token->word->heredoc_fd > 2)
+						close(o_d.op_token->word->heredoc_fd);
+					return (1);
 				}
 			}
 		}
@@ -41,6 +42,7 @@ void	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 			nodes = o_d.token->data;
 		nodes = nodes->next;
 	}
+	return (0);
 }
 
 int	ft_expand_heredoc(t_token_op_data *op_token, t_shell_data *d)

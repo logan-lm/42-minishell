@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:14:34 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 17:10:07 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 17:55:58 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,15 @@ int	ft_o_hdoc(char *limiter, t_shell_data *data)
 	ft_free(hd_data.temp);
 	hd_data.temp_w = open(hd_data.filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	hd_data.temp_r = open(hd_data.filename, O_RDONLY);
-	unlink(hd_data.filename);
 	if (hd_data.temp_w == -1 || hd_data.temp_r == -1)
 	{
-		close(hd_data.temp_w);
-		close(hd_data.temp_r);
+		if (hd_data.temp_w > 2)
+			close(hd_data.temp_w);
+		if (hd_data.temp_r > 2)
+			close(hd_data.temp_r);
 		return (-1);
 	}
+	unlink(hd_data.filename);
 	ft_lstadd_front(&data->opened_hd, ft_lstnew_gc_id(hd_data.filename,
 			malloc_id_exec));
 	ft_setfd(hd_data.temp_w);
