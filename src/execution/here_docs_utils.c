@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:14:34 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/07 22:22:53 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/07 22:30:49 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ int ft_o_hdoc_while(char *limiter, t_hd_data *hd_data)
 		ft_free(hd_data->line);
 		hd_data->buffer = readline("> ");
 		if (!hd_data->buffer)
+		{
+			close(hd_data->temp_w);
 			return (1);
+		}
 		hd_data->line = ft_strjoin_gc_id(hd_data->buffer, "\n", malloc_id_exec);
 		free(hd_data->buffer);
 		if (ft_is_limiter(hd_data->line, limiter))
