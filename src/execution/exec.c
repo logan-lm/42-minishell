@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/07 16:26:28 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 11:05:53 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,42 +42,37 @@ int	ft_run_builtin(int (*builtin)(char **a, t_shell_data *d, int in, int out),
 	return (pipefd[0]);
 }
 
-/* int	ft_run_cmds(t_list *commands, t_shell_data *d)
-{
-	int			fd_in;
-	t_command	*cmd;
-	int			pid;
-	int			status;
-
-	fd_in = STDIN_FILENO;
-	while (commands)
-	{
-		cmd = commands->content;
-		if (cmd->fdin != STDIN_FILENO)
-		{
-			if (fd_in != STDIN_FILENO)
-				close(fd_in);
-			fd_in = cmd->fdin;
-		}
-		fd_in = ft_run_cmd(fd_in, cmd, d, commands->next);
-		commands = commands->next;
-	}
-	while (wait(NULL) > 0)
-		;
-	return (fd_in);
-} */
-
 int	ft_run_forked_builtin(int (*builtin)(char **a, t_shell_data *d, int in,
 			int out), t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 {
-	int	pid;
+	int	fdout;
+	int	pipefd[2];
 	int	status;
+	int	pid;
 
+	fdout = rp_d->cmd->fdout;
+	pipe(pipefd);
+	if (next && fdout == STDOUT_FILENO)
+		fdout = pipefd[1];
+	else
+		close(pipefd[1]);
+	if (builtin == ft_shell_exit)
+		close(pipefd[0]);
 	pid = fork();
 	if (pid == 0)
-		ft_exit(ft_run_builtin(builtin, rp_d, data, next));
-	waitpid(pid, &status, 0);
-	return (WEXITSTATUS(status));
+	{
+		close(pipefd[0]);
+		ft_exit(builtin(rp_d->cmd->args, data, rp_d->fd_in, fdout));
+	}
+	if (pipefd[1] != STDOUT_FILENO && pipefd[1] != STDIN_FILENO)
+		close(pipefd[1]);
+	if (!next)
+	{
+		close(pipefd[0]);
+		waitpid(pid, &status, 0);
+		return (WEXITSTATUS(status));
+	}
+	return (pipefd[0]);
 }
 
 t_list	*ft_ignore_varsets(t_list *nodes)
