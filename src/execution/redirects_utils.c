@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 10:16:04 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/07 22:21:15 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 16:50:59 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_open_err(char *filename, char *progname)
 {
 	ft_print_perror(filename, progname);
-	return (-1);
+	return (1);
 }
 
 int	ft_exp_err(char *filename, char *progname)
@@ -25,7 +25,7 @@ int	ft_exp_err(char *filename, char *progname)
 	err = ft_strjoin_gc_id(filename, ": ambiguous redirect", malloc_id_exec);
 	ft_print_error(err, progname);
 	ft_free(err);
-	return (-1);
+	return (1);
 }
 
 int	ft_heredoc_eof_err(t_shell_data *data, char *limiter, int fd_r)

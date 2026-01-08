@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/19 10:02:31 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 15:24:14 by lomartin         ###   ########.fr       */
+/*   Created: 2026/01/05 15:44:14 by lomartin          #+#    #+#             */
+/*   Updated: 2026/01/08 16:29:18 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	g_sig;
-
-int	main(int ac, char **av, char **envp)
+static int	ft_hd(int flag, int hd)
 {
-	t_shell_data		d;
+	static int	s_hd = 0;
 
-	(void)ac;
-	g_sig = 0;
-	ft_bzero(&d, sizeof(t_shell_data));
-	ft_init_envp(av, envp, &d);
-	d.sa.sa_handler = ft_sig_handler;
-	signal(SIGINT, ft_sig_handler);
-	signal(SIGQUIT, SIG_IGN);
-	while (1)
-		ft_readline(&d);
+	if (flag == 0)
+		return (s_hd);
+	if (flag == 1)
+		s_hd = hd;
+	return (0);
+}
+
+int	ft_gethd(void)
+{
+	return (ft_hd(0, 0));
+}
+
+void	ft_sethd(int hd)
+{
+	ft_hd(1, hd);
 }

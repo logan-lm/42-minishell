@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:14:34 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 12:03:13 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 17:10:07 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	ft_heredoc_handler(void)
 void	ft_sig_hd_handler(int sig)
 {
 	g_sig = sig;
-	rl_replace_line("", 0);
 	rl_on_new_line();
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
@@ -36,6 +36,7 @@ int ft_o_hdoc_while(char *limiter, t_hd_data *hd_data)
 		hd_data->buffer = readline("> ");
 		if (!hd_data->buffer)
 		{
+			ft_sethd(1);
 			close(hd_data->temp_w);
 			return (1);
 		}

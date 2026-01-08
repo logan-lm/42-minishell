@@ -6,7 +6,7 @@
 #    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2026/01/06 11:55:59 by lomartin         ###   ########.fr        #
+#    Updated: 2026/01/08 16:28:55 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ FILES = main\
 		utils/exec_utils\
 		utils/fd\
 		utils/gc_debug\
+		utils/here_doc\
 		utils/pid\
 		utils/utils
 

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 12:06:30 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 17:10:54 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 {
-	t_open_data			o_d;
+	t_open_data	o_d;
 
 	while (nodes)
 	{
@@ -31,7 +31,10 @@ void	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 						d);
 				sigaction(SIGINT, &d->sa, NULL);
 				if (g_sig == SIGINT)
+				{
+					close(o_d.op_token->word->heredoc_fd);
 					return ;
+				}
 			}
 		}
 		if (o_d.token && o_d.token->type == token_subshell)
@@ -94,12 +97,13 @@ int	ft_try_replace_fdin(int old, char *filename)
 	return (fdin);
 }
 
-static int	ft_open_file(t_open_data *o_d, t_shell_data *d)
+static int	ft_open_file(t_open_data *o_d, t_shell_data *d,
+		t_run_pipeline_data *runp_data)
 {
 	if ((o_d->op_token->type == op_out_redirect_trunc
 			|| o_d->op_token->type == op_out_redirect_append)
-		&& o_d->fd != STDOUT_FILENO)
-		close(o_d->fd);
+		&& runp_data->cmd->fdout != STDOUT_FILENO)
+		close(runp_data->cmd->fdout);
 	o_d->args_lst = ft_parse_cmd_args(o_d->op_token->word, d);
 	if (o_d->args_lst->next)
 	{
@@ -107,24 +111,26 @@ static int	ft_open_file(t_open_data *o_d, t_shell_data *d)
 		return (-2);
 	}
 	if (o_d->op_token->type == op_in_redirect)
-		o_d->fd = ft_try_replace_fdin(o_d->fd, o_d->args_lst->content);
+		runp_data->cmd->fdin = ft_try_replace_fdin(runp_data->cmd->fdin,
+				o_d->args_lst->content);
 	if (o_d->op_token->type == op_heredoc)
-		o_d->fd = ft_open_heredoc(o_d->op_token, d);
+		runp_data->cmd->fdin = ft_open_heredoc(o_d->op_token, d);
 	else if (o_d->op_token->type == op_out_redirect_trunc)
-		o_d->fd = open(o_d->args_lst->content, O_WRONLY | O_CREAT | O_TRUNC,
-				0644);
+		runp_data->cmd->fdout = open(o_d->args_lst->content,
+				O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (o_d->op_token->type == op_out_redirect_append)
-		o_d->fd = open(o_d->op_token->word->str, O_WRONLY | O_CREAT | O_APPEND,
-				0644);
+		runp_data->cmd->fdout = open(o_d->op_token->word->str,
+				O_WRONLY | O_CREAT | O_APPEND, 0644);
 	ft_lstclear_gc(&o_d->args_lst, ft_free);
 	return (0);
 }
 
-int	ft_parse_fdin(t_list *nodes, t_shell_data *d)
+int	ft_parse_fd(t_list *nodes, t_shell_data *d, t_run_pipeline_data *runp_data)
 {
 	t_open_data	o_d;
 
-	o_d.fd = STDIN_FILENO;
+	runp_data->cmd->fdin = STDIN_FILENO;
+	runp_data->cmd->fdout = STDOUT_FILENO;
 	while (nodes)
 	{
 		o_d.token = nodes->content;
@@ -133,43 +139,12 @@ int	ft_parse_fdin(t_list *nodes, t_shell_data *d)
 			o_d.op_token = o_d.token->data;
 			if (o_d.op_token->type == op_pipe)
 				break ;
-			if (o_d.op_token->type == op_in_redirect
-				|| o_d.op_token->type == op_heredoc)
-			{
-				if (ft_open_file(&o_d, d) == -2)
-					return (ft_exp_err(o_d.op_token->word->str, d->progname));
-			}
-			if (o_d.fd < 0)
+			if (ft_open_file(&o_d, d, runp_data) == -2)
+				return (ft_exp_err(o_d.op_token->word->str, d->progname));
+			if (runp_data->cmd->fdin < 0 || runp_data->cmd->fdout < 0)
 				return (ft_open_err(o_d.op_token->word->str, d->progname));
 		}
 		nodes = nodes->next;
 	}
-	return (o_d.fd);
-}
-
-int	ft_parse_fdout(t_list *nodes, t_shell_data *d)
-{
-	t_open_data	o_d;
-
-	o_d.fd = STDOUT_FILENO;
-	while (nodes)
-	{
-		o_d.token = nodes->content;
-		if (o_d.token->type == token_op)
-		{
-			o_d.op_token = o_d.token->data;
-			if (o_d.op_token->type == op_pipe)
-				break ;
-			if (o_d.op_token->type == op_out_redirect_trunc)
-				if (ft_open_file(&o_d, d) == -2)
-					return (ft_exp_err(o_d.op_token->word->str, d->progname));
-			if (o_d.op_token->type == op_out_redirect_append)
-				if (ft_open_file(&o_d, d) == -2)
-					return (ft_exp_err(o_d.op_token->word->str, d->progname));
-			if (o_d.fd < 0)
-				return (ft_open_err(o_d.op_token->word->str, d->progname));
-		}
-		nodes = nodes->next;
-	}
-	return (o_d.fd);
+	return (0);
 }

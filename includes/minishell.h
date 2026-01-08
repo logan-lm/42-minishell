@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 12:03:48 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 16:26:42 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
+# include <sys/ioctl.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <termios.h>
-# include <unistd.h>
 
 # ifndef BUILD_DEBUG
 #  define BUILD_DEBUG 0
@@ -68,6 +68,8 @@ int						ft_getpid(void);
 void					ft_setpid(int pid);
 int						ft_getfd(void);
 void					ft_setfd(int fd);
+int						ft_gethd(void);
+void					ft_sethd(int hd);
 void					ft_unlink_hds(t_shell_data *data);
 
 void					ft_gc_debug(char *str);

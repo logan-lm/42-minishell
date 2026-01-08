@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 14:55:53 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 17:04:18 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,12 +149,10 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 	while (command_tree->commands)
 	{
 		data.has_pipe = ft_has_pipe(command_tree->commands);
-		// command_tree->commands = ft_ignore_varsets(command_tree->commands);
 		command_tree->commands = ft_assign_vars(command_tree->commands, d);
 		data.cmd = ft_calloc_gc_id(1, sizeof(t_command), malloc_id_exec);
 		data.cmd->fork = data.pipeline;
-		data.cmd->fdin = ft_parse_fdin(command_tree->commands, d);
-		data.cmd->fdout = ft_parse_fdout(command_tree->commands, d);
+		data.ret = ft_parse_fd(command_tree->commands, d, &data);
 		data.cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands, d));
 		if (!*data.cmd->args)
 		{
@@ -162,7 +160,10 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 			continue ;
 		}
 		if (data.cmd->fdin < 0 || data.cmd->fdout < 0)
+		{
+			data.ret = 1;
 			data.cmd->args[0] = "FAILED_OPEN";
+		}
 		if (data.cmd->fdin != STDIN_FILENO)
 		{
 			if (data.fd_in != STDIN_FILENO)
