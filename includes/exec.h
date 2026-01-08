@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/07 22:21:22 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 13:20:43 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int					ft_is_limiter(char *str, char *limiter);
 int					ft_str_hasspace(char *str);
 t_list				*ft_separate_cmdname(char *arg);
 int					ft_ispath(char *str);
-char				*ft_get_cmdpath(char *cmd, t_list *envp, int *ret);
+char				*ft_get_cmdpath(char *cmd, t_list *envp, int *ret, char *progname);
 char				*ft_getvarname(char *str);
 t_list				*ft_parse_cmd(t_list **nodes, t_shell_data *d);
 t_list				*ft_get_sorted_dircontent(char *path, int dir);

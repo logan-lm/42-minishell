@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/07 21:55:56 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 13:20:10 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 	else if (r_d.cmdpath && rp_d->cmd->fork)
 		return (ft_run_forked_builtin(r_d.cmdpath, rp_d, data, next));
 	if (ft_strncmp(rp_d->cmd->args[0], "FAILED_OPEN", 12))
-		r_d.cmdpath = ft_get_cmdpath(rp_d->cmd->args[0], data->envp, &rp_d->ret);
+		r_d.cmdpath = ft_get_cmdpath(rp_d->cmd->args[0], data->envp, &rp_d->ret, data->progname);
 	pipe(r_d.pipefd);
 	if ((!next || rp_d->cmd->fdout != STDOUT_FILENO) && !close(r_d.pipefd[1]))
 		r_d.pipefd[1] = rp_d->cmd->fdout;
