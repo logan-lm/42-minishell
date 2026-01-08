@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 21:28:16 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 23:04:08 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ void	ft_wordtostr_expand(char **word, t_list **src, t_shell_data *data,
 	}
 	else
 		ft_lstdelone_fr_gc(src, ft_lstlast(*src), NULL);
-	if (!w_d->splitted[0])
+	/* if (!w_d->splitted[0])
 		ft_lstadd_back(src, ft_lstnew_gc_id(ft_strdup_gc_id("", malloc_id_exec),
-				malloc_id_exec));
+				malloc_id_exec)); */
 	while (w_d->splitted[++w_d->i])
 		ft_lstadd_back(src, ft_lstnew_gc_id(w_d->splitted[w_d->i],
 				malloc_id_exec));

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 18:31:12 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 18:02:58 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 23:02:04 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ char	*ft_getvar(t_list *vars, t_list *envp, char *key)
 	value = ft_dictmap(vars, key);
 	if (!value)
 		value = ft_dictmap(envp, key);
-	if (!value)
-		return ("");
+	/* if (!value)
+		return (""); */
 	return (value);
 }
 
