@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:24:08 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 19:05:44 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 21:31:12 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,13 @@ char	*ft_getvarname(char *str)
 	char	*varname;
 
 	len = 0;
-	while (ft_isalnum(str[++len]))
-		continue ;
+	if (*str == '?')
+		len = 1;
+	else
+	{
+		while (ft_isalnum(str[++len]))
+			continue ;
+	}
 	varname = ft_malloc_id((len + 1) * sizeof(char), malloc_id_exec);
 	ft_strlcpy(varname, str, len + 1);
 	return (varname);

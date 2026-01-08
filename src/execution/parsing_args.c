@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/07 12:24:41 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 21:28:16 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_expand_var(char **word, char *src, t_shell_data *data)
 
 	*word += 1;
 	varname = ft_getvarname(*word);
-	if (!*varname)
+	if (!*varname || (!ft_isalpha(*varname) && *varname != '?'))
 	{
 		dest = ft_strjoin(src, "$");
 		ft_free(src);
@@ -62,6 +62,14 @@ char	*ft_copy_nonspecial(char **word, char *src)
 void	ft_wordtostr_expand(char **word, t_list **src, t_shell_data *data,
 		t_wordtostr_data *w_d)
 {
+	/* if (!ft_isalnum(word[1]))
+	{
+		w_d->last_str = ft_lstlast(*src)->content;
+		w_d->temp = w_d->last_str;
+		w_d->last_str = ft_strjoin_gc_id(w_d->last_str, "$", malloc_id_exec);
+		ft_free(w_d->temp);
+		return ;
+	} */
 	w_d->i = -1;
 	w_d->splitted = ft_split_gc_id(ft_expand_var(word,
 				ft_lstlast(*src)->content, data), ' ', malloc_id_exec);
@@ -88,8 +96,7 @@ t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data)
 
 	while (*word)
 	{
-		if (*word == '$' && (!*(word + 1) || (ft_isalpha(*(word + 1)) || *(word
-						+ 1) == '?')))
+		if (*word == '$')
 		{
 			ft_wordtostr_expand(&word, src, data, &w_d);
 			continue ;

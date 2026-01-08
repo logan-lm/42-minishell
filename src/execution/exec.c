@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 19:47:10 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 22:51:25 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_run_forked_builtin(int (*builtin)(char **a, t_shell_data *d, int in,
 	return (pipefd[0]);
 }
 
-t_list	*ft_ignore_varsets(t_list *nodes)
+t_list	*ft_ignore_varsets(t_list *nodes, int has_pipe)
 {
 	t_list					*nodes_cpy;
 	t_parsing_token			*token;
@@ -88,28 +88,28 @@ t_list	*ft_ignore_varsets(t_list *nodes)
 		if (token->type == token_word)
 		{
 			compounds = token->data;
-			if (compounds->is_name)
-				setter = 1;
-			else if (setter && !compounds->is_name)
+			if (setter && !compounds->is_name)
 				return (nodes_cpy);
+			if ((compounds->is_name && nodes_cpy->next) || has_pipe)
+				setter = 1;
 			else
 				return (nodes);
 		}
 		else
-			return (nodes);
+			return (nodes_cpy);
 		nodes_cpy = nodes_cpy->next;
 	}
-	return (nodes);
+	return (nodes_cpy);
 }
 
-t_list	*ft_assign_vars(t_list *nodes, t_shell_data *data)
+t_list	*ft_assign_vars(t_list *nodes, int has_pipe, t_shell_data *data)
 {
 	t_list					*nodes_cpy;
 	t_parsing_token			*token;
 	t_token_op_data			*op_token;
 	t_string_compound_lst	*compounds;
 
-	nodes = ft_ignore_varsets(nodes);
+	nodes = ft_ignore_varsets(nodes, has_pipe);
 	nodes_cpy = nodes;
 	while (nodes_cpy)
 	{
@@ -149,7 +149,7 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 	while (command_tree->commands)
 	{
 		data.has_pipe = ft_has_pipe(command_tree->commands);
-		command_tree->commands = ft_assign_vars(command_tree->commands, d);
+		command_tree->commands = ft_assign_vars(command_tree->commands, data.has_pipe, d);
 		data.cmd = ft_calloc_gc_id(1, sizeof(t_command), malloc_id_exec);
 		data.cmd->fork = data.pipeline;
 		data.ret = ft_parse_fd(command_tree->commands, d, &data);

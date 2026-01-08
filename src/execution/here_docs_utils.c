@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:14:34 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 18:24:23 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 20:55:37 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int ft_o_hdoc_while(char *limiter, t_hd_data *hd_data)
 	while (!ft_is_limiter(hd_data->line, limiter) && g_sig != SIGINT)
 	{
 		ft_free(hd_data->line);
-		hd_data->buffer = readline("> ");
+		//hd_data->buffer = readline("> ");
+		hd_data->buffer = get_next_line(0);
 		if (!hd_data->buffer)
 		{
 			ft_sethd(1);

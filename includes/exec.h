@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 17:51:22 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 21:20:09 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_wordtostr_data
 {
 	char			**splitted;
 	char			*temp;
+	char			*last_str;
 	char			*arg;
 	t_list			*last;
 	int				i;

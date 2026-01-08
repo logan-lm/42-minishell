@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 18:55:48 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 21:42:40 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	ft_run_cmd_child(t_command *cmd, t_shell_data *data, int fdin,
 	}
 }
 
-int	ft_run_cmd_parent(int fdin, void *next, t_shell_data *data,
+int	ft_run_cmd_parent(t_run_pipeline_data *rp_d, void *next, t_shell_data *data,
 		t_runcmd_data *r_d)
 {
 	ft_setpid(r_d->pid);
-	if (fdin != STDIN_FILENO && fdin != STDOUT_FILENO)
-		close(fdin);
+	if (rp_d->fd_in != STDIN_FILENO && rp_d->fd_in != STDOUT_FILENO)
+		close(rp_d->fd_in);
 	if (r_d->pipefd[1] != STDOUT_FILENO)
 		close(r_d->pipefd[1]);
 	if (!next)
@@ -48,7 +48,7 @@ int	ft_run_cmd_parent(int fdin, void *next, t_shell_data *data,
 			ft_sig_handler(WTERMSIG(data->exit_status));
 			return (128 + WTERMSIG(data->exit_status));
 		}
-		return (WEXITSTATUS(data->exit_status));
+		rp_d->ret = WEXITSTATUS(data->exit_status);
 	}
 	return (r_d->pipefd[0]);
 }
@@ -82,5 +82,5 @@ int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 	signal(SIGINT, SIG_IGN);
 	r_d.pid = fork();
 	ft_run_cmd_child(rp_d->cmd, data, rp_d->fd_in, &r_d);
-	return (ft_run_cmd_parent(rp_d->fd_in, next, data, &r_d));
+	return (ft_run_cmd_parent(rp_d, next, data, &r_d));
 }
