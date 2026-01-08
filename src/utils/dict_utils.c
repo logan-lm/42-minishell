@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:25:46 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 18:40:00 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 15:17:46 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,13 +110,13 @@ void	ft_dictadd(t_list **list, char *key, char *value)
 	if (cpy)
 	{
 		ft_free(((t_dict *)cpy->content)->value);
-		((t_dict *)cpy->content)->value = value;
+		((t_dict *)cpy->content)->value = ft_strdup_gc(value);
 	}
 	else
 	{
 		elem = ft_malloc(sizeof(t_dict));
 		elem->key = key;
-		elem->value = value;
+		elem->value = ft_strdup_gc(value);
 		ft_lstadd_front(list, ft_lstnew_gc(elem));
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/07 21:57:21 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 12:06:30 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 {
-	t_open_data	o_d;
+	t_open_data			o_d;
 
 	while (nodes)
 	{
@@ -23,12 +23,13 @@ void	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 		if (o_d.token && o_d.token->type == token_op)
 		{
 			o_d.op_token = o_d.token->data;
-			if (o_d.op_token->type == op_heredoc && o_d.op_token->word->heredoc_fd == -1)
+			if (o_d.op_token->type == op_heredoc
+				&& o_d.op_token->word->heredoc_fd == -1)
 			{
 				signal(SIGINT, ft_sig_hd_handler);
 				o_d.op_token->word->heredoc_fd = ft_o_hdoc(o_d.op_token->word->str,
 						d);
-				signal(SIGINT, ft_sig_handler);
+				sigaction(SIGINT, &d->sa, NULL);
 				if (g_sig == SIGINT)
 					return ;
 			}

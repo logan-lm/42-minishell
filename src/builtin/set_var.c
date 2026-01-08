@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 10:04:24 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/07 16:44:44 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 15:17:33 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	ft_set_var(char **args, t_shell_data *data, int fdin, int fdout)
 		if (ft_dictmap(data->envp, s.var->key))
 			ft_dictadd(&data->envp, s.var->key, s.var->value);
 		ft_dictadd(&data->vars, s.var->key, s.var->value);
+		ft_free(s.var->value);
 		ft_free(s.var);
 	}
 	return (0);

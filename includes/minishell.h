@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/06 11:54:49 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 12:03:48 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_shell_data
 	int					exit_status;
 	int					lines;
 	char				*wc_path;
-	struct termios		term;
 	struct sigaction	sa;
 	t_list				*opened_hd;
 }						t_shell_data;

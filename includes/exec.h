@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 13:20:43 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 14:55:41 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ int					ft_is_limiter(char *str, char *limiter);
 int					ft_str_hasspace(char *str);
 t_list				*ft_separate_cmdname(char *arg);
 int					ft_ispath(char *str);
-char				*ft_get_cmdpath(char *cmd, t_list *envp, int *ret, char *progname);
+char				*ft_get_cmdpath(char *cmd, t_list *envp, int *ret,
+						char *progname);
 char				*ft_getvarname(char *str);
 t_list				*ft_parse_cmd(t_list **nodes, t_shell_data *d);
 t_list				*ft_get_sorted_dircontent(char *path, int dir);
@@ -120,6 +121,7 @@ void				ft_sig_hd_handler(int sig);
 int					ft_o_hdoc(char *limiter, t_shell_data *data);
 char				*ft_copy_nonspecial(char **word, char *src);
 char				*ft_expand_word(char *word, t_shell_data *data);
-char				*ft_expand_word(char *word, t_shell_data *data);
+char				*ft_expand_compound(t_string_compound_lst *cmpd,
+						t_shell_data *data);
 
 #endif

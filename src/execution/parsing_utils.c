@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 09:07:40 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 13:21:10 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 14:58:30 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,27 @@ char	*ft_expand_word(char *word, t_shell_data *data)
 		else
 			dest = ft_copy_nonspecial(&word, dest);
 		ft_free(temp);
+	}
+	return (dest);
+}
+
+char	*ft_expand_compound(t_string_compound_lst *cmpd, t_shell_data *data)
+{
+	char *dest;
+	char *temp;
+
+	dest = NULL;
+	while (cmpd)
+	{
+		temp = dest;
+		if (cmpd->type == word_replace_vars)
+		{
+			dest = ft_strjoin_gc_id(dest, ft_expand_word(cmpd->str, data), malloc_id_exec);
+		}
+		else
+			dest = ft_strjoin_gc_id(dest, cmpd->str, malloc_id_exec);
+		ft_free(temp);
+		cmpd = cmpd->next;
 	}
 	return (dest);
 }

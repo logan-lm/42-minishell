@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 11:05:53 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/08 14:55:53 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,39 @@ t_list	*ft_ignore_varsets(t_list *nodes)
 	return (nodes);
 }
 
+t_list	*ft_assign_vars(t_list *nodes, t_shell_data *data)
+{
+	t_list					*nodes_cpy;
+	t_parsing_token			*token;
+	t_token_op_data			*op_token;
+	t_string_compound_lst	*compounds;
+
+	nodes = ft_ignore_varsets(nodes);
+	nodes_cpy = nodes;
+	while (nodes_cpy)
+	{
+		token = nodes_cpy->content;
+		if (token->type == token_op)
+		{
+			op_token = token->data;
+			if (op_token->type == op_pipe)
+				return (nodes_cpy);
+		}
+		if (token->type == token_word)
+		{
+			compounds = token->data;
+			if (compounds->is_name)
+				ft_set_var((char *[2]){ft_expand_compound(compounds, data), NULL}, data, 0, 1);
+			else
+				return (nodes_cpy);
+		}
+		else
+			return (nodes_cpy);
+		nodes_cpy = nodes_cpy->next;
+	}
+	return (nodes_cpy);
+}
+
 int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 {
 	t_run_pipeline_data	data;
@@ -115,12 +148,19 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 		return (130);
 	while (command_tree->commands)
 	{
-		command_tree->commands = ft_ignore_varsets(command_tree->commands);
+		data.has_pipe = ft_has_pipe(command_tree->commands);
+		// command_tree->commands = ft_ignore_varsets(command_tree->commands);
+		command_tree->commands = ft_assign_vars(command_tree->commands, d);
 		data.cmd = ft_calloc_gc_id(1, sizeof(t_command), malloc_id_exec);
 		data.cmd->fork = data.pipeline;
-		data.cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands, d));
 		data.cmd->fdin = ft_parse_fdin(command_tree->commands, d);
 		data.cmd->fdout = ft_parse_fdout(command_tree->commands, d);
+		data.cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands, d));
+		if (!*data.cmd->args)
+		{
+			command_tree->commands = ft_next_cmd(command_tree->commands);
+			continue ;
+		}
 		if (data.cmd->fdin < 0 || data.cmd->fdout < 0)
 			data.cmd->args[0] = "FAILED_OPEN";
 		if (data.cmd->fdin != STDIN_FILENO)
