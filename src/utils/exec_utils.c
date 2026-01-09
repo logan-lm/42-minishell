@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:24:08 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 21:31:12 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/09 14:05:37 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_getvarname(char *str)
 		len = 1;
 	else
 	{
-		while (ft_isalnum(str[++len]))
+		while (ft_isalnum(str[++len]) || str[len] == '_')
 			continue ;
 	}
 	varname = ft_malloc_id((len + 1) * sizeof(char), malloc_id_exec);

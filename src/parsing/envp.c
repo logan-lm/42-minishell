@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:41:16 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/07 13:13:17 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/09 14:13:36 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	ft_init_envp(char **av, char **envp, t_shell_data *data)
 	while (*envp)
 	{
 		part = ft_split_gc(*envp, '=');
-		ft_dictadd(&data->envp, part[0], part[1]);
+		ft_dictadd(&data->envp, part[0], ft_strchr(*envp, '=') + 1);
+		ft_free_strs(part);
 		envp++;
 	}
 	pwd = getcwd(NULL, 0);
