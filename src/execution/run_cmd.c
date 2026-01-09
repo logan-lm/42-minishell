@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 22:28:30 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/09 22:36:09 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_run_cmd_child(t_command *cmd, t_shell_data *data, t_runcmd_data *r_d)
 		if (r_d->pipefd)
 			close(r_d->pipefd[0]);
 		dup2(r_d->fd_out, 1);
-		if (r_d->pipefd)
+		if (r_d->fd_in)
 			dup2(r_d->fd_in, 0);
 		if (r_d->cmd_type == cmd_builtin)
 			ft_exit(ft_run_builtin(r_d->cmdpath, cmd->args, r_d, data));
