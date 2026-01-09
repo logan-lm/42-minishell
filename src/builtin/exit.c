@@ -45,7 +45,7 @@ int	ft_shell_exit(char **args, t_shell_data *data, int fdin, int fdout)
 		}
 		if (*(args + 1))
 			return (ft_print_error("exit: too many arguments", data->progname));
-		data->exit_status = (char)ft_atoi(*args);
+		data->exit_status = (unsigned char)ft_atoi(*args);
 	}
 	ft_exit(data->exit_status);
 	return (EXIT_SUCCESS);

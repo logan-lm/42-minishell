@@ -53,6 +53,8 @@ void	ft_add_exit(void *d, void (*f)(void *))
 	ft_do_exit(ADD_EXIT, d, f);
 }
 
+/// @brief Clear gc, get_next_line and exits
+/// @param exit_code DO NOT USE EXIT CODE -1
 void	ft_exit(int exit_code)
 {
 	ft_do_exit(exit_code, 0, 0);
