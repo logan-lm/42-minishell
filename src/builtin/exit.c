@@ -36,7 +36,7 @@ int	ft_shell_exit(char **args, t_shell_data *data, int fdin, int fdout)
 		close(fdout);
 	if (*args)
 	{
-		if (!ft_str_isdigit(*args))
+		if ((**args != '+' && **args != '-' && !ft_isdigit(**args)) || !ft_str_isdigit(*args + 1))
 		{
 			err = ft_strjoin_mult_gc_id(malloc_id_exec, 3, "exit: ", *args,
 					": numeric argument required");
@@ -45,7 +45,7 @@ int	ft_shell_exit(char **args, t_shell_data *data, int fdin, int fdout)
 		}
 		if (*(args + 1))
 			return (ft_print_error("exit: too many arguments", data->progname));
-		data->exit_status = ft_atoi(*args);
+		data->exit_status = (char)ft_atoi(*args);
 	}
 	ft_exit(data->exit_status);
 	return (EXIT_SUCCESS);
