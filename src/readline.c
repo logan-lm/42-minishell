@@ -69,6 +69,7 @@ void	ft_readline(t_shell_data *d)
 
 	g_sig = 0;
 	prompt = readline(ft_get_prompt());
+	ft_sethd(0);
 	g_sig = 0;
 	if (prompt == NULL)
 	{
