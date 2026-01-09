@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 23:49:02 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/09 23:58:44 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 		r_d.fd_out = rp_d->cmd->fdout;
 	else
 	{
-		r_d.pipefd = malloc(sizeof(int) * 2);
+		r_d.pipefd = ft_malloc_id(sizeof(int) * 2, malloc_id_exec);
 		pipe(r_d.pipefd);
 		r_d.fd_out = r_d.pipefd[1];
 	}
