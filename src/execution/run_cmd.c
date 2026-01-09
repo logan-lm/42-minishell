@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 22:36:09 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/09 23:04:15 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,18 @@ int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 		return (0);
 	ft_try_get_cmd(&r_d, rp_d, data);
 	r_d.fd_in = rp_d->fd_in;
-	if ((!next || rp_d->cmd->fdout != STDOUT_FILENO))
+	if (!next)
 		r_d.fd_out = rp_d->cmd->fdout;
 	else
 	{
 		r_d.pipefd = malloc(sizeof(int) * 2);
 		pipe(r_d.pipefd);
 		r_d.fd_out = r_d.pipefd[1];
+	}
+	if (rp_d->cmd->fdout != STDOUT_FILENO)
+	{
+		close(r_d.pipefd[0]);
+		r_d.fd_out = rp_d->cmd->fdout;
 	}
 	if (r_d.cmd_type == cmd_error)
 		return (ft_close_onerror(rp_d, &r_d, next));
