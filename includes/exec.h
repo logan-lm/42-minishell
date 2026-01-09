@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 20:39:08 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/09 22:14:52 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef enum e_cmd_type
 typedef struct s_runcmd_data
 {
 	int				pid;
-	int				pipefd[2];
+	int				*pipefd;
 	int				fd_in;
 	int				fd_out;
 	void			*cmdpath;

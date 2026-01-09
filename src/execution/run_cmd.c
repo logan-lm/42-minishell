@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 21:28:50 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/09 22:28:30 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,14 @@ int	ft_close_onerror(t_run_pipeline_data *rp_d, t_runcmd_data *r_d, void *next)
 {
 	if (!rp_d->ret)
 		rp_d->ret = 1;
-	if (r_d->pipefd[1] > 2)
-		close(r_d->pipefd[1]);
 	if (!next && r_d->fd_out > 2)
 		close(r_d->fd_out);
-	return (r_d->pipefd[0]);
+	if (r_d->pipefd)
+	{
+		close(r_d->pipefd[1]);
+		return (r_d->pipefd[0]);
+	}
+	return (-1);
 }
 
 void	ft_run_cmd_child(t_command *cmd, t_shell_data *data, t_runcmd_data *r_d)
@@ -30,9 +33,10 @@ void	ft_run_cmd_child(t_command *cmd, t_shell_data *data, t_runcmd_data *r_d)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		close(r_d->pipefd[0]);
+		if (r_d->pipefd)
+			close(r_d->pipefd[0]);
 		dup2(r_d->fd_out, 1);
-		if (r_d->fd_in)
+		if (r_d->pipefd)
 			dup2(r_d->fd_in, 0);
 		if (r_d->cmd_type == cmd_builtin)
 			ft_exit(ft_run_builtin(r_d->cmdpath, cmd->args, r_d, data));
@@ -52,11 +56,11 @@ int	ft_run_cmd_parent(t_run_pipeline_data *rp_d, void *next, t_shell_data *data,
 	ft_setpid(r_d->pid);
 	if (rp_d->fd_in > 2)
 		close(r_d->fd_in);
-	if (r_d->pipefd[1])
+	if (r_d->pipefd)
 		close(r_d->pipefd[1]);
 	if (!next)
 	{
-		if (r_d->pipefd[0])
+		if (r_d->pipefd)
 			close(r_d->pipefd[0]);
 		waitpid(r_d->pid, &data->exit_status, 0);
 		if (WIFSIGNALED(data->exit_status))
@@ -66,7 +70,9 @@ int	ft_run_cmd_parent(t_run_pipeline_data *rp_d, void *next, t_shell_data *data,
 		}
 		rp_d->ret = WEXITSTATUS(data->exit_status);
 	}
-	return (r_d->pipefd[0]);
+	if (r_d->pipefd)
+		return (r_d->pipefd[0]);
+	return (-1);
 }
 
 void	ft_try_get_cmd(t_runcmd_data *r_d, t_run_pipeline_data *rp_d,
@@ -106,6 +112,7 @@ int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 		r_d.fd_out = rp_d->cmd->fdout;
 	else
 	{
+		r_d.pipefd = malloc(sizeof(int) * 2);
 		pipe(r_d.pipefd);
 		r_d.fd_out = r_d.pipefd[1];
 	}
