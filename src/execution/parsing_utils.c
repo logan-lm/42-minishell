@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 09:07:40 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 18:42:18 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/09 12:21:40 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,33 @@ char	*ft_check_paths(char *cmdname, t_list *envp)
 	return (NULL);
 }
 
+int		ft_check_cmdaccess(char *path, char *progname, int *ret)
+{
+	char	*err;
+
+	if (ft_isdir(path))
+	{
+		err = ft_strjoin_gc_id(path, ": Is a directory", malloc_id_exec);
+		*ret = 126;
+		ft_print_error(err, progname);
+		ft_free(err);
+		return (0);
+	}
+	if (access(path, F_OK))
+	{
+		*ret = 127;
+		ft_print_perror(path, progname);
+		return (0);
+	}
+	if (access(path, R_OK | W_OK))
+	{
+		*ret = 126;
+		ft_print_perror(path, progname);
+		return (0);
+	}
+	return (1);
+}
+
 char	*ft_get_cmdpath(char *cmd, t_list *envp, int *ret, char *progname)
 {
 	char	*path;
@@ -46,25 +73,25 @@ char	*ft_get_cmdpath(char *cmd, t_list *envp, int *ret, char *progname)
 
 	if (ft_ispath(cmd))
 	{
-		if (ft_isdir(cmd))
-		{
-			err = ft_strjoin_gc_id(cmd, ": Is a directory", malloc_id_exec);
-			ft_print_error(err, progname);
-			ft_free(err);
+		if (ft_check_cmdaccess(cmd, progname, ret))
+			return (ft_parse_path(cmd, envp));
+		else
 			return (NULL);
-		}
-		return (ft_parse_path(cmd, envp));
 	}
 	path = ft_check_paths(cmd, envp);
 	if (path)
 		return (path);
 	ft_free(path);
-	err = ft_strjoin_gc_id(cmd, ": command not found", malloc_id_exec);
 	if (errno == 13)
 		*ret = 126;
-	*ret = 127;
+	else
+	{
+		err = ft_strjoin_gc_id(cmd, ": command not found", malloc_id_exec);
+		*ret = 127;
+	}
 	ft_print_error(err, progname);
-	ft_free(err);
+	if (err)
+		ft_free(err);
 	return (NULL);
 }
 
