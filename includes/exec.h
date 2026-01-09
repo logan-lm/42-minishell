@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 21:20:09 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/09 13:32:01 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_hd_data
 	char			*line;
 	char			*temp;
 	char			*tmppaths[4];
-	int			tried_paths;
+	int				tried_paths;
 }					t_hd_data;
 
 typedef struct s_open_data
@@ -93,7 +93,8 @@ int					ft_has_pipe(t_list *nodes);
 t_list				*ft_next_cmd(t_list *nodes);
 int					ft_and(t_command_node *command_tree, t_shell_data *data);
 int					ft_or(t_command_node *command_tree, t_shell_data *data);
-int					ft_subshell(char **args, t_shell_data *data, int fdout);
+int					ft_subshell(char **args, t_shell_data *data, int fdin,
+						int fdout);
 int					ft_open_err(char *filename, char *progname);
 int					ft_exp_err(char *filename, char *progname);
 int					ft_heredoc_eof_err(t_shell_data *data, char *limiter,

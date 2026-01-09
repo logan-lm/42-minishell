@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 11:39:25 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/09 13:53:57 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_run_builtin(int (*builtin)(char **a, t_shell_data *d, int in, int out),
 		fdout = pipefd[1];
 	else
 		close(pipefd[1]);
-	if (builtin == ft_shell_exit)
+	if (builtin == ft_shell_exit || builtin == ft_subshell)
 		close(pipefd[0]);
 	exit_status = builtin(rp_d->cmd->args, data, rp_d->fd_in, fdout);
 	if (rp_d->fd_in > 2)
