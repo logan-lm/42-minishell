@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 09:07:40 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 12:21:40 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/09 13:48:00 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*ft_check_paths(char *cmdname, t_list *envp)
 	return (NULL);
 }
 
-int		ft_check_cmdaccess(char *path, char *progname, int *ret)
+int	ft_check_cmdaccess(char *path, char *progname, int *ret)
 {
 	char	*err;
 
@@ -69,7 +69,6 @@ int		ft_check_cmdaccess(char *path, char *progname, int *ret)
 char	*ft_get_cmdpath(char *cmd, t_list *envp, int *ret, char *progname)
 {
 	char	*path;
-	char	*err;
 
 	if (ft_ispath(cmd))
 	{
@@ -83,15 +82,16 @@ char	*ft_get_cmdpath(char *cmd, t_list *envp, int *ret, char *progname)
 		return (path);
 	ft_free(path);
 	if (errno == 13)
+	{
+		ft_print_perror(cmd, progname);
 		*ret = 126;
+	}
 	else
 	{
-		err = ft_strjoin_gc_id(cmd, ": command not found", malloc_id_exec);
+		ft_print_error(ft_strjoin_gc_id(cmd, ": command not found",
+				malloc_id_exec), progname);
 		*ret = 127;
 	}
-	ft_print_error(err, progname);
-	if (err)
-		ft_free(err);
 	return (NULL);
 }
 
@@ -154,7 +154,8 @@ char	*ft_expand_word(char *word, t_shell_data *data)
 			}
 			varname = ft_getvarname(word + 1);
 			word += ft_strlen(varname) + 1;
-			dest = ft_strjoin_gc_id(dest, ft_getvar(data->vars, data->envp, varname), malloc_id_exec);
+			dest = ft_strjoin_gc_id(dest, ft_getvar(data->vars, data->envp,
+						varname), malloc_id_exec);
 		}
 		else
 			dest = ft_copy_nonspecial(&word, dest);
@@ -165,8 +166,8 @@ char	*ft_expand_word(char *word, t_shell_data *data)
 
 char	*ft_expand_compound(t_string_compound_lst *cmpd, t_shell_data *data)
 {
-	char *dest;
-	char *temp;
+	char	*dest;
+	char	*temp;
 
 	dest = NULL;
 	while (cmpd)
@@ -174,7 +175,8 @@ char	*ft_expand_compound(t_string_compound_lst *cmpd, t_shell_data *data)
 		temp = dest;
 		if (cmpd->type == word_replace_vars)
 		{
-			dest = ft_strjoin_gc_id(dest, ft_expand_word(cmpd->str, data), malloc_id_exec);
+			dest = ft_strjoin_gc_id(dest, ft_expand_word(cmpd->str, data),
+					malloc_id_exec);
 		}
 		else
 			dest = ft_strjoin_gc_id(dest, cmpd->str, malloc_id_exec);
