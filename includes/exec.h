@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 13:32:01 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/09 20:39:08 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,22 @@ typedef struct s_wordtostr_data
 	int				i;
 }					t_wordtostr_data;
 
+typedef enum e_cmd_type
+{
+	cmd_builtin,
+	cmd_exec,
+	cmd_error
+}					t_cmd_type;
+
 typedef struct s_runcmd_data
 {
 	int				pid;
 	int				pipefd[2];
+	int				fd_in;
+	int				fd_out;
 	void			*cmdpath;
 	int				ret;
+	t_cmd_type		cmd_type;
 }					t_runcmd_data;
 
 typedef struct s_run_pipeline_data
@@ -112,12 +122,8 @@ t_list				*ft_check_wildcards(t_list *args, t_shell_data *data);
 int					ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data,
 						void *next);
 int					ft_run_builtin(int (*builtin)(char **a, t_shell_data *d,
-							int in, int out), t_run_pipeline_data *rp_d,
-						t_shell_data *data, void *next);
-int					ft_run_forked_builtin(int (*builtin)(char **a,
-							t_shell_data *d, int in, int out),
-						t_run_pipeline_data *rp_d, t_shell_data *data,
-						void *next);
+							int in, int out), char **args, t_runcmd_data *r_d,
+						t_shell_data *data);
 int					ft_is_only_varset(t_list *commands);
 int					ft_heredoc_handler(void);
 void				ft_sig_hd_handler(int sig);

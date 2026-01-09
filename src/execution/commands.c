@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 10:13:32 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/06 23:30:41 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/09 16:28:54 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_list	*ft_next_cmd(t_list *nodes)
 	return (NULL);
 }
 
-t_list	*ft_separate_cmdname(char *arg)
+/* t_list	*ft_separate_cmdname(char *arg)
 {
 	char	*temp;
 	int		i;
@@ -88,4 +88,4 @@ t_list	*ft_separate_cmdname(char *arg)
 	temp[i] = '\0';
 	ft_lstadd_back(&args, ft_lstnew_gc_id(temp, malloc_id_exec));
 	return (args);
-}
+} */
