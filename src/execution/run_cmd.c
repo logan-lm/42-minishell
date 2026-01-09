@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 23:04:15 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/09 23:41:16 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int	ft_run_cmd_parent(t_run_pipeline_data *rp_d, void *next, t_shell_data *data,
 		close(r_d->pipefd[1]);
 	if (!next)
 	{
+		waitpid(r_d->pid, &data->exit_status, 0);
 		if (r_d->pipefd)
 			close(r_d->pipefd[0]);
-		waitpid(r_d->pid, &data->exit_status, 0);
 		if (WIFSIGNALED(data->exit_status))
 		{
 			ft_sig_handler(WTERMSIG(data->exit_status));
