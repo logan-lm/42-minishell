@@ -34,29 +34,29 @@ int	ft_is_assignement_op(char *str, int *i)
 
 t_string_compound_lst	*ft_build_word_token(char *str)
 {
-	t_string_compound_lst	*ret;
+	t_string_compound_lst	*r;
 	int						i;
 	int						j;
 
 	i = 0;
 	while (str[i] && ft_is_name_character(str[i]))
 		i++;
-	if (i > 0 && ft_isalpha(str[0]) && ft_is_assignement_op(str, &i))
+	if (i > 0 && (ft_isalpha(str[0]) || str[0] == '_')
+		&& ft_is_assignement_op(str, &i))
 	{
-		ret = ft_get_string_token_node(str, i, word_true, (t_v2i){1, 1});
+		r = ft_get_string_token_node(str, i, word_true, (t_v2i){1, 1});
 		j = i;
 		while (str[j])
 			j++;
 		if (i != j)
-			ret->next = ft_get_string_token_node(str + i, j - i,
+			r->next = ft_get_string_token_node(str + i, j - i,
 					word_replace_vars, (t_v2i){0, 1});
 	}
 	else
 	{
 		while (str[i])
 			i++;
-		ret = ft_get_string_token_node(str, i, word_replace_vars, (t_v2i){0,
-				1});
+		r = ft_get_string_token_node(str, i, word_replace_vars, (t_v2i){0, 1});
 	}
-	return (ret);
+	return (r);
 }
