@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 21:36:46 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 19:30:35 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/09 22:44:58 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,18 @@ static int	ft_strhasequal(char *str)
 	return (0);
 }
 
-static void	ft_export_setup(int fdin, int fdout, int *i, char ***args)
+static void	ft_export_setup(int fdin, int fdout, t_v2i *i_ret, char ***args)
 {
 	if (fdin != STDIN_FILENO)
 		close(fdin);
 	if (fdout != STDOUT_FILENO)
 		close(fdout);
-	*i = -1;
+	i_ret->x = -1;
+	i_ret->y = 0;
 	*args += 1;
 }
 
-int	ft_is_varname_valid(char *str, char *program_name)
+int	ft_is_varname_valid(char *str, char *program_name, t_v2i *i_ret)
 {
 	int		i;
 	char	*error;
@@ -57,32 +58,33 @@ int	ft_is_varname_valid(char *str, char *program_name)
 	error = ft_strjoin_mult_gc_id(malloc_id_exec, 3, "export: `", str,
 			"': not a valid identifier");
 	ft_print_error(error, program_name);
+	i_ret->y = 1;
 	return (0);
 }
 
 int	ft_export(char **args, t_shell_data *data, int fdin, int fdout)
 {
-	int		i;
+	t_v2i	i_ret;
 	int		set_mode;
 	int		append_mode;
 	t_dict	var_entry;
 
-	ft_export_setup(fdin, fdout, &i, &args);
-	while (args[++i])
+	ft_export_setup(fdin, fdout, &i_ret, &args);
+	while (args[++i_ret.x])
 	{
-		if (!ft_is_varname_valid(args[i], data->progname))
-			continue ;
-		set_mode = ft_strhasequal(args[i]);
-		append_mode = ft_set_append_mode(args[i]);
-		var_entry.key = ft_substr_gc(args[i], 0, ft_strclen(args[i], '=')
+		if (!ft_is_varname_valid(args[i_ret.x], data->progname, &i_ret))
+			continue;
+		set_mode = ft_strhasequal(args[i_ret.x]);
+		append_mode = ft_set_append_mode(args[i_ret.x]);
+		var_entry.key = ft_substr_gc(args[i_ret.x], 0, ft_strclen(args[i_ret.x], '=')
 				- append_mode);
 		if (set_mode)
-			ft_set_var((char *[2]){args[i], NULL}, data, fdin, fdout);
+			ft_set_var((char *[2]){args[i_ret.x], NULL}, data, fdin, fdout);
 		var_entry.value = ft_dictmap(data->vars, var_entry.key);
 		if (!var_entry.value)
 			ft_free(var_entry.key);
 		else
 			ft_dictadd(&data->envp, var_entry.key, var_entry.value);
 	}
-	return (EXIT_SUCCESS);
+	return (i_ret.y);
 }
