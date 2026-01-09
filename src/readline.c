@@ -68,9 +68,7 @@ void	ft_readline(t_shell_data *d)
 	char	*prompt;
 
 	g_sig = 0;
-	prompt = readline("\001\033[1;32m\002Minishell>\001\033[0m\002");
-	//prompt = get_next_line(0);
-	ft_sethd(0);
+	prompt = readline(ft_get_prompt());
 	g_sig = 0;
 	if (prompt == NULL)
 	{

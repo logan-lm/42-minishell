@@ -72,7 +72,8 @@ FILES = main\
 		utils/gc_debug\
 		utils/here_doc\
 		utils/pid\
-		utils/utils
+		utils/utils\
+		utils/get_prompt
 
 SRCS = $(addprefix $(SRC_DIR),  $(addsuffix .c, $(FILES)))
 

@@ -71,6 +71,8 @@ void					ft_setfd(int fd);
 int						ft_gethd(void);
 void					ft_sethd(int hd);
 char					ft_isdir(char *path);
+void					ft_unlink_hds(t_shell_data *data);
+char					*ft_get_prompt(void);
 
 void					ft_gc_debug(char *str);
 
