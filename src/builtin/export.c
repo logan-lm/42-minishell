@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 21:36:46 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 09:06:28 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/09 19:30:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,31 @@ static int	ft_strhasequal(char *str)
 	return (0);
 }
 
-static void	ft_close_fd(int fdin, int fdout)
+static void	ft_export_setup(int fdin, int fdout, int *i, char ***args)
 {
 	if (fdin != STDIN_FILENO)
 		close(fdin);
 	if (fdout != STDOUT_FILENO)
 		close(fdout);
+	*i = -1;
+	*args += 1;
+}
+
+int	ft_is_varname_valid(char *str, char *program_name)
+{
+	int		i;
+	char	*error;
+
+	i = 0;
+	while (str[i] && ft_is_name_character(str[i]))
+		i++;
+	if (i > 0 && (ft_isalpha(str[0]) || str[0] == '_')
+		&& (ft_is_assignement_op(str, &i) || str[i] == '\0'))
+		return (1);
+	error = ft_strjoin_mult_gc_id(malloc_id_exec, 3, "export: `", str,
+			"': not a valid identifier");
+	ft_print_error(error, program_name);
+	return (0);
 }
 
 int	ft_export(char **args, t_shell_data *data, int fdin, int fdout)
@@ -48,17 +67,15 @@ int	ft_export(char **args, t_shell_data *data, int fdin, int fdout)
 	int		append_mode;
 	t_dict	var_entry;
 
-	ft_close_fd(fdin, fdout);
-	i = -1;
-	args++;
+	ft_export_setup(fdin, fdout, &i, &args);
 	while (args[++i])
 	{
+		if (!ft_is_varname_valid(args[i], data->progname))
+			continue ;
 		set_mode = ft_strhasequal(args[i]);
 		append_mode = ft_set_append_mode(args[i]);
-		var_entry.key = ft_malloc((ft_strclen(args[i], '=') + 2 - set_mode
-					- append_mode) * sizeof(char));
-		ft_strlcpy(var_entry.key, args[i], (ft_strclen(args[i], '=') + 2
-				- set_mode - append_mode));
+		var_entry.key = ft_substr_gc(args[i], 0, ft_strclen(args[i], '=')
+				- append_mode);
 		if (set_mode)
 			ft_set_var((char *[2]){args[i], NULL}, data, fdin, fdout);
 		var_entry.value = ft_dictmap(data->vars, var_entry.key);

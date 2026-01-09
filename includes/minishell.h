@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 18:25:29 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/09 18:41:55 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,7 @@ void					ft_init_envp(char **av, char **envp,
 							t_shell_data *data);
 char					**ft_str_env(t_list *envp_d);
 t_list					*ft_get_matching_names(t_list *src, char *pattern);
+int						ft_is_name_character(char c);
+int						ft_is_assignement_op(char *str, int *i);
 
 #endif
