@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 21:09:16 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/09 21:19:03 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,10 @@ int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 	if (r_d.cmd_type == cmd_error)
 		return (ft_close_onerror(rp_d, &r_d, next));
 	if (r_d.cmd_type == cmd_builtin && !rp_d->cmd->fork)
-		return (ft_run_builtin(r_d.cmdpath, rp_d->cmd->args, &r_d, data));
+	{
+		rp_d ->ret = ft_run_builtin(r_d.cmdpath, rp_d->cmd->args, &r_d, data);
+		return (0);
+	}
 	signal(SIGINT, SIG_IGN);
 	r_d.pid = fork();
 	ft_run_cmd_child(rp_d->cmd, data, &r_d);
