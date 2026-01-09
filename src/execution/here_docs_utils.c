@@ -28,13 +28,31 @@ void	ft_sig_hd_handler(int sig)
 	rl_redisplay();
 }
 
+int	ft_try_open_tmpfile(t_hd_data *hd_data)
+{
+	if (!hd_data->tmppaths[hd_data->tried_paths])
+		return (1);
+	hd_data->filename = ft_strjoin_gc_id(hd_data->tmppaths[hd_data->tried_paths], hd_data->temp,                                                          malloc_id_exec);
+	hd_data->temp_w = open(hd_data->filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);                                hd_data->temp_r = open(hd_data->filename, O_RDONLY);
+	if (hd_data->temp_w < 0 || hd_data->temp_r < 0)
+	{
+		if (hd_data->temp_w > 2)
+			close(hd_data->temp_w);
+		if (hd_data->temp_r > 2)
+			close(hd_data->temp_r);
+		hd_data->tried_paths++;
+		return (ft_try_open_tmpfile(hd_data));
+	}
+	return (0);
+}
+
 int ft_o_hdoc_while(char *limiter, t_hd_data *hd_data)
 {
 	while (!ft_is_limiter(hd_data->line, limiter) && g_sig != SIGINT)
 	{
 		ft_free(hd_data->line);
-		//hd_data->buffer = readline("> ");
-		hd_data->buffer = get_next_line(0);
+		hd_data->buffer = readline("> ");
+		//hd_data->buffer = get_next_line(0);
 		if (!hd_data->buffer)
 		{
 			ft_sethd(1);
@@ -57,6 +75,7 @@ int	ft_o_hdoc(char *limiter, t_shell_data *data)
 
 	ft_bzero(&hd_data, sizeof(hd_data));
 	hd_data.temp = ft_ltoa_gc((long)limiter);
+	//ft_try_open_tmpfile(&hd_data);
 	hd_data.filename = ft_strjoin_gc_id("/tmp/heredoc_", hd_data.temp,
 			malloc_id_exec);
 	ft_free(hd_data.temp);

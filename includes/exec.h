@@ -30,6 +30,8 @@ typedef struct s_hd_data
 	char			*buffer;
 	char			*line;
 	char			*temp;
+	char			*tmppaths[4];
+	int			tried_paths;
 }					t_hd_data;
 
 typedef struct s_open_data
