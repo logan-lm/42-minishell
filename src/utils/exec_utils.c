@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:24:08 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 19:06:17 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 21:01:53 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_getvarname(char *str)
 	int		len;
 	char	*varname;
 
-	len = 1;
+	len = 0;
 	if (*str == '?')
 		len = 1;
 	else if (ft_isdigit(str[0]))
