@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 10:43:33 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 11:10:44 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 int	ft_close_onerror(t_run_pipeline_data *rp_d, t_runcmd_data *r_d, void *next)
 {
+	(void)next;
 	if (!rp_d->ret)
 		rp_d->ret = 1;
 	if (r_d->fd_in > 2)
@@ -127,7 +128,7 @@ int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 		pipe(r_d.pipefd);
 		r_d.fd_out = r_d.pipefd[1];
 	}
-	if (rp_d->cmd->fdout != STDOUT_FILENO)
+	if (rp_d->cmd->fdout != STDOUT_FILENO && rp_d->cmd->fdout != r_d.fd_out)
 	{
 		if (rp_d->cmd->fdout > 2)
 			close(rp_d->cmd->fdout);
