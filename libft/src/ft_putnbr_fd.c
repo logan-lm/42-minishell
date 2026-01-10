@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 16:43:45 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/28 21:18:59 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 12:57:32 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	ft_putnbr_fdl(long n, int fd)
 		ft_putnbr_fdl(n / 10, fd);
 	c = '0' + n % 10;
 	i += write(fd, &c, 1);
+	(void)i;
 }
 
 void	ft_putnbr_fd(int n, int fd)
