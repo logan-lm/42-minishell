@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 11:10:44 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 11:41:08 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_close_onerror(t_run_pipeline_data *rp_d, t_runcmd_data *r_d, void *next)
 	return (-1);
 }
 
-void	ft_run_cmd_child(t_command *cmd, t_shell_data *data, t_runcmd_data *r_d)
+void	ft_run_cmd_child(t_run_pipeline_data *rp_d, t_shell_data *data, t_runcmd_data *r_d)
 {
 	if (r_d->pid == 0)
 	{
@@ -49,13 +49,13 @@ void	ft_run_cmd_child(t_command *cmd, t_shell_data *data, t_runcmd_data *r_d)
 		if (r_d->pipefd)
 			close(r_d->pipefd[0]);
 		if (r_d->cmd_type == cmd_builtin)
-			ft_exit(ft_run_builtin(r_d->cmdpath, cmd->args, r_d, data));
-		execve(r_d->cmdpath, cmd->args, ft_str_env(data->envp));
+			ft_exit(ft_run_builtin(r_d->cmdpath, rp_d, r_d, data));
+		execve(r_d->cmdpath, rp_d->cmd->args, ft_str_env(data->envp));
 		if (r_d->fd_in > 2)
 			close(r_d->fd_in);
 		if (r_d->fd_out > 2)
 			close(r_d->fd_out);
-		ft_print_perror(cmd->args[0], data->progname);
+		ft_print_perror(rp_d->cmd->args[0], data->progname);
 		if (errno == 13)
 			ft_exit(126);
 		ft_exit(127);
@@ -130,19 +130,19 @@ int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 	}
 	if (rp_d->cmd->fdout != STDOUT_FILENO && rp_d->cmd->fdout != r_d.fd_out)
 	{
-		if (rp_d->cmd->fdout > 2)
-			close(rp_d->cmd->fdout);
+		if (r_d.fd_out > 2)
+			close(r_d.fd_out);
 		r_d.fd_out = rp_d->cmd->fdout;
 	}
 	if (r_d.cmd_type == cmd_error)
 		return (ft_close_onerror(rp_d, &r_d, next));
 	if (r_d.cmd_type == cmd_builtin && !rp_d->cmd->fork)
 	{
-		rp_d ->ret = ft_run_builtin(r_d.cmdpath, rp_d->cmd->args, &r_d, data);
+		rp_d ->ret = ft_run_builtin(r_d.cmdpath, rp_d, &r_d, data);
 		return (0);
 	}
 	signal(SIGINT, SIG_IGN);
 	r_d.pid = fork();
-	ft_run_cmd_child(rp_d->cmd, data, &r_d);
+	ft_run_cmd_child(rp_d, data, &r_d);
 	return (ft_run_cmd_parent(rp_d, next, data, &r_d));
 }

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 09:56:36 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 11:39:51 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,15 @@
 #include "minishell.h"
 #include "parser.h"
 
-int	ft_run_builtin(int (*builtin)(char **a, t_shell_data *d, int in, int out), char **args,
+int	ft_run_builtin(int (*builtin)(char **a, t_shell_data *d, int in, int out), t_run_pipeline_data *rp_d,
 		t_runcmd_data *r_d, t_shell_data *data)
 {
-	return (builtin(args, data, r_d->fd_in, r_d->fd_out));
+	if (rp_d->pipeline)
+	{
+		r_d->fd_in = STDIN_FILENO;
+		r_d->fd_out = STDOUT_FILENO;
+	}
+	return (builtin(rp_d->cmd->args, data, r_d->fd_in, r_d->fd_out));
 }
 
 t_list	*ft_ignore_varsets(t_list *nodes)
