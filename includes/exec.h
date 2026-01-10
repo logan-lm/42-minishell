@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 11:40:01 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 12:44:44 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ typedef enum e_parsefd_error_type
 int					ft_parse_fd(t_list *nodes, t_shell_data *d,
 						t_run_pipeline_data *data);
 int					ft_parse_heredocs(t_list *nodes, t_shell_data *d);
+void				ft_set_tmp_paths(t_hd_data *hd_data, t_shell_data *data);
+int					ft_try_open_tmpfile(t_hd_data *hd_data);
 int					ft_has_pipe(t_list *nodes);
 t_list				*ft_next_cmd(t_list *nodes);
 int					ft_and(t_command_node *command_tree, t_shell_data *data);

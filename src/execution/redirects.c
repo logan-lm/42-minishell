@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 11:21:26 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 12:54:07 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,40 +45,47 @@ int	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 	return (0);
 }
 
-int	ft_expand_heredoc(t_token_op_data *op_token, t_shell_data *d)
+char	*ft_read_expand_fd(int fd)
 {
 	size_t		read_bytes;
-	t_hd_data	hd_data;
 	char		buffer[BUFFER_SIZE + 1];
 	char		*joined;
 	char		*temp;
 
 	joined = NULL;
 	read_bytes = 1;
-	ft_bzero(&hd_data, sizeof(hd_data));
 	while (read_bytes)
 	{
-		read_bytes = read(op_token->word->heredoc_fd, buffer, BUFFER_SIZE);
+		read_bytes = read(fd, buffer, BUFFER_SIZE);
 		buffer[read_bytes] = '\0';
 		temp = joined;
 		joined = ft_strjoin_gc_id(joined, buffer, malloc_id_exec);
 		ft_free(temp);
 	}
-	close(op_token->word->heredoc_fd);
-	hd_data.temp = ft_ltoa_gc((long)joined);
-	hd_data.filename = ft_strjoin_gc_id("/tmp/heredoc_", hd_data.temp,
-			malloc_id_exec);
+	close(fd);
+	return (joined);
+}
+
+int	ft_expand_heredoc(t_token_op_data *op_token, t_shell_data *d)
+{
+	t_hd_data	hd_data;
+	char		*buffer;
+	char		*temp;
+
+	ft_bzero(&hd_data, sizeof(t_hd_data));
+	buffer = ft_read_expand_fd(op_token->word->heredoc_fd);
+	hd_data.temp = ft_ltoa_gc((long)buffer);
+	ft_set_tmp_paths(&hd_data, d);
+	if (ft_try_open_tmpfile(&hd_data))
+		return (-1);
 	ft_free(hd_data.temp);
-	hd_data.temp_w = open(hd_data.filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	hd_data.temp_r = open(hd_data.filename, O_RDONLY);
-	unlink(hd_data.filename);
 	ft_free(hd_data.filename);
-	temp = joined;
-	joined = ft_expand_word(joined, d);
+	temp = buffer;
+	buffer = ft_expand_word(buffer, d);
 	ft_free(temp);
-	ft_putstr_fd(joined, hd_data.temp_w);
+	ft_putstr_fd(buffer, hd_data.temp_w);
 	close(hd_data.temp_w);
-	ft_free(joined);
+	ft_free(buffer);
 	return (hd_data.temp_r);
 }
 
