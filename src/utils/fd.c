@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   fd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:45:19 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/06 11:46:15 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 13:30:10 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "minishell.h"
 
 static int	ft_fd(int flag, int fd)
 {
@@ -29,4 +31,22 @@ int	ft_getfd(void)
 void	ft_setfd(int fd)
 {
 	ft_fd(1, fd);
+}
+
+// @brief Takes strings as a pointer on strings and writes on STDOUT
+// @param args pointers on strings as echo command arguments (-n in first arg)
+// @return void
+//
+void	ft_consume_stdin(int fdin)
+{
+	char buffer[4096];
+	ssize_t bytes_read;
+
+	if (fdin == STDIN_FILENO)
+	{
+		while ((bytes_read = read(STDIN_FILENO, buffer, sizeof(buffer))) > 0)
+			;
+	}
+	else if (fdin != STDIN_FILENO)
+		close(fdin);
 }

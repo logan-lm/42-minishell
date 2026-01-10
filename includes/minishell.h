@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 11:58:32 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 13:29:30 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ typedef struct s_dict
 // UTILS
 char					*ft_parse_path(char *path, t_list *envp);
 char					*ft_getenv(t_list *envp, char *key);
-char					*ft_getvar(t_list *vars, t_list *envp, char **args, char *key);
+char					*ft_getvar(t_list *vars, t_list *envp, char **args,
+							char *key);
 char					*ft_dictmap(t_list *list, char *key);
 void					ft_dictadd(t_list **list, char *key, char *value);
 t_dict					*ft_dictpop(t_list **list, char *key);
@@ -74,7 +75,7 @@ void					ft_sethd(int hd);
 char					ft_isdir(char *path);
 void					ft_unlink_hds(t_shell_data *data);
 char					*ft_get_prompt(void);
-
+void					ft_consume_stdin(int fdin);
 void					ft_gc_debug(char *str);
 
 // READLINE
