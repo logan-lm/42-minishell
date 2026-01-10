@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 15:00:36 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/05 18:10:22 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 12:08:14 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int					ft_isprint(char c);
 int					ft_isspace(int c);
 int					ft_strhasc(const char *str, char c);
 size_t				ft_strlen(const char *str);
+size_t				ft_nblen(long nb);
 int					ft_strclen(const char *str, char c);
 int					ft_toupper(int c);
 int					ft_toupper(int c);

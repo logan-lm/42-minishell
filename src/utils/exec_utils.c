@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:24:08 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 16:33:39 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 12:14:05 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char	*ft_getvarname(char *str)
 
 	len = 1;
 	if (*str == '?')
+		len = 1;
+	else if(ft_isdigit(str[0]))
 		len = 1;
 	else if(*str == '_' || ft_isalpha(*str))
 	{

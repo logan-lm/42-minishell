@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 18:41:55 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/10 11:58:32 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ extern int				g_sig;
 typedef struct s_shell_data
 {
 	char				*progname;
+	char				**argv;
 	t_list				*envp;
 	t_list				*vars;
 	int					exit_status;
@@ -54,7 +55,7 @@ typedef struct s_dict
 // UTILS
 char					*ft_parse_path(char *path, t_list *envp);
 char					*ft_getenv(t_list *envp, char *key);
-char					*ft_getvar(t_list *vars, t_list *envp, char *key);
+char					*ft_getvar(t_list *vars, t_list *envp, char **args, char *key);
 char					*ft_dictmap(t_list *list, char *key);
 void					ft_dictadd(t_list **list, char *key, char *value);
 t_dict					*ft_dictpop(t_list **list, char *key);

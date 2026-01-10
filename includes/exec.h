@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 02:05:14 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 11:40:01 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,8 @@ t_list				*ft_check_wildcards(t_list *args, t_shell_data *data);
 int					ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data,
 						void *next);
 int					ft_run_builtin(int (*builtin)(char **a, t_shell_data *d,
-							int in, int out), char **args, t_runcmd_data *r_d,
-						t_shell_data *data);
+							int in, int out), t_run_pipeline_data *rp_d,
+						t_runcmd_data *r_d, t_shell_data *data);
 int					ft_is_only_varset(t_list *commands);
 int					ft_heredoc_handler(void);
 void				ft_sig_hd_handler(int sig);

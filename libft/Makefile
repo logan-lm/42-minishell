@@ -6,7 +6,7 @@
 #    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/31 16:15:41 by pberne            #+#    #+#              #
-#    Updated: 2026/01/05 15:22:02 by lomartin         ###   ########.fr        #
+#    Updated: 2026/01/10 12:08:28 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ OBJ_DIR = obj/
 INCLUDES_DIR = -Iincludes
 
 FILES = ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint ft_isspace ft_strhasc\
-		ft_strlen ft_strclen ft_toupper ft_tolower ft_strchr ft_strrchr\
+		ft_strlen ft_nblen ft_strclen ft_toupper ft_tolower ft_strchr ft_strrchr\
 		ft_strcapitalize ft_strcapitalize_gc\
 		ft_strncmp ft_memchr ft_memcmp ft_strnstr ft_atoi\
 		ft_atof\

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 09:07:40 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 13:48:00 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 12:04:09 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ char	*ft_expand_word(char *word, t_shell_data *data)
 			}
 			varname = ft_getvarname(word + 1);
 			word += ft_strlen(varname) + 1;
-			dest = ft_strjoin_gc_id(dest, ft_getvar(data->vars, data->envp,
+			dest = ft_strjoin_gc_id(dest, ft_getvar(data->vars, data->envp, data->argv,
 						varname), malloc_id_exec);
 		}
 		else

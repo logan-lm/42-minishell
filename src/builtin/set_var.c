@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 10:04:24 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 15:17:33 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 12:03:41 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_set_var(char **args, t_shell_data *data, int fdin, int fdout)
 		s.var->key = ft_calloc_gc(s.n_l + 1 - s.a_m, sizeof(char));
 		ft_strlcpy(s.var->key, args[s.i], s.n_l + 1 - s.a_m);
 		if (s.a_m)
-			s.var->value = ft_getvar(data->vars, data->envp, s.var->key);
+			s.var->value = ft_getvar(data->vars, data->envp, data->argv, s.var->key);
 		s.temp = s.var->value;
 		s.var->value = ft_strjoin_gc(s.var->value, args[s.i] + s.n_l + 1);
 		ft_free(s.temp);
