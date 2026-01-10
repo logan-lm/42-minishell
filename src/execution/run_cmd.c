@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 10:12:34 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 10:43:33 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ int	ft_close_onerror(t_run_pipeline_data *rp_d, t_runcmd_data *r_d, void *next)
 {
 	if (!rp_d->ret)
 		rp_d->ret = 1;
-	if (!next && r_d->fd_out > 2)
+	if (r_d->fd_in > 2)
+		close(r_d->fd_in);
+	if (r_d->fd_out > 2)
 		close(r_d->fd_out);
 	if (r_d->pipefd)
 	{
@@ -48,8 +50,10 @@ void	ft_run_cmd_child(t_command *cmd, t_shell_data *data, t_runcmd_data *r_d)
 		if (r_d->cmd_type == cmd_builtin)
 			ft_exit(ft_run_builtin(r_d->cmdpath, cmd->args, r_d, data));
 		execve(r_d->cmdpath, cmd->args, ft_str_env(data->envp));
-		close(r_d->fd_in);
-		close(r_d->fd_out);
+		if (r_d->fd_in > 2)
+			close(r_d->fd_in);
+		if (r_d->fd_out > 2)
+			close(r_d->fd_out);
 		ft_print_perror(cmd->args[0], data->progname);
 		if (errno == 13)
 			ft_exit(126);
@@ -125,7 +129,8 @@ int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 	}
 	if (rp_d->cmd->fdout != STDOUT_FILENO)
 	{
-		close(r_d.pipefd[0]);
+		if (rp_d->cmd->fdout > 2)
+			close(rp_d->cmd->fdout);
 		r_d.fd_out = rp_d->cmd->fdout;
 	}
 	if (r_d.cmd_type == cmd_error)

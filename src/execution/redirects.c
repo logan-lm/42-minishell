@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 09:57:05 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 10:30:47 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	ft_try_replace_fd(int old, char *filename, t_token_op_type type)
 		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (type == op_out_redirect_trunc)
 		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (old != STDIN_FILENO)
+	if (old > 2)
 		close(old);
 	return (fd);
 }
@@ -113,10 +113,10 @@ int	ft_try_replace_fd(int old, char *filename, t_token_op_type type)
 static int	ft_open_file(t_open_data *o_d, t_shell_data *d,
 		t_run_pipeline_data *runp_data)
 {
-	if ((o_d->op_token->type == op_out_redirect_trunc
+	/* if ((o_d->op_token->type == op_out_redirect_trunc
 			|| o_d->op_token->type == op_out_redirect_append)
 		&& runp_data->cmd->fdout != STDOUT_FILENO)
-		close(runp_data->cmd->fdout);
+		close(runp_data->cmd->fdout); */
 	o_d->args_lst = ft_parse_cmd_args(o_d->op_token->word, d);
 	if (o_d->args_lst->next)
 	{
