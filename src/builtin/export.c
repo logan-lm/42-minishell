@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 21:36:46 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 22:44:58 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/10 19:15:37 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ int	ft_export(char **args, t_shell_data *data, int fdin, int fdout)
 	while (args[++i_ret.x])
 	{
 		if (!ft_is_varname_valid(args[i_ret.x], data->progname, &i_ret))
-			continue;
+			continue ;
 		set_mode = ft_strhasequal(args[i_ret.x]);
 		append_mode = ft_set_append_mode(args[i_ret.x]);
-		var_entry.key = ft_substr_gc(args[i_ret.x], 0, ft_strclen(args[i_ret.x], '=')
-				- append_mode);
+		var_entry.key = ft_substr_gc(args[i_ret.x], 0, ft_strclen(args[i_ret.x],
+					'=') - append_mode);
 		if (set_mode)
 			ft_set_var((char *[2]){args[i_ret.x], NULL}, data, fdin, fdout);
 		var_entry.value = ft_dictmap(data->vars, var_entry.key);

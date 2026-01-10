@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 17:49:02 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 20:13:37 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 				&& o_d.op_token->word->heredoc_fd == -1)
 			{
 				signal(SIGINT, ft_sig_hd_handler);
-				o_d.op_token->word->heredoc_fd = ft_o_hdoc(o_d.op_token->word->str,
+				o_d.op_token->word->heredoc_fd = ft_o_hdoc(
+						o_d.op_token->word->str,
 						o_d.op_token->word->heredoc_fd, d);
 				sigaction(SIGINT, &d->sa, NULL);
 				if (g_sig == SIGINT || o_d.op_token->word->heredoc_fd < 0)
@@ -47,10 +48,10 @@ int	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 
 char	*ft_read_expand_fd(int fd)
 {
-	size_t		read_bytes;
-	char		buffer[BUFFER_SIZE + 1];
-	char		*joined;
-	char		*temp;
+	size_t	read_bytes;
+	char	buffer[BUFFER_SIZE + 1];
+	char	*joined;
+	char	*temp;
 
 	joined = NULL;
 	read_bytes = 1;
@@ -112,8 +113,10 @@ int	ft_try_replace_fd(int old, char *filename, t_token_op_type type)
 		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (type == op_out_redirect_trunc)
 		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (old > 2)
+	if (old > 2 && type == op_in_redirect)
 		ft_consume_fdin(old);
+	else if(old > 2)
+		close(old);
 	return (fd);
 }
 

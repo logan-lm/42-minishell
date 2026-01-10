@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 12:11:19 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 19:15:51 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ char	*ft_expand_var(char **word, char *src, t_shell_data *data)
 	}
 	varname_len = ft_strlen(varname);
 	*word += varname_len;
-	dest = ft_strjoin_gc_id(src, ft_getvar(data->vars, data->envp, data->argv, varname),
-			malloc_id_exec);
+	dest = ft_strjoin_gc_id(src, ft_getvar(data->vars, data->envp, data->argv,
+				varname), malloc_id_exec);
 	ft_free(src);
 	ft_free(varname);
 	return (dest);

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 17:51:15 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 19:53:09 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 #include "minishell.h"
 #include "parser.h"
 
-int	ft_run_builtin(int (*builtin)(char **a, t_shell_data *d, int in, int out), t_run_pipeline_data *rp_d,
-		t_runcmd_data *r_d, t_shell_data *data)
+int	ft_run_builtin(int (*builtin)(char **a, t_shell_data *d, int in, int out),
+		t_run_pipeline_data *rp_d, t_runcmd_data *r_d, t_shell_data *data)
 {
-	int return_value;
+	int	return_value;
 	int	initial_fdin;
 
 	initial_fdin = r_d->fd_in;
@@ -111,7 +111,7 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 	if (ft_parse_heredocs(command_tree->commands, d) && g_sig != SIGINT)
 		return (1);
 	if (g_sig == SIGINT)
-		return (130);
+		return (g_sig = 0, 130);
 	while (command_tree->commands)
 	{
 		command_tree->commands = ft_assign_vars(command_tree->commands, d);
@@ -119,21 +119,6 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 		data.cmd->fork = data.pipeline;
 		data.ret = ft_parse_fd(command_tree->commands, d, &data);
 		data.cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands, d));
-		/*if (!*data.cmd->args)
-		{
-			if (data.cmd->fdin > 2)
-				close(data.cmd->fdin);
-			if (data.cmd->fdout > 2)
-				close(data.cmd->fdout);
-			command_tree->commands = ft_next_cmd(command_tree->commands);
-			continue ;
-		}*/
-		/*if (data.cmd->fdin != STDIN_FILENO)
-		{
-			if (data.fd_in != STDIN_FILENO)
-				close(data.fd_in);
-			data.fd_in = data.cmd->fdin;
-		}*/
 		data.fd_in = ft_run_cmd(&data, d, ft_next_cmd(command_tree->commands));
 		if (!ft_next_cmd(command_tree->commands))
 			break ;

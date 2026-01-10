@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 17:39:16 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 18:19:03 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 19:15:07 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int	ft_shell_exit(char **args, t_shell_data *data, int fdin, int fdout)
 		close(fdout);
 	if (*args)
 	{
-		if ((**args != '+' && **args != '-' && !ft_isdigit(**args)) || !ft_str_isdigit(*args + 1))
+		if ((**args != '+' && **args != '-' && !ft_isdigit(**args))
+			|| !ft_str_isdigit(*args + 1))
 		{
 			err = ft_strjoin_mult_gc_id(malloc_id_exec, 3, "exit: ", *args,
 					": numeric argument required");
@@ -47,6 +48,5 @@ int	ft_shell_exit(char **args, t_shell_data *data, int fdin, int fdout)
 			return (ft_print_error("exit: too many arguments", data->progname));
 		data->exit_status = (unsigned char)ft_atoi(*args);
 	}
-	ft_exit(data->exit_status);
-	return (EXIT_SUCCESS);
+	return (ft_exit(data->exit_status), EXIT_SUCCESS);
 }

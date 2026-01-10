@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 10:04:24 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 12:03:41 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 19:11:07 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,20 @@ static int	ft_set_append_mode(char *varname)
 	return (0);
 }
 
+void	ft_close_fds(int fdin, int fdout)
+{
+	if (fdin != STDIN_FILENO)
+		close(fdin);
+	if (fdout != STDOUT_FILENO)
+		close(fdout);
+}
+
 /// n_l : namelen, a_m : append_mode
 int	ft_set_var(char **args, t_shell_data *data, int fdin, int fdout)
 {
 	t_set_vars_data	s;
 
-	if (fdin != STDIN_FILENO)
-		close(fdin);
-	if (fdout != STDOUT_FILENO)
-		close(fdout);
+	ft_close_fds(fdin, fdout);
 	s.i = -1;
 	while (args[++s.i])
 	{
@@ -41,7 +46,8 @@ int	ft_set_var(char **args, t_shell_data *data, int fdin, int fdout)
 		s.var->key = ft_calloc_gc(s.n_l + 1 - s.a_m, sizeof(char));
 		ft_strlcpy(s.var->key, args[s.i], s.n_l + 1 - s.a_m);
 		if (s.a_m)
-			s.var->value = ft_getvar(data->vars, data->envp, data->argv, s.var->key);
+			s.var->value = ft_getvar(data->vars, data->envp, data->argv,
+					s.var->key);
 		s.temp = s.var->value;
 		s.var->value = ft_strjoin_gc(s.var->value, args[s.i] + s.n_l + 1);
 		ft_free(s.temp);

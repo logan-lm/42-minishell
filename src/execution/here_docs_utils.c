@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:14:34 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 02:04:51 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 19:21:25 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	ft_try_open_tmpfile(t_hd_data *hd_data)
 {
 	if (!hd_data->tmppaths[hd_data->tried_paths])
 		return (1);
-	hd_data->filename = ft_strjoin_gc_id(hd_data->tmppaths[hd_data->tried_paths],
+	hd_data->filename = ft_strjoin_gc_id(
+			hd_data->tmppaths[hd_data->tried_paths],
 			hd_data->temp, malloc_id_exec);
 	hd_data->temp_w = open(hd_data->filename, O_WRONLY | O_CREAT | O_TRUNC,
 			0600);

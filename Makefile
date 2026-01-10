@@ -6,7 +6,7 @@
 #    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2026/01/08 16:28:55 by lomartin         ###   ########.fr        #
+#    Updated: 2026/01/10 19:05:05 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,7 @@ FILES = main\
 		execution/parsing\
 		execution/parsing_args\
 		execution/parsing_utils\
+		execution/path_utils\
 		execution/readdir\
 		execution/redirects\
 		execution/redirects_utils\
