@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 11:39:51 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 17:51:15 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,25 @@
 int	ft_run_builtin(int (*builtin)(char **a, t_shell_data *d, int in, int out), t_run_pipeline_data *rp_d,
 		t_runcmd_data *r_d, t_shell_data *data)
 {
+	int return_value;
+	int	initial_fdin;
+
+	initial_fdin = r_d->fd_in;
 	if (rp_d->pipeline)
 	{
 		r_d->fd_in = STDIN_FILENO;
 		r_d->fd_out = STDOUT_FILENO;
 	}
-	return (builtin(rp_d->cmd->args, data, r_d->fd_in, r_d->fd_out));
+	return_value = builtin(rp_d->cmd->args, data, r_d->fd_in, r_d->fd_out);
+	if (rp_d->pipeline)
+	{
+		if (initial_fdin > 2)
+			ft_consume_fdin(r_d->fd_in);
+		else
+			close(r_d->fd_in);
+		close(r_d->fd_out);
+	}
+	return (return_value);
 }
 
 t_list	*ft_ignore_varsets(t_list *nodes)

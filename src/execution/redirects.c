@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 12:54:07 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 17:49:02 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	ft_try_replace_fd(int old, char *filename, t_token_op_type type)
 	if (type == op_out_redirect_trunc)
 		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (old > 2)
-		close(old);
+		ft_consume_fdin(old);
 	return (fd);
 }
 

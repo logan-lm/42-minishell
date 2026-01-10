@@ -6,20 +6,22 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 10:16:04 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 00:44:16 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 18:00:18 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "exec.h"
+#include "minishell.h"
 
-int	ft_parsefd_err(char *filename, char *progname, t_run_pipeline_data *runp_d, t_parsefd_error_type type)
+int	ft_parsefd_err(char *filename, char *progname, t_run_pipeline_data *runp_d,
+		t_parsefd_error_type type)
 {
 	char	*err;
 
 	if (type == error_expand)
 	{
-		err = ft_strjoin_gc_id(filename, ": ambiguous redirect", malloc_id_exec);
+		err = ft_strjoin_gc_id(filename, ": ambiguous redirect",
+				malloc_id_exec);
 		ft_print_error(err, progname);
 		ft_free(err);
 	}
@@ -77,4 +79,13 @@ int	ft_str_hasspace(char *str)
 		str++;
 	}
 	return (0);
+}
+
+void	ft_consume_fdin(int fdin)
+{
+	char	buffer[4096];
+
+	while (read(fdin, buffer, sizeof(buffer)))
+		;
+	close(fdin);
 }
