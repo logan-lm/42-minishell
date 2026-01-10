@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 17:54:08 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 09:57:05 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 			{
 				signal(SIGINT, ft_sig_hd_handler);
 				o_d.op_token->word->heredoc_fd = ft_o_hdoc(o_d.op_token->word->str,
-						d);
+						o_d.op_token->word->heredoc_fd, d);
 				sigaction(SIGINT, &d->sa, NULL);
 				if (g_sig == SIGINT || o_d.op_token->word->heredoc_fd < 0)
 				{
@@ -82,21 +82,32 @@ int	ft_expand_heredoc(t_token_op_data *op_token, t_shell_data *d)
 	return (hd_data.temp_r);
 }
 
-int	ft_open_heredoc(t_token_op_data *op_token, t_shell_data *d)
+int	ft_open_heredoc(t_token_op_data *op_token, t_shell_data *d, int oldfd)
 {
+	int	fd;
+
 	if (!op_token->word->is_naked)
-		return (op_token->word->heredoc_fd);
-	return (ft_expand_heredoc(op_token, d));
+		fd = op_token->word->heredoc_fd;
+	else
+		fd = ft_expand_heredoc(op_token, d);
+	if (oldfd > 2)
+		close(oldfd);
+	return (fd);
 }
 
-int	ft_try_replace_fdin(int old, char *filename)
+int	ft_try_replace_fd(int old, char *filename, t_token_op_type type)
 {
-	int	fdin;
+	int	fd;
 
-	fdin = open(filename, O_RDONLY);
+	if (type == op_in_redirect)
+		fd = open(filename, O_RDONLY);
+	if (type == op_out_redirect_append)
+		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (type == op_out_redirect_trunc)
+		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (old != STDIN_FILENO)
 		close(old);
-	return (fdin);
+	return (fd);
 }
 
 static int	ft_open_file(t_open_data *o_d, t_shell_data *d,
@@ -113,16 +124,17 @@ static int	ft_open_file(t_open_data *o_d, t_shell_data *d,
 		return (-2);
 	}
 	if (o_d->op_token->type == op_in_redirect)
-		runp_data->cmd->fdin = ft_try_replace_fdin(runp_data->cmd->fdin,
-				o_d->args_lst->content);
+		runp_data->cmd->fdin = ft_try_replace_fd(runp_data->cmd->fdin,
+				o_d->args_lst->content, op_in_redirect);
 	if (o_d->op_token->type == op_heredoc)
-		runp_data->cmd->fdin = ft_open_heredoc(o_d->op_token, d);
+		runp_data->cmd->fdin = ft_open_heredoc(o_d->op_token, d,
+				runp_data->cmd->fdin);
 	else if (o_d->op_token->type == op_out_redirect_trunc)
-		runp_data->cmd->fdout = open(o_d->args_lst->content,
-				O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		runp_data->cmd->fdout = ft_try_replace_fd(runp_data->cmd->fdout,
+				o_d->args_lst->content, op_out_redirect_trunc);
 	else if (o_d->op_token->type == op_out_redirect_append)
-		runp_data->cmd->fdout = open(o_d->op_token->word->str,
-				O_WRONLY | O_CREAT | O_APPEND, 0644);
+		runp_data->cmd->fdout = ft_try_replace_fd(runp_data->cmd->fdout,
+				o_d->args_lst->content, op_out_redirect_append);
 	ft_lstclear_gc(&o_d->args_lst, ft_free);
 	return (0);
 }
@@ -131,7 +143,7 @@ int	ft_parse_fd(t_list *nodes, t_shell_data *d, t_run_pipeline_data *runp_data)
 {
 	t_open_data	o_d;
 
-	runp_data->cmd->fdin = STDIN_FILENO;
+	runp_data->cmd->fdin = runp_data->fd_in;
 	runp_data->cmd->fdout = STDOUT_FILENO;
 	while (nodes)
 	{
@@ -142,9 +154,11 @@ int	ft_parse_fd(t_list *nodes, t_shell_data *d, t_run_pipeline_data *runp_data)
 			if (o_d.op_token->type == op_pipe)
 				break ;
 			if (ft_open_file(&o_d, d, runp_data) == -2)
-				return (ft_exp_err(o_d.op_token->word->str, d->progname));
+				return (ft_parsefd_err(o_d.op_token->word->str, d->progname,
+						runp_data, error_expand));
 			if (runp_data->cmd->fdin < 0 || runp_data->cmd->fdout < 0)
-				return (ft_open_err(o_d.op_token->word->str, d->progname));
+				return (ft_parsefd_err(o_d.op_token->word->str, d->progname,
+						runp_data, error_open));
 		}
 		nodes = nodes->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 14:38:16 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/07 16:31:28 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 00:52:08 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,6 @@ int	ft_parse_cmd_while(t_parsecmd_data *p_d, t_shell_data *d)
 	if (p_d->token->type == token_word)
 		p_d->args_lst = ft_lstmerge(p_d->args_lst,
 				ft_parse_cmd_args(p_d->token->data, d));
-	/* if ((p_d->args_lst && ft_is_varset(ft_lstlast(p_d->args_lst)->content)))
-	{
-		p_d->token->type = token_op;
-		p_d->op_token->type = op_pipe;
-		return (1);
-	} */
 	p_d->nodes_cpy = p_d->nodes_cpy->next;
 	return (0);
 }

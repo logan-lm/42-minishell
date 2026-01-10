@@ -6,25 +6,30 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 10:16:04 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 16:50:59 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 00:44:16 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "exec.h"
 
-int	ft_open_err(char *filename, char *progname)
-{
-	ft_print_perror(filename, progname);
-	return (1);
-}
-
-int	ft_exp_err(char *filename, char *progname)
+int	ft_parsefd_err(char *filename, char *progname, t_run_pipeline_data *runp_d, t_parsefd_error_type type)
 {
 	char	*err;
 
-	err = ft_strjoin_gc_id(filename, ": ambiguous redirect", malloc_id_exec);
-	ft_print_error(err, progname);
-	ft_free(err);
+	if (type == error_expand)
+	{
+		err = ft_strjoin_gc_id(filename, ": ambiguous redirect", malloc_id_exec);
+		ft_print_error(err, progname);
+		ft_free(err);
+	}
+	else if (type == error_open)
+		ft_print_perror(filename, progname);
+	if (runp_d->cmd->fdout > 2)
+		close(runp_d->cmd->fdout);
+	if (runp_d->cmd->fdin > 2)
+		close(runp_d->cmd->fdin);
+	runp_d->cmd->error = 1;
 	return (1);
 }
 

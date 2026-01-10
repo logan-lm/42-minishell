@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 22:14:52 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 02:05:14 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef struct s_command
 	int				fdin;
 	int				fdout;
 	int				fork;
+	int				error;
 }					t_command;
 
 typedef struct s_hd_data
@@ -91,10 +92,15 @@ typedef struct s_run_pipeline_data
 	int				has_pipe;
 	int				pipeline;
 	int				fd_in;
-	t_list			*commands;
 	t_command		*cmd;
 	int				ret;
 }					t_run_pipeline_data;
+
+typedef enum e_parsefd_error_type
+{
+	error_expand,
+	error_open
+}					t_parsefd_error_type;
 
 int					ft_parse_fd(t_list *nodes, t_shell_data *d,
 						t_run_pipeline_data *data);
@@ -105,8 +111,8 @@ int					ft_and(t_command_node *command_tree, t_shell_data *data);
 int					ft_or(t_command_node *command_tree, t_shell_data *data);
 int					ft_subshell(char **args, t_shell_data *data, int fdin,
 						int fdout);
-int					ft_open_err(char *filename, char *progname);
-int					ft_exp_err(char *filename, char *progname);
+int					ft_parsefd_err(char *filename, char *progname,
+						t_run_pipeline_data *runp_d, t_parsefd_error_type type);
 int					ft_heredoc_eof_err(t_shell_data *data, char *limiter,
 						int fd_r);
 int					ft_is_limiter(char *str, char *limiter);
@@ -127,7 +133,7 @@ int					ft_run_builtin(int (*builtin)(char **a, t_shell_data *d,
 int					ft_is_only_varset(t_list *commands);
 int					ft_heredoc_handler(void);
 void				ft_sig_hd_handler(int sig);
-int					ft_o_hdoc(char *limiter, t_shell_data *data);
+int					ft_o_hdoc(char *limiter, int oldfd, t_shell_data *data);
 char				*ft_copy_nonspecial(char **word, char *src);
 char				*ft_expand_word(char *word, t_shell_data *data);
 char				*ft_expand_compound(t_string_compound_lst *cmpd,

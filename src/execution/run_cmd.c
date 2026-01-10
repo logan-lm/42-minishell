@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 23:58:44 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/10 10:12:34 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,16 @@ void	ft_run_cmd_child(t_command *cmd, t_shell_data *data, t_runcmd_data *r_d)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		dup2(r_d->fd_out, 1);
+		if (r_d->fd_out != STDOUT_FILENO)
+		{
+			dup2(r_d->fd_out, STDOUT_FILENO);
+			close(r_d->fd_out);
+		}
 		if (r_d->fd_in)
-			dup2(r_d->fd_in, 0);
+		{
+			dup2(r_d->fd_in, STDIN_FILENO);
+			close(r_d->fd_in);
+		}
 		if (r_d->pipefd)
 			close(r_d->pipefd[0]);
 		if (r_d->cmd_type == cmd_builtin)
@@ -54,10 +61,10 @@ int	ft_run_cmd_parent(t_run_pipeline_data *rp_d, void *next, t_shell_data *data,
 		t_runcmd_data *r_d)
 {
 	ft_setpid(r_d->pid);
-	if (rp_d->fd_in > 2)
+	if (r_d->fd_in > 2)
 		close(r_d->fd_in);
-	if (r_d->pipefd)
-		close(r_d->pipefd[1]);
+	if (r_d->fd_out > 2)
+		close(r_d->fd_out);
 	if (!next)
 	{
 		waitpid(r_d->pid, &data->exit_status, 0);
@@ -78,7 +85,7 @@ int	ft_run_cmd_parent(t_run_pipeline_data *rp_d, void *next, t_shell_data *data,
 void	ft_try_get_cmd(t_runcmd_data *r_d, t_run_pipeline_data *rp_d,
 		t_shell_data *data)
 {
-	if (!ft_strncmp(rp_d->cmd->args[0], "FAILED_OPEN", 12))
+	if (rp_d->cmd->error)
 	{
 		r_d->cmd_type = cmd_error;
 		return ;
@@ -107,7 +114,7 @@ int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 	if (!rp_d->cmd->args[0])
 		return (0);
 	ft_try_get_cmd(&r_d, rp_d, data);
-	r_d.fd_in = rp_d->fd_in;
+	r_d.fd_in = rp_d->cmd->fdin;
 	if (!next)
 		r_d.fd_out = rp_d->cmd->fdout;
 	else

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 21:18:15 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 09:56:36 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,60 +18,8 @@
 int	ft_run_builtin(int (*builtin)(char **a, t_shell_data *d, int in, int out), char **args,
 		t_runcmd_data *r_d, t_shell_data *data)
 {
-	//int	fdout;
-	int	exit_status;
-	//int	pipefd[2];
-
-	//fdout = rp_d->cmd->fdout;
-	/* pipe(pipefd);
-	if (next && fdout == STDOUT_FILENO)
-		fdout = pipefd[1];
-	else
-		close(pipefd[1]);
-	if (builtin == ft_shell_exitl)
-		close(pipefd[0]); */
-	exit_status = builtin(args, data, r_d->fd_in, r_d->fd_out);
-	/* if (rp_d->fd_in > 2)
-		close (rp_d->fd_in); */
-	//rp_d->ret = exit_status;
-	//close(pipefd[1]);
-	//close(pipefd[0]);
-	return (exit_status);
+	return (builtin(args, data, r_d->fd_in, r_d->fd_out));
 }
-
-// int	ft_run_forked_builtin(int (*builtin)(char **a, t_shell_data *d, int in,
-// 			int out), t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
-// {
-// 	int	fdout;
-// 	int	pipefd[2];
-// 	int	status;
-// 	int	pid;
-
-// 	fdout = rp_d->cmd->fdout;
-// 	pipe(pipefd);
-// 	if (next && fdout == STDOUT_FILENO)
-// 		fdout = pipefd[1];
-// 	else
-// 		close(pipefd[1]);
-// 	if (builtin == ft_shell_exit)
-// 		close(pipefd[0]);
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		close(pipefd[0]);
-// 		ft_exit(builtin(rp_d->cmd->args, data, rp_d->fd_in, fdout));
-// 	}
-// 	close(pipefd[1]);
-// 	if (rp_d->fd_in > 2)
-// 		close (rp_d->fd_in);
-// 	if (!next)
-// 	{
-// 		close(pipefd[0]);
-// 		waitpid(pid, &status, 0);
-// 		return (WEXITSTATUS(status));
-// 	}
-// 	return (pipefd[0]);
-// }
 
 t_list	*ft_ignore_varsets(t_list *nodes)
 {
@@ -153,7 +101,7 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 		data.cmd->fork = data.pipeline;
 		data.ret = ft_parse_fd(command_tree->commands, d, &data);
 		data.cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands, d));
-		if (!*data.cmd->args)
+		/*if (!*data.cmd->args)
 		{
 			if (data.cmd->fdin > 2)
 				close(data.cmd->fdin);
@@ -161,18 +109,13 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 				close(data.cmd->fdout);
 			command_tree->commands = ft_next_cmd(command_tree->commands);
 			continue ;
-		}
-		if (data.cmd->fdin < 0 || data.cmd->fdout < 0)
-		{
-			data.ret = 1;
-			data.cmd->args[0] = "FAILED_OPEN";
-		}
-		if (data.cmd->fdin != STDIN_FILENO)
+		}*/
+		/*if (data.cmd->fdin != STDIN_FILENO)
 		{
 			if (data.fd_in != STDIN_FILENO)
 				close(data.fd_in);
 			data.fd_in = data.cmd->fdin;
-		}
+		}*/
 		data.fd_in = ft_run_cmd(&data, d, ft_next_cmd(command_tree->commands));
 		if (!ft_next_cmd(command_tree->commands))
 			break ;
@@ -180,7 +123,6 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 		if (data.has_pipe)
 			command_tree->commands = ft_next_cmd(command_tree->commands);
 	}
-	ft_dictadd(&d->vars, "?", ft_itoa_gc(data.ret));
 	return (data.ret);
 }
 
