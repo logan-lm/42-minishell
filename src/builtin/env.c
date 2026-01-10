@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 22:25:23 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 13:28:56 by pberne           ###   ########.fr       */
+/*   Updated: 2025/12/31 14:14:42 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	ft_env(char **args, t_shell_data *data, int fdin, int fdout)
 	t_list	*envp;
 	t_dict	*var;
 
-	ft_consume_stdin(fdin);
+	if (fdin != STDIN_FILENO)
+		close(fdin);
 	(void)args;
 	envp = data->envp;
 	while (envp)

@@ -2,8 +2,8 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
-/*
-													+:+ +:+         +:+     */
+/* 
+                                                   +:+ +:+         +:+     */
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:44:59 by lomartin          #+#    #+#             */
@@ -33,13 +33,19 @@ static t_list	*ft_parse_args(char **args, t_echo_data *data)
 	return (strs);
 }
 
+//
+// @brief Takes strings as a pointer on strings and writes on STDOUT
+// @param args pointers on strings as echo command arguments (-n in first arg)
+// @return void
+//
 int	ft_echo(char **args, t_shell_data *s_data, int fdin, int fdout)
 {
 	t_echo_data	data;
 	t_list		*strs;
 	t_list		*temp;
 
-	ft_consume_stdin(fdin);
+	if (fdin != STDIN_FILENO)
+		close(fdin);
 	(void)s_data;
 	args++;
 	data.no_newline = 0;

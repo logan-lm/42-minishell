@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 14:39:25 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 13:29:10 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/05 18:55:24 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	ft_pwd(char **args, t_shell_data *data, int fdin, int fdout)
 {
 	char	*pwd;
 
-	ft_consume_stdin(fdin);
+	if (fdin != STDIN_FILENO)
+		close(fdin);
 	(void)args;
 	(void)data;
 	pwd = getcwd(NULL, 0);
