@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 11:55:06 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/06 19:44:36 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/10 20:30:24 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,23 @@ int	ft_is_redirection_valid(t_token_op_type *token_type,
 		}
 		else
 			return (2);
+	}
+	return (1);
+}
+
+int	ft_is_operator_valid2(t_token_op_type *token_type,
+		t_parsing_token *next_token)
+{
+	t_token_op_type	next_op;
+
+	if (*token_type == op_close_parenthesis)
+	{
+		if (next_token->type == token_op)
+		{
+			next_op = ((t_token_op_data *)next_token->data)->type;
+			if (next_op == op_open_parenthesis)
+				return (ft_op_syntax_error(next_op), 0);
+		}
 	}
 	return (1);
 }
@@ -57,7 +74,7 @@ int	ft_is_operator_valid(t_token_op_type *token_type,
 			}
 		}
 	}
-	return (1);
+	return (ft_is_operator_valid2(token_type, next_token));
 }
 
 void	ft_remove_end_token(t_list **token_lst)
