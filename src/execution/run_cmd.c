@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 14:23:21 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/10 11:41:08 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,16 +139,6 @@ int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 	if (r_d.cmd_type == cmd_builtin && !rp_d->cmd->fork)
 	{
 		rp_d ->ret = ft_run_builtin(r_d.cmdpath, rp_d, &r_d, data);
-		if (r_d.fd_in > 2)
-			close(r_d.fd_in);
-		if (r_d.pipefd)
-		{
-			if (r_d.pipefd[1] >= 0)
-				close(r_d.pipefd[1]);
-			return (r_d.pipefd[0]);
-		}
-		if (r_d.fd_out > 2 && r_d.fd_out != rp_d->cmd->fdout)
-			close(r_d.fd_out);
 		return (0);
 	}
 	signal(SIGINT, SIG_IGN);
