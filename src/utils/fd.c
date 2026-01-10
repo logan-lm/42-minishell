@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:45:19 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 13:30:10 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/10 14:26:30 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,8 @@ void	ft_consume_stdin(int fdin)
 	ssize_t bytes_read;
 
 	if (fdin == STDIN_FILENO)
-	{
-		while ((bytes_read = read(STDIN_FILENO, buffer, sizeof(buffer))) > 0)
+		return ;
+	while ((bytes_read = read(fdin, buffer, sizeof(buffer))) > 0)
 			;
-	}
-	else if (fdin != STDIN_FILENO)
-		close(fdin);
+	close(fdin);
 }

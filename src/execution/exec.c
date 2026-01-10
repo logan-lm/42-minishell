@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 11:39:51 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/10 14:23:21 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,6 @@
 int	ft_run_builtin(int (*builtin)(char **a, t_shell_data *d, int in, int out), t_run_pipeline_data *rp_d,
 		t_runcmd_data *r_d, t_shell_data *data)
 {
-	if (rp_d->pipeline)
-	{
-		r_d->fd_in = STDIN_FILENO;
-		r_d->fd_out = STDOUT_FILENO;
-	}
 	return (builtin(rp_d->cmd->args, data, r_d->fd_in, r_d->fd_out));
 }
 
