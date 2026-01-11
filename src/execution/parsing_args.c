@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 17:57:45 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 18:22:10 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_expand_var(char **word, char *src, t_shell_data *data)
 	varname = ft_getvarname(*word);
 	if (!*varname || (!ft_isalnum(*varname) && *varname != '?'))
 	{
-		dest = ft_strjoin(src, "$");
+		dest = ft_strjoin_gc(src, "$");
 		ft_free(src);
 		return (dest);
 	}
