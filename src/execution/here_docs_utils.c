@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:14:34 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 09:53:47 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 11:32:47 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 
 int	ft_heredoc_handler(void)
 {
-	if (g_sig == SIGINT)
+	if (g_sig == 130)
 		rl_done = 1;
 	return (0);
 }
 
 void	ft_sig_hd_handler(int sig)
 {
-	g_sig = sig;
+	(void)sig;
+	g_sig = 130;
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -53,7 +54,7 @@ int	ft_try_open_tmpfile(t_hd_data *hd_data)
 
 int	ft_o_hdoc_while(char *limiter, t_hd_data *hd_data)
 {
-	while (!ft_is_limiter(hd_data->line, limiter) && g_sig != SIGINT)
+	while (!ft_is_limiter(hd_data->line, limiter) && g_sig != 130)
 	{
 		ft_free(hd_data->line);
 		hd_data->buffer = readline("> ");
