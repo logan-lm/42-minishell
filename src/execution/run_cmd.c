@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 19:53:00 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 14:38:55 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,11 @@ void	ft_run_cmd_child(t_run_pipeline_data *rp_d, t_shell_data *data,
 {
 	if (r_d->pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
+		if (data->interactive)
+		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
+		}
 		if (r_d->fd_out != STDOUT_FILENO)
 		{
 			dup2(r_d->fd_out, STDOUT_FILENO);
@@ -79,6 +82,7 @@ int	ft_run_cmd_parent(t_run_pipeline_data *rp_d, void *next, t_shell_data *data,
 		if (WIFSIGNALED(data->exit_status))
 		{
 			ft_sig_handler(WTERMSIG(data->exit_status));
+			rp_d->ret = 128 + WTERMSIG(data->exit_status);
 			return (128 + WTERMSIG(data->exit_status));
 		}
 		rp_d->ret = WEXITSTATUS(data->exit_status);
@@ -142,7 +146,8 @@ int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 		rp_d->ret = ft_run_builtin(r_d.cmdpath, rp_d, &r_d, data);
 		return (0);
 	}
-	signal(SIGINT, SIG_IGN);
+	if (data->interactive)
+		signal(SIGINT, SIG_IGN);
 	r_d.pid = fork();
 	ft_run_cmd_child(rp_d, data, &r_d);
 	return (ft_run_cmd_parent(rp_d, next, data, &r_d));

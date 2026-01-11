@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 19:49:34 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 12:21:08 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_shell_data
 	char				*wc_path;
 	struct sigaction	sa;
 	t_list				*opened_hd;
+	int					interactive;
 }						t_shell_data;
 
 typedef struct s_dict

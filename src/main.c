@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 10:02:31 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 15:24:14 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 14:43:06 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,13 @@ int	main(int ac, char **av, char **envp)
 	g_sig = 0;
 	ft_bzero(&d, sizeof(t_shell_data));
 	ft_init_envp(av, envp, &d);
-	d.sa.sa_handler = ft_sig_handler;
-	signal(SIGINT, ft_sig_handler);
-	signal(SIGQUIT, SIG_IGN);
+	if (d.interactive)
+	{
+		d.sa.sa_handler = ft_sig_handler;
+		signal(SIGINT, ft_sig_handler);
+		signal(SIGQUIT, SIG_IGN);
+	}
 	while (1)
 		ft_readline(&d);
+	return (ft_atoi(ft_getvar(d.vars, d.envp, d.argv, "?")));
 }

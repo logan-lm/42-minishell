@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 13:57:45 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 14:30:54 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,10 @@ int	ft_exec(t_command_node *command_tree, t_shell_data *d)
 	while (wait(&status) > 0)
 		;
 	ft_setpid(0);
-	sigaction(SIGINT, &d->sa, NULL);
-	signal(SIGQUIT, SIG_IGN);
+	if (d->interactive)
+	{
+		sigaction(SIGINT, &d->sa, NULL);
+		signal(SIGQUIT, SIG_IGN);
+	}
 	return (exit_status);
 }

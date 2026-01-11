@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 09:01:37 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 11:33:04 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 14:31:34 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ int	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 			if (o_d.op_token->type == op_heredoc
 				&& o_d.op_token->word->heredoc_fd == -1)
 			{
-				signal(SIGINT, ft_sig_hd_handler);
+				if (d->interactive)
+					signal(SIGINT, ft_sig_hd_handler);
 				o_d.op_token->word->heredoc_fd = ft_o_hdoc(
 						o_d.op_token->word->str,
 						o_d.op_token->word->heredoc_fd, d);
-				sigaction(SIGINT, &d->sa, NULL);
+				if (d->interactive)
+					sigaction(SIGINT, &d->sa, NULL);
 				if (g_sig == 130 || o_d.op_token->word->heredoc_fd < 0)
 				{
 					if (o_d.op_token->word->heredoc_fd > 2)

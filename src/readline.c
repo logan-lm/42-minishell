@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 11:26:54 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 14:48:30 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,20 +63,46 @@ void	ft_split_prompt(char *prompt, t_shell_data *d)
 	ft_free_strs(prompt_childs);
 }
 
+char	*ft_read_cmd(void)
+{
+	char	buffer[BUFFER_SIZE + 1];
+	char	*dest;
+	char	*temp;
+	ssize_t	read_bytes;
+
+	dest = ft_strdup("");
+	read_bytes = read(STDIN_FILENO, buffer, BUFFER_SIZE);
+	buffer[read_bytes] = '\0';
+	while (read_bytes)
+	{
+		temp = dest;
+		dest = ft_strjoin(dest, buffer);
+		free(temp);
+		read_bytes = read(STDIN_FILENO, buffer, BUFFER_SIZE);
+		buffer[read_bytes] = '\0';
+	}
+	close(STDIN_FILENO);
+	return (dest);
+}
+
 void	ft_readline(t_shell_data *d)
 {
 	char	*prompt;
 
 	g_sig = 0;
-	prompt = readline(ft_get_prompt());
+	if (d->interactive)
+		prompt = readline(ft_get_prompt());
+	else
+		prompt = get_next_line(STDIN_FILENO);
 	if (g_sig == SIGINT)
 		ft_dictadd(&d->vars, "?", "130");
 	ft_sethd(0);
 	g_sig = 0;
 	if (prompt == NULL)
 	{
-		ft_putstr_fd("exit\n", STDOUT_FILENO);
-		ft_exit(EXIT_SUCCESS);
+		if (d->interactive)
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
+		ft_exit(ft_atoi(ft_getvar(d->vars, d->envp, d->argv, "?")));
 	}
 	if (*prompt == '\0')
 		return ;

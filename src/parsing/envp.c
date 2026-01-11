@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:41:16 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 11:55:32 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 12:22:09 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ft_init_envp(char **av, char **envp, t_shell_data *data)
 
 	data->argv = av;
 	data->progname = ft_strrchr(*av, '/');
+	data->interactive = isatty(STDIN_FILENO) && isatty(STDOUT_FILENO);
 	if (data->progname)
 		data->progname++;
 	else

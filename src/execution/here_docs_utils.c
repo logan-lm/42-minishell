@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:14:34 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 11:32:47 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 14:51:41 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,15 @@ int	ft_try_open_tmpfile(t_hd_data *hd_data)
 	return (0);
 }
 
-int	ft_o_hdoc_while(char *limiter, t_hd_data *hd_data)
+int	ft_o_hdoc_while(char *limiter, t_hd_data *hd_data, t_shell_data *d)
 {
 	while (!ft_is_limiter(hd_data->line, limiter) && g_sig != 130)
 	{
 		ft_free(hd_data->line);
-		hd_data->buffer = readline("> ");
-		// hd_data->buffer = get_next_line(0);
+		if (d->interactive)
+			hd_data->buffer = readline("> ");
+		else
+			hd_data->buffer = get_next_line(0);
 		if (!hd_data->buffer)
 		{
 			ft_sethd(1);
@@ -109,7 +111,7 @@ int	ft_o_hdoc(char *limiter, int oldfd, t_shell_data *data)
 			malloc_id_exec));
 	ft_setfd(hd_data.temp_w);
 	rl_event_hook = ft_heredoc_handler;
-	ret = ft_o_hdoc_while(limiter, &hd_data);
+	ret = ft_o_hdoc_while(limiter, &hd_data, data);
 	rl_event_hook = NULL;
 	close(hd_data.temp_w);
 	ft_free(hd_data.filename);
