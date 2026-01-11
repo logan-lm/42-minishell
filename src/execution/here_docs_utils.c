@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:14:34 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 19:21:25 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 09:53:47 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	ft_set_tmp_paths(t_hd_data *hd_data, t_shell_data *data)
 
 	i = 0;
 	path = ft_getenv(data->envp, "TMPDIR");
-	if (path)
+	if (*path)
 	{
 		hd_data->tmppaths[i++] = ft_strjoin_gc_id(path, "/heredoc_",
 				malloc_id_exec);

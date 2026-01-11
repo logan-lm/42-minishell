@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 17:43:14 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 09:46:25 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_run_pipeline_data
 	int				fd_in;
 	t_command		*cmd;
 	int				ret;
+	t_list			opened_heredocs;
 }					t_run_pipeline_data;
 
 typedef enum e_parsefd_error_type
