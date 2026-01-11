@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 22:13:50 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 10:05:53 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 10:19:21 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ int	ft_subshell(char **args, t_shell_data *data, int fdin, int fdout)
 {
 	int				pid;
 	int				status;
-	t_command_node	*command_tree;
+	t_list			*nodes;
 
 	args++;
 	pid = fork();
 	if (pid == 0)
 		ft_subshell_child(args, data, fdin, fdout);
-	command_tree = (t_command_node	*)args[0];
-	ft_clear_opened_heredocs(command_tree->commands);
+	nodes = ((t_command_node *)args[0])->commands;
+	ft_clear_opened_heredocs(nodes);
 	if (fdin != STDIN_FILENO)
 		close(fdin);
 	if (fdout != STDOUT_FILENO)

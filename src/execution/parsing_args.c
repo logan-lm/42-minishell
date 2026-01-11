@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 19:15:51 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 10:58:01 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,17 @@ void	ft_wordtostr_expand(char **word, t_list **src, t_shell_data *data,
 	ft_free(w_d->splitted);
 }
 
+void	ft_wordtostr_wildcards(t_wordtostr_data *w_d, char **word,
+		t_shell_data *data)
+{
+	w_d->temp = data->wc_path;
+	w_d->arg = ft_copy_nonspecial(word, w_d->last->content);
+	data->wc_path = ft_strjoin_gc_id(data->wc_path, ft_strchr(w_d->arg, '/'),
+			malloc_id_exec);
+	ft_free(w_d->temp);
+	w_d->last->content = w_d->arg;
+}
+
 t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data)
 {
 	t_wordtostr_data	w_d;
@@ -91,15 +102,15 @@ t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data)
 			continue ;
 		}
 		w_d.last = ft_lstlast(*src);
-		if (data->wc_path)
+		if (*word == '~')
 		{
-			w_d.temp = data->wc_path;
-			w_d.arg = ft_copy_nonspecial(&word, w_d.last->content);
-			data->wc_path = ft_strjoin_gc_id(data->wc_path, ft_strchr(w_d.arg,
-						'/'), malloc_id_exec);
-			ft_free(w_d.temp);
-			w_d.last->content = w_d.arg;
+			word++;
+			w_d.last->content = ft_strjoin_gc_id(w_d.last->content,
+					ft_getenv(data->envp, "HOME"), malloc_id_exec);
+			continue ;
 		}
+		if (data->wc_path)
+			ft_wordtostr_wildcards(&w_d, &word, data);
 		else
 			w_d.last->content = ft_copy_nonspecial(&word, w_d.last->content);
 	}

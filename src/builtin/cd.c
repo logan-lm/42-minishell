@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 11:56:23 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/08 18:23:19 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 10:53:16 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,10 @@ static void	set_pwd(t_shell_data *data, char *new_pwd)
 	ft_dictadd(&data->envp, "PWD", new_pwd);
 }
 
-static void	ft_close_fd(int fdin, int fdout)
-{
-	if (fdin != STDIN_FILENO)
-		close(fdin);
-	if (fdout != STDOUT_FILENO)
-		close(fdout);
-}
-
-int	ft_cd(char **args, t_shell_data *data, int fdin, int fdout)
+static int	ft_check_args(char **args, t_shell_data *data)
 {
 	char	*home;
-	char	*path;
 
-	ft_close_fd(fdin, fdout);
-	args++;
 	if (!args)
 		return (puterr(no_arg, NULL, data->progname));
 	if (!args[0] || (!*args[0] && !*(args + 1)))
@@ -66,6 +55,20 @@ int	ft_cd(char **args, t_shell_data *data, int fdin, int fdout)
 	}
 	if (*(args + 1))
 		return (ft_print_error("cd: too many arguments", data->progname));
+	return (2);
+}
+
+int	ft_cd(char **args, t_shell_data *data, int fdin, int fdout)
+{
+	int		ret;
+	char	*path;
+
+	if (fdin != STDIN_FILENO)
+		close(fdin);
+	args++;
+	ret = ft_check_args(args, data);
+	if (ret != 2)
+		return (ret);
 	path = ft_parse_path(args[0], data->envp);
 	if (!path)
 		ft_exit(EXIT_FAILURE);
@@ -73,5 +76,9 @@ int	ft_cd(char **args, t_shell_data *data, int fdin, int fdout)
 		set_pwd(data, path);
 	else
 		return (puterr(no_access, path, data->progname));
+	if (!ft_strncmp(args[0], "-", 2))
+		printf("%s\n", path);
+	if (fdout != STDOUT_FILENO)
+		close(fdout);
 	return (EXIT_SUCCESS);
 }
