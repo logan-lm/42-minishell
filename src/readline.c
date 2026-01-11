@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 14:48:30 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 16:53:44 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	ft_split_prompt(char *prompt, t_shell_data *d)
 	while (prompt_childs[++i])
 	{
 		ft_clear_gc_id(malloc_id_exec);
-		add_history(prompt_childs[i]);
+		if (d->interactive)
+			add_history(prompt_childs[i]);
 		token_lst = ft_get_tokens(prompt_childs[i]);
 		if (token_lst)
 			command_tree = ft_build_ast(token_lst);
