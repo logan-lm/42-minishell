@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 11:23:35 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 13:57:45 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,33 @@ t_list	*ft_assign_vars(t_list *nodes, t_shell_data *data)
 	return (nodes_cpy);
 }
 
+void	ft_parse_run_cmds(t_command_node *command_tree, t_shell_data *d, t_run_pipeline_data *data)
+{
+	while (command_tree->commands)
+	{
+		command_tree->commands = ft_assign_vars(command_tree->commands, d);
+		data->cmd = ft_calloc_gc_id(1, sizeof(t_command), malloc_id_exec);
+		data->cmd->fork = data->pipeline;
+		data->ret = ft_parse_fd(command_tree->commands, d, data);
+		data->cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands, d));
+		if (!*data->cmd->args)
+		{
+			if (data->cmd->fdin > 2)
+				close(data->cmd->fdin);
+			if (data->cmd->fdout > 2)
+				close(data->cmd->fdout);
+			command_tree->commands = ft_next_cmd(command_tree->commands);
+			continue ;
+		}
+		data->fd_in = ft_run_cmd(data, d, ft_next_cmd(command_tree->commands));
+		if (!ft_next_cmd(command_tree->commands))
+			break ;
+		data->has_pipe = ft_has_pipe(command_tree->commands);
+		if (data->has_pipe)
+			command_tree->commands = ft_next_cmd(command_tree->commands);
+	}
+}
+
 int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 {
 	t_run_pipeline_data	data;
@@ -112,20 +139,7 @@ int	ft_run_pipeline(t_command_node *command_tree, t_shell_data *d)
 		return (1);
 	if (g_sig == 130)
 		return (130);
-	while (command_tree->commands)
-	{
-		command_tree->commands = ft_assign_vars(command_tree->commands, d);
-		data.cmd = ft_calloc_gc_id(1, sizeof(t_command), malloc_id_exec);
-		data.cmd->fork = data.pipeline;
-		data.ret = ft_parse_fd(command_tree->commands, d, &data);
-		data.cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands, d));
-		data.fd_in = ft_run_cmd(&data, d, ft_next_cmd(command_tree->commands));
-		if (!ft_next_cmd(command_tree->commands))
-			break ;
-		data.has_pipe = ft_has_pipe(command_tree->commands);
-		if (data.has_pipe)
-			command_tree->commands = ft_next_cmd(command_tree->commands);
-	}
+	ft_parse_run_cmds(command_tree, d, &data);
 	return (data.ret);
 }
 
