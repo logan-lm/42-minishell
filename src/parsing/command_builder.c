@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 10:19:02 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/29 14:32:55 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/11 16:08:11 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ t_command_node	*ft_build_ast(t_list *token_lst)
 
 	start = token_lst;
 	new_command = ft_malloc_id(sizeof(t_command_node), malloc_id_ast);
+	new_command->commands = NULL;
 	token_lst = ft_get_last_comp_operator(token_lst, &command_type, 0, 0);
 	if (command_type)
 	{
