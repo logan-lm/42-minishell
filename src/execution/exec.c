@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 14:30:54 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 18:01:59 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,6 @@
 #include "exec.h"
 #include "minishell.h"
 #include "parser.h"
-
-int	ft_run_builtin(int (*builtin)(char **a, t_shell_data *d, int in, int out),
-		t_run_pipeline_data *rp_d, t_runcmd_data *r_d, t_shell_data *data)
-{
-	int	return_value;
-	int	initial_fdin;
-
-	initial_fdin = r_d->fd_in;
-	if (rp_d->pipeline)
-	{
-		r_d->fd_in = STDIN_FILENO;
-		r_d->fd_out = STDOUT_FILENO;
-	}
-	return_value = builtin(rp_d->cmd->args, data, r_d->fd_in, r_d->fd_out);
-	if (rp_d->pipeline)
-	{
-		if (initial_fdin > 2)
-			ft_consume_fdin(r_d->fd_in);
-		else
-			close(r_d->fd_in);
-		close(r_d->fd_out);
-	}
-	return (return_value);
-}
 
 t_list	*ft_ignore_varsets(t_list *nodes)
 {
@@ -68,49 +44,47 @@ t_list	*ft_ignore_varsets(t_list *nodes)
 	return (nodes_cpy);
 }
 
-t_list	*ft_assign_vars(t_list *nodes, t_shell_data *data)
+t_list	*ft_assign_vars(t_list *nodes, t_shell_data *data,
+		t_assign_vars_data a_d)
 {
-	t_list					*nodes_cpy;
-	t_parsing_token			*token;
-	t_token_op_data			*op_token;
-	t_string_compound_lst	*compounds;
-
-	nodes = ft_ignore_varsets(nodes);
-	nodes_cpy = nodes;
-	while (nodes_cpy)
+	a_d.nodes_cpy = ft_ignore_varsets(nodes);
+	while (a_d.nodes_cpy)
 	{
-		token = nodes_cpy->content;
-		if (token->type == token_op)
+		a_d.token = a_d.nodes_cpy->content;
+		if (a_d.token->type == token_op)
 		{
-			op_token = token->data;
-			if (op_token->type == op_pipe)
-				return (nodes_cpy);
+			a_d.op_token = a_d.token->data;
+			if (a_d.op_token->type == op_pipe)
+				return (a_d.nodes_cpy);
 		}
-		if (token->type == token_word)
+		if (a_d.token->type == token_word)
 		{
-			compounds = token->data;
-			if (compounds->is_name)
-				ft_set_var((char *[2]){ft_expand_compound(compounds, data),
+			a_d.compounds = a_d.token->data;
+			if (a_d.compounds->is_name)
+				ft_set_var((char *[2]){ft_expand_compound(a_d.compounds, data),
 					NULL}, data, 0, 1);
 			else
-				return (nodes_cpy);
+				return (a_d.nodes_cpy);
 		}
 		else
-			return (nodes_cpy);
-		nodes_cpy = nodes_cpy->next;
+			return (a_d.nodes_cpy);
+		a_d.nodes_cpy = a_d.nodes_cpy->next;
 	}
-	return (nodes_cpy);
+	return (a_d.nodes_cpy);
 }
 
-void	ft_parse_run_cmds(t_command_node *command_tree, t_shell_data *d, t_run_pipeline_data *data)
+void	ft_parse_run_cmds(t_command_node *command_tree, t_shell_data *d,
+		t_run_pipeline_data *data)
 {
 	while (command_tree->commands)
 	{
-		command_tree->commands = ft_assign_vars(command_tree->commands, d);
+		command_tree->commands = ft_assign_vars(command_tree->commands, d,
+				(t_assign_vars_data){0, 0, 0, 0});
 		data->cmd = ft_calloc_gc_id(1, sizeof(t_command), malloc_id_exec);
 		data->cmd->fork = data->pipeline;
 		data->ret = ft_parse_fd(command_tree->commands, d, data);
-		data->cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands, d));
+		data->cmd->args = ft_lsttostrs(ft_parse_cmd(&command_tree->commands,
+					d));
 		if (!*data->cmd->args)
 		{
 			if (data->cmd->fdin > 2)

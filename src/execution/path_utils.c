@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 19:04:22 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 19:04:39 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 17:35:55 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_check_cmdaccess(char *path, char *progname, int *ret)
 		ft_print_perror(path, progname);
 		return (0);
 	}
-	if (access(path, R_OK | W_OK))
+	if (access(path, R_OK | X_OK))
 	{
 		*ret = 126;
 		ft_print_perror(path, progname);

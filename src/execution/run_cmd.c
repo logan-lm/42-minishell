@@ -6,28 +6,56 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 14:38:55 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 17:40:51 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "minishell.h"
 
-int	ft_close_onerror(t_run_pipeline_data *rp_d, t_runcmd_data *r_d, void *next)
+int	ft_run_builtin(int (*builtin)(char **a, t_shell_data *d, int in, int out),
+		t_run_pipeline_data *rp_d, t_runcmd_data *r_d, t_shell_data *data)
 {
-	(void)next;
-	if (!rp_d->ret)
-		rp_d->ret = 1;
-	if (r_d->fd_in > 2)
-		close(r_d->fd_in);
-	if (r_d->fd_out > 2)
-		close(r_d->fd_out);
-	if (r_d->pipefd)
+	int	return_value;
+	int	initial_fdin;
+
+	initial_fdin = r_d->fd_in;
+	if (rp_d->pipeline)
 	{
-		close(r_d->pipefd[1]);
-		return (r_d->pipefd[0]);
+		r_d->fd_in = STDIN_FILENO;
+		r_d->fd_out = STDOUT_FILENO;
 	}
-	return (-1);
+	return_value = builtin(rp_d->cmd->args, data, r_d->fd_in, r_d->fd_out);
+	if (rp_d->pipeline)
+	{
+		if (initial_fdin > 2)
+			ft_consume_fdin(r_d->fd_in);
+		else
+			close(r_d->fd_in);
+		close(r_d->fd_out);
+	}
+	return (return_value);
+}
+
+void	ft_init_child(t_runcmd_data *r_d, t_shell_data *data)
+{
+	if (data->interactive)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+	}
+	if (r_d->fd_out != STDOUT_FILENO)
+	{
+		dup2(r_d->fd_out, STDOUT_FILENO);
+		close(r_d->fd_out);
+	}
+	if (r_d->fd_in)
+	{
+		dup2(r_d->fd_in, STDIN_FILENO);
+		close(r_d->fd_in);
+	}
+	if (r_d->pipefd)
+		close(r_d->pipefd[0]);
 }
 
 void	ft_run_cmd_child(t_run_pipeline_data *rp_d, t_shell_data *data,
@@ -35,23 +63,7 @@ void	ft_run_cmd_child(t_run_pipeline_data *rp_d, t_shell_data *data,
 {
 	if (r_d->pid == 0)
 	{
-		if (data->interactive)
-		{
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_DFL);
-		}
-		if (r_d->fd_out != STDOUT_FILENO)
-		{
-			dup2(r_d->fd_out, STDOUT_FILENO);
-			close(r_d->fd_out);
-		}
-		if (r_d->fd_in)
-		{
-			dup2(r_d->fd_in, STDIN_FILENO);
-			close(r_d->fd_in);
-		}
-		if (r_d->pipefd)
-			close(r_d->pipefd[0]);
+		ft_init_child(r_d, data);
 		if (r_d->cmd_type == cmd_builtin)
 			ft_exit(ft_run_builtin(r_d->cmdpath, rp_d, r_d, data));
 		execve(r_d->cmdpath, rp_d->cmd->args, ft_str_env(data->envp));
@@ -92,30 +104,6 @@ int	ft_run_cmd_parent(t_run_pipeline_data *rp_d, void *next, t_shell_data *data,
 	return (-1);
 }
 
-void	ft_try_get_cmd(t_runcmd_data *r_d, t_run_pipeline_data *rp_d,
-		t_shell_data *data)
-{
-	if (rp_d->cmd->error)
-	{
-		r_d->cmd_type = cmd_error;
-		return ;
-	}
-	r_d->cmdpath = ft_get_builtin(rp_d->cmd->args[0]);
-	if (r_d->cmdpath)
-	{
-		r_d->cmd_type = cmd_builtin;
-		return ;
-	}
-	r_d->cmdpath = ft_get_cmdpath(rp_d->cmd->args[0], data->envp, &rp_d->ret,
-			data->progname);
-	if (r_d->cmdpath)
-	{
-		r_d->cmd_type = cmd_exec;
-		return ;
-	}
-	r_d->cmd_type = cmd_error;
-}
-
 int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 {
 	t_runcmd_data	r_d;
@@ -124,21 +112,7 @@ int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 	if (!rp_d->cmd->args[0])
 		return (0);
 	ft_try_get_cmd(&r_d, rp_d, data);
-	r_d.fd_in = rp_d->cmd->fdin;
-	if (!next)
-		r_d.fd_out = rp_d->cmd->fdout;
-	else
-	{
-		r_d.pipefd = ft_malloc_id(sizeof(int) * 2, malloc_id_exec);
-		pipe(r_d.pipefd);
-		r_d.fd_out = r_d.pipefd[1];
-	}
-	if (rp_d->cmd->fdout != STDOUT_FILENO && rp_d->cmd->fdout != r_d.fd_out)
-	{
-		if (r_d.fd_out > 2)
-			close(r_d.fd_out);
-		r_d.fd_out = rp_d->cmd->fdout;
-	}
+	ft_run_init_fds(&r_d, rp_d, next);
 	if (r_d.cmd_type == cmd_error)
 		return (ft_close_onerror(rp_d, &r_d, next));
 	if (r_d.cmd_type == cmd_builtin && !rp_d->cmd->fork)

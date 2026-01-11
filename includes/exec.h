@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 16:47:34 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 17:59:24 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,14 @@ typedef struct s_next_cmd_data
 	t_token_op_data	*op_token_next;
 }					t_next_cmd_data;
 
+typedef struct s_assign_vars_data
+{
+	t_list					*nodes_cpy;
+	t_parsing_token			*token;
+	t_token_op_data			*op_token;
+	t_string_compound_lst	*compounds;
+}							t_assign_vars_data;
+
 typedef enum e_parsefd_error_type
 {
 	error_expand,
@@ -121,6 +129,19 @@ int					ft_heredoc_handler(void);
 char				*ft_read_expand_fd(int fd);
 int					ft_open_heredoc(t_token_op_data *op_token, t_shell_data *d,
 						int oldfd);
+
+// RUN
+int					ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data,
+						void *next);
+int					ft_run_builtin(int (*builtin)(char **a, t_shell_data *d,
+							int in, int out), t_run_pipeline_data *rp_d,
+						t_runcmd_data *r_d, t_shell_data *data);
+void				ft_try_get_cmd(t_runcmd_data *r_d,
+						t_run_pipeline_data *rp_d, t_shell_data *data);
+int					ft_close_onerror(t_run_pipeline_data *rp_d,
+						t_runcmd_data *r_d, void *next);
+void				ft_run_init_fds(t_runcmd_data *r_d,
+						t_run_pipeline_data *rp_d, void *next);
 
 int					ft_parse_fd(t_list *nodes, t_shell_data *d,
 						t_run_pipeline_data *data);
@@ -144,11 +165,6 @@ char				*ft_getvarname(char *str);
 t_list				*ft_parse_cmd(t_list **nodes, t_shell_data *d);
 t_list				*ft_get_sorted_dircontent(char *path, int dir);
 t_list				*ft_check_wildcards(t_list *args, t_shell_data *data);
-int					ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data,
-						void *next);
-int					ft_run_builtin(int (*builtin)(char **a, t_shell_data *d,
-							int in, int out), t_run_pipeline_data *rp_d,
-						t_runcmd_data *r_d, t_shell_data *data);
 int					ft_is_only_varset(t_list *commands);
 void				ft_sig_hd_handler(int sig);
 int					ft_o_hdoc(char *limiter, int oldfd, t_shell_data *data);
