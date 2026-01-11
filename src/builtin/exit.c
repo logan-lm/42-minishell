@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 17:39:16 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 19:15:07 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 15:04:51 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	ft_shell_exit(char **args, t_shell_data *data, int fdin, int fdout)
 	args++;
 	while (wait(NULL) > 0)
 		;
-	ft_putstr_fd("exit\n", fdout);
+	if (data->interactive)
+		ft_putstr_fd("exit\n", fdout);
 	if (fdout != STDOUT_FILENO)
 		close(fdout);
 	if (*args)
