@@ -1,53 +1,54 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_docs_utils.c                                  :+:      :+:    :+:   */
+/*   here_docs_read.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/06 11:14:34 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 14:51:41 by lomartin         ###   ########.fr       */
+/*   Created: 2026/01/11 16:23:50 by lomartin          #+#    #+#             */
+/*   Updated: 2026/01/11 16:44:12 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
 #include "minishell.h"
+#include "exec.h"
 
-int	ft_heredoc_handler(void)
+void	ft_heredoc_mode(t_open_data *o_d, t_shell_data *d)
 {
-	if (g_sig == 130)
-		rl_done = 1;
-	return (0);
+	if (d->interactive)
+		signal(SIGINT, ft_sig_hd_handler);
+	o_d->op_token->word->heredoc_fd = ft_o_hdoc(
+			o_d->op_token->word->str,
+			o_d->op_token->word->heredoc_fd, d);
+	if (d->interactive)
+		sigaction(SIGINT, &d->sa, NULL);
 }
 
-void	ft_sig_hd_handler(int sig)
+int	ft_parse_heredocs(t_list *nodes, t_shell_data *d)
 {
-	(void)sig;
-	g_sig = 130;
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+	t_open_data	o_d;
 
-int	ft_try_open_tmpfile(t_hd_data *hd_data)
-{
-	if (!hd_data->tmppaths[hd_data->tried_paths])
-		return (1);
-	hd_data->filename = ft_strjoin_gc_id(
-			hd_data->tmppaths[hd_data->tried_paths],
-			hd_data->temp, malloc_id_exec);
-	hd_data->temp_w = open(hd_data->filename, O_WRONLY | O_CREAT | O_TRUNC,
-			0600);
-	hd_data->temp_r = open(hd_data->filename, O_RDONLY);
-	unlink(hd_data->filename);
-	if (hd_data->temp_w < 0 || hd_data->temp_r < 0)
+	while (nodes)
 	{
-		if (hd_data->temp_w > 2)
-			close(hd_data->temp_w);
-		if (hd_data->temp_r > 2)
-			close(hd_data->temp_r);
-		hd_data->tried_paths++;
-		return (ft_try_open_tmpfile(hd_data));
+		o_d.token = nodes->content;
+		if (o_d.token && o_d.token->type == token_op)
+		{
+			o_d.op_token = o_d.token->data;
+			if (o_d.op_token->type == op_heredoc
+				&& o_d.op_token->word->heredoc_fd == -1)
+			{
+				ft_heredoc_mode(&o_d, d);
+				if (g_sig == 130 || o_d.op_token->word->heredoc_fd < 0)
+				{
+					if (o_d.op_token->word->heredoc_fd > 2)
+						close(o_d.op_token->word->heredoc_fd);
+					return (1);
+				}
+			}
+		}
+		if (o_d.token && o_d.token->type == token_subshell)
+			nodes = o_d.token->data;
+		nodes = nodes->next;
 	}
 	return (0);
 }
@@ -74,24 +75,6 @@ int	ft_o_hdoc_while(char *limiter, t_hd_data *hd_data, t_shell_data *d)
 		write(hd_data->temp_w, hd_data->line, ft_strlen(hd_data->line));
 	}
 	return (0);
-}
-
-void	ft_set_tmp_paths(t_hd_data *hd_data, t_shell_data *data)
-{
-	int		i;
-	char	*path;
-
-	i = 0;
-	path = ft_getenv(data->envp, "TMPDIR");
-	if (*path)
-	{
-		hd_data->tmppaths[i++] = ft_strjoin_gc_id(path, "/heredoc_",
-				malloc_id_exec);
-		ft_free(path);
-	}
-	hd_data->tmppaths[i++] = ft_strdup_gc_id("/tmp/heredoc_", malloc_id_exec);
-	hd_data->tmppaths[i++] = ft_strdup_gc_id("/var/tmp/heredoc_",
-			malloc_id_exec);
 }
 
 int	ft_o_hdoc(char *limiter, int oldfd, t_shell_data *data)

@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 17:39:16 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 15:04:51 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 16:04:47 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,24 @@ static int	ft_str_isdigit(char *str)
 	return (1);
 }
 
+static void	ft_print_and_close_fds(int fdin, int fdout, int interactive)
+{
+	if (fdin != STDIN_FILENO)
+		close(fdin);
+	while (wait(NULL) > 0)
+		;
+	if (interactive)
+		ft_putstr_fd("exit\n", fdout);
+	if (fdout != STDOUT_FILENO)
+		close(fdout);
+}
+
 int	ft_shell_exit(char **args, t_shell_data *data, int fdin, int fdout)
 {
 	char	*err;
 
-	if (fdin != STDIN_FILENO)
-		close(fdin);
 	args++;
-	while (wait(NULL) > 0)
-		;
-	if (data->interactive)
-		ft_putstr_fd("exit\n", fdout);
-	if (fdout != STDOUT_FILENO)
-		close(fdout);
+	ft_print_and_close_fds(fdin, fdout, data->interactive);
 	if (*args)
 	{
 		if ((**args != '+' && **args != '-' && !ft_isdigit(**args))

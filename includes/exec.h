@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 09:46:25 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 16:47:34 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,16 +97,34 @@ typedef struct s_run_pipeline_data
 	t_list			opened_heredocs;
 }					t_run_pipeline_data;
 
+typedef struct s_next_cmd_data
+{
+	t_parsing_token	*token;
+	t_token_op_data	*op_token;
+	t_parsing_token	*token_next;
+	t_token_op_data	*op_token_next;
+}					t_next_cmd_data;
+
 typedef enum e_parsefd_error_type
 {
 	error_expand,
 	error_open
 }					t_parsefd_error_type;
 
+// HEREDOCS
+int					ft_expand_heredoc(t_token_op_data *op_token,
+						t_shell_data *d);
+int					ft_parse_heredocs(t_list *nodes, t_shell_data *d);
+int					ft_heredoc_eof_err(t_shell_data *data, char *limiter,
+						int fd_r);
+int					ft_heredoc_handler(void);
+char				*ft_read_expand_fd(int fd);
+int					ft_open_heredoc(t_token_op_data *op_token, t_shell_data *d,
+						int oldfd);
+
 int					ft_parse_fd(t_list *nodes, t_shell_data *d,
 						t_run_pipeline_data *data);
 void				ft_consume_fdin(int fdin);
-int					ft_parse_heredocs(t_list *nodes, t_shell_data *d);
 void				ft_set_tmp_paths(t_hd_data *hd_data, t_shell_data *data);
 int					ft_try_open_tmpfile(t_hd_data *hd_data);
 int					ft_has_pipe(t_list *nodes);
@@ -117,8 +135,6 @@ int					ft_subshell(char **args, t_shell_data *data, int fdin,
 						int fdout);
 int					ft_parsefd_err(char *filename, char *progname,
 						t_run_pipeline_data *runp_d, t_parsefd_error_type type);
-int					ft_heredoc_eof_err(t_shell_data *data, char *limiter,
-						int fd_r);
 int					ft_is_limiter(char *str, char *limiter);
 int					ft_str_hasspace(char *str);
 int					ft_ispath(char *str);
@@ -134,7 +150,6 @@ int					ft_run_builtin(int (*builtin)(char **a, t_shell_data *d,
 							int in, int out), t_run_pipeline_data *rp_d,
 						t_runcmd_data *r_d, t_shell_data *data);
 int					ft_is_only_varset(t_list *commands);
-int					ft_heredoc_handler(void);
 void				ft_sig_hd_handler(int sig);
 int					ft_o_hdoc(char *limiter, int oldfd, t_shell_data *data);
 char				*ft_copy_nonspecial(char **word, char *src);

@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   here_docs_handlers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/19 10:02:31 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 16:39:07 by lomartin         ###   ########.fr       */
+/*   Created: 2026/01/11 16:34:55 by lomartin          #+#    #+#             */
+/*   Updated: 2026/01/11 16:35:12 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "exec.h"
 #include "minishell.h"
 
-int	g_sig;
-
-int	main(int ac, char **av, char **envp)
+int	ft_heredoc_handler(void)
 {
-	t_shell_data		d;
+	if (g_sig == 130)
+		rl_done = 1;
+	return (0);
+}
 
-	(void)ac;
-	g_sig = 0;
-	ft_bzero(&d, sizeof(t_shell_data));
-	ft_init_envp(av, envp, &d);
-	if (d.interactive)
-	{
-		d.sa.sa_handler = ft_sig_handler;
-		signal(SIGINT, ft_sig_handler);
-		signal(SIGQUIT, SIG_IGN);
-	}
-	while (1)
-		ft_readline(&d);
-	ft_exit(ft_atoi(ft_getvar(d.vars, d.envp, d.argv, "?")));
-	return (1);
+void	ft_sig_hd_handler(int sig)
+{
+	(void)sig;
+	g_sig = 130;
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
