@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 14:38:16 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 00:52:08 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 18:07:52 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ t_list	*ft_parse_args_replace(t_string_compound_lst *tokens, t_list **src,
 		ft_lstadd_back(src, ft_lstnew_gc_id(ft_strdup_gc_id("", malloc_id_exec),
 				malloc_id_exec));
 	ft_wordtostr(tokens->str, src, data);
-	(*src) = ft_check_wildcards(*src, data);
+	if (tokens->is_naked)
+		(*src) = ft_check_wildcards(*src, data);
 	return (*src);
 }
 
