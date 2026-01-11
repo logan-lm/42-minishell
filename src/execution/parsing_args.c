@@ -6,14 +6,14 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 18:22:10 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 21:34:08 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "minishell.h"
 
-char	*ft_expand_var(char **word, char *src, t_shell_data *data)
+char	*ft_expand_var(char **word, char *src, t_shell_data *data, void *next)
 {
 	size_t	varname_len;
 	char	*varname;
@@ -21,6 +21,8 @@ char	*ft_expand_var(char **word, char *src, t_shell_data *data)
 
 	*word += 1;
 	varname = ft_getvarname(*word);
+	if (!*varname && next)
+		return (src);
 	if (!*varname || (!ft_isalnum(*varname) && *varname != '?'))
 	{
 		dest = ft_strjoin_gc(src, "$");
@@ -64,7 +66,8 @@ void	ft_wordtostr_expand(char **word, t_list **src, t_shell_data *data,
 {
 	w_d->i = -1;
 	w_d->splitted = ft_split_gc_id(ft_expand_var(word,
-				ft_lstlast(*src)->content, data), ' ', malloc_id_exec);
+				ft_lstlast(*src)->content, data, w_d->next), ' ',
+			malloc_id_exec);
 	if (data->wc_path)
 	{
 		w_d->temp = data->wc_path;
@@ -90,10 +93,11 @@ void	ft_wordtostr_wildcards(t_wordtostr_data *w_d, char **word,
 	w_d->last->content = w_d->arg;
 }
 
-t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data)
+t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data, void *next)
 {
 	t_wordtostr_data	w_d;
 
+	w_d.next = next;
 	while (*word)
 	{
 		if (*word == '$')

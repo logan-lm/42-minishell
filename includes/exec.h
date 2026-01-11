@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 17:59:24 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 21:31:29 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_wordtostr_data
 	char			*arg;
 	t_list			*last;
 	int				i;
+	void			*next;
 }					t_wordtostr_data;
 
 typedef enum e_cmd_type
