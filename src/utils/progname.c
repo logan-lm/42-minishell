@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export2.c                                          :+:      :+:    :+:   */
+/*   progname.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/19 21:36:46 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/12 14:29:36 by pberne           ###   ########.fr       */
+/*   Created: 2026/01/06 11:45:19 by lomartin          #+#    #+#             */
+/*   Updated: 2026/01/12 14:29:21 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-void	ft_print_export_noarg(t_shell_data *data, int fdout)
+static char	*ft_progname(int flag, char *progname)
 {
-	t_list	*iterator;
-	char	*str;
-	t_dict	*var;
+	static char	*s_progname = 0;
 
-	iterator = data->envp;
-	while (iterator)
-	{
-		var = iterator->content;
-		str = ft_strjoin_mult_gc_id(malloc_id_exec, 4, var->key, "=\'",
-				var->value, "\'\n");
-		ft_putstr_fd(str, fdout);
-		iterator = iterator->next;
-	}
+	if (flag == 0)
+		return (s_progname);
+	if (flag == 1)
+		s_progname = progname;
+	return (0);
+}
+
+char	*ft_get_progname(void)
+{
+	return (ft_progname(0, 0));
+}
+
+void	ft_set_progname(char *progname)
+{
+	ft_progname(1, progname);
 }

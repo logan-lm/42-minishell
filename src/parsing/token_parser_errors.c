@@ -11,14 +11,15 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "minishell.h"
 #include "parser.h"
 
 void	ft_token_syntax_error(char *c)
 {
 	char	*str;
 
-	str = ft_strjoin_mult_gc_id(malloc_id_token, 3,
-			"syntax error near unexpected token `", c, "\'\n");
+	str = ft_strjoin_mult_gc_id(malloc_id_token, 4, ft_get_progname(),
+			": syntax error near unexpected token `", c, "\'\n");
 	ft_putstr_fd(str, 2);
 	ft_free(str);
 }
@@ -27,18 +28,25 @@ void	ft_token_missing_delimiter_error(char *c)
 {
 	char	*str;
 
-	str = ft_strjoin_mult_gc_id(malloc_id_token, 3,
-			"Missing closing delimiter `", c, "\'\n");
+	str = ft_strjoin_mult_gc_id(malloc_id_token, 4, ft_get_progname(),
+			": Missing closing delimiter `", c, "\'\n");
 	ft_putstr_fd(str, 2);
 	ft_free(str);
 }
 
 void	ft_token_missing_parenthesis(int op_code)
 {
+	char	*str;
+
+	str = 0;
 	if (op_code == op_open_parenthesis)
-		ft_putstr_fd("Missing matching parenthesis for `(\'\n", 2);
+		str = ft_strjoin_gc_id(ft_get_progname(),
+				": Missing matching parenthesis for `(\'\n", malloc_id_token);
 	else if (op_code == op_close_parenthesis)
-		ft_putstr_fd("Missing matching parenthesis for `)\'\n", 2);
+		str = ft_strjoin_gc_id(ft_get_progname(),
+				": Missing matching parenthesis for `)\'\n", malloc_id_token);
+	if (str)
+		ft_putstr_fd(str, 2);
 }
 
 void	ft_op_syntax_error(t_token_op_type op_code)

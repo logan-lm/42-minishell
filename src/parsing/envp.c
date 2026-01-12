@@ -25,6 +25,7 @@ void	ft_init_envp(char **av, char **envp, t_shell_data *data)
 		data->progname++;
 	else
 		data->progname = *av;
+	ft_set_progname(data->progname);
 	while (*envp)
 	{
 		part = ft_split_gc(*envp, '=');

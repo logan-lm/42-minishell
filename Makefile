@@ -74,6 +74,7 @@ FILES = main\
 		utils/error\
 		utils/exec_utils\
 		utils/fd\
+		utils/progname\
 		utils/gc_debug\
 		utils/here_doc\
 		utils/parsing\

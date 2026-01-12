@@ -77,6 +77,8 @@ char					ft_isdir(char *path);
 void					ft_unlink_hds(t_shell_data *data);
 char					*ft_get_prompt(void);
 void					ft_sig_hd_handler(int sig);
+char					*ft_get_progname(void);
+void					ft_set_progname(char *progname);
 
 void					ft_gc_debug(char *str);
 
