@@ -3,38 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 15:55:37 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/12 10:18:57 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 22:14:56 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_is_pattern_matching(char *src, char *pattern)
-{
-	if (!*src)
-	{
-		if (!*pattern)
-			return (1);
-		else if (*pattern == '*' && pattern[1] == '\0')
-			return (1);
-		else
-			return (0);
-	}
-	if (*pattern == '*')
-	{
-		if (ft_is_pattern_matching(src + 1, pattern))
-			return (1);
-		if (*src && ft_is_pattern_matching(src, pattern + 1))
-			return (1);
-		return (0);
-	}
-	else if (*src && (*src == *pattern))
-		return (ft_is_pattern_matching(src + 1, pattern + 1));
-	return (0);
-}
 
 void	ft_combine_wildcards(char *pattern)
 {

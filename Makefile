@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
+#    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2026/01/12 11:30:34 by lomartin         ###   ########.fr        #
+#    Updated: 2026/01/12 22:16:21 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ FILES = main\
 		execution/run_cmd_utils\
 		execution/wildcard\
 		execution/wildcards_utils\
+		execution/wildcard_pattern_matchers\
 		utils/dict_utils\
 		utils/error\
 		utils/exec_utils\
