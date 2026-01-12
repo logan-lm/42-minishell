@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 22:58:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/05 19:05:24 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 14:07:48 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ char	**ft_split_r_gc(char *str, char c, t_v2i index_depth, int id)
 	int		start;
 	int		end;
 
+	if (!str)
+	{
+		out = ft_malloc_id(sizeof(char *), id);
+		out[0] = NULL;
+		return (out);
+	}
 	while (str[index_depth.x] && str[index_depth.x] == c)
 		index_depth.x++;
 	if (!str[index_depth.x])
