@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 19:04:22 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 17:35:55 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 14:59:25 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*ft_get_cmdpath(char *cmd, t_list *envp, int *ret, char *progname)
 {
 	char	*path;
 
-	if (ft_ispath(cmd))
+	if (ft_ispath(cmd) || !*ft_getenv(envp, "PATH"))
 	{
 		if (ft_check_cmdaccess(cmd, progname, ret))
 			return (ft_parse_path(cmd, envp));
