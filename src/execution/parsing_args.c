@@ -6,14 +6,14 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/12 11:29:37 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:54:54 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "minishell.h"
 
-char	*ft_expand_var(char **word, char *src, t_shell_data *data, void *next)
+char	*ft_expand_var(char **word, char *src, t_shell_data *data, int no_expand)
 {
 	size_t	varname_len;
 	char	*varname;
@@ -21,7 +21,7 @@ char	*ft_expand_var(char **word, char *src, t_shell_data *data, void *next)
 
 	*word += 1;
 	varname = ft_getvarname(*word);
-	if (!*varname && next)
+	if (!*varname && no_expand)
 		return (src);
 	if (!*varname || (!ft_isalnum(*varname) && *varname != '?'))
 	{
@@ -66,7 +66,7 @@ void	ft_wordtostr_expand(char **word, t_list **src, t_shell_data *data,
 {
 	w_d->i = -1;
 	w_d->splitted = ft_split_gc_id(ft_expand_var(word,
-				ft_lstlast(*src)->content, data, w_d->next), ' ',
+				ft_lstlast(*src)->content, data, w_d->no_expand), ' ',
 			malloc_id_exec);
 	if (data->wc_path)
 	{
@@ -93,11 +93,11 @@ void	ft_wordtostr_wildcards(t_wordtostr_data *w_d, char **word,
 	w_d->last->content = w_d->arg;
 }
 
-t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data, void *next)
+t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data, int no_expand)
 {
 	t_wordtostr_data	w_d;
 
-	w_d.next = next;
+	w_d.no_expand = no_expand;
 	while (*word)
 	{
 		ft_save_src(src);
