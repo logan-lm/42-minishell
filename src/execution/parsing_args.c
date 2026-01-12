@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/12 16:19:59 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 17:44:38 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	**ft_join_strs(char *str, char **strs, char *var)
 		;
 	if (str && *str && ((var && ft_isspace(*var)) || !var))
 		++strs_len;
-	dest = ft_malloc_id((strs_len + 1) * sizeof(char *), malloc_id_exec);
+	dest = ft_malloc_id((strs_len + 2) * sizeof(char *), malloc_id_exec);
 	dest[strs_len] = NULL;
 	i = -1;
 	if (str && *str && ((var && ft_isspace(*var)) || !var))
@@ -35,6 +35,10 @@ char	**ft_join_strs(char *str, char **strs, char *var)
 	j = -1;
 	while (strs[++j])
 		dest[++i] = strs[j];
+	if (var && ft_isspace(var[ft_strlen(var) - 1]))
+		dest[++i] = "";
+	else
+		dest[++i] = NULL;
 	ft_free(strs);
 	return (dest);
 }
@@ -111,8 +115,8 @@ void	ft_wordtostr_expand(char **word, t_list **src, t_shell_data *data,
 	if (data->wc_path)
 	{
 		w_d->temp = data->wc_path;
-		data->wc_path = ft_strjoin(data->wc_path, w_d->splitted[w_d->i++]);
-		free(w_d->temp);
+		data->wc_path = ft_strjoin_gc(data->wc_path, w_d->splitted[w_d->i++]);
+		ft_free(w_d->temp);
 	}
 	else
 		ft_lstdelone_fr_gc(src, ft_lstlast(*src), NULL);

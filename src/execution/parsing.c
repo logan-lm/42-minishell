@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 14:38:16 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/12 11:52:52 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 17:50:34 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,11 @@ t_list	*ft_parse_cmd_args(t_string_compound_lst *tokens, t_shell_data *data)
 						malloc_id_exec);
 				ft_free(temp);
 			}
+			else if (ft_lstlast(args))
+				ft_lstlast(args)->content = ft_strjoin_gc_id(ft_lstlast(args)->content,
+						tokens->str, malloc_id_exec);
 			else
-				args = ft_parse_args_append(tokens, &args);
+				ft_lstadd_front(&args, ft_lstnew_gc_id(tokens->str, malloc_id_exec));
 		}
 		tokens = tokens->next;
 	}
