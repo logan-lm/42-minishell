@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:24:08 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 21:01:53 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 10:30:43 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ char	**ft_lsttostrs(t_list *lst)
 			malloc_id_exec);
 	while (lst)
 	{
-		strs[i] = lst->content;
+		if (lst->content)
+			strs[i++] = lst->content;
 		lst = lst->next;
-		++i;
 	}
 	strs[i] = NULL;
 	return (strs);
@@ -62,6 +62,8 @@ int	ft_ispath(char *str)
 
 int	ft_is_varset(char *cmd)
 {
+	if(!*cmd)
+		return (0);
 	if (!ft_isalpha(*cmd) && *(cmd + 1))
 		return (0);
 	cmd++;
