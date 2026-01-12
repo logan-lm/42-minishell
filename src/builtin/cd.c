@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 11:56:23 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 22:01:26 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:36:30 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ static void	set_pwd(t_shell_data *data, char *new_pwd)
 {
 	if (chdir(new_pwd) == -1)
 		ft_print_perror(new_pwd, data->progname);
+	new_pwd = getcwd(NULL, 0);
 	ft_dictadd(&data->envp, "OLDPWD", ft_getenv(data->envp, "PWD"));
 	ft_dictadd(&data->envp, "PWD", new_pwd);
+	free(new_pwd);
 }
 
 static int	ft_check_args(char **args, t_shell_data *data)

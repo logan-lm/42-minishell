@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/12 09:54:32 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:30:23 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,5 +181,6 @@ char						*ft_copy_nonspecial(char **word, char *src);
 char						*ft_expand_word(char *word, t_shell_data *data);
 char						*ft_expand_compound(t_string_compound_lst *cmpd,
 								t_shell_data *data);
+void						ft_save_src(t_list **src);
 
 #endif

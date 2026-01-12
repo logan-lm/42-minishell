@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 21:34:08 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:29:37 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data, void *next)
 	w_d.next = next;
 	while (*word)
 	{
+		ft_save_src(src);
 		if (*word == '$')
 		{
 			ft_wordtostr_expand(&word, src, data, &w_d);

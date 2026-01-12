@@ -6,7 +6,7 @@
 #    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2026/01/11 17:16:51 by lomartin         ###   ########.fr        #
+#    Updated: 2026/01/12 11:30:34 by lomartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,6 +75,7 @@ FILES = main\
 		utils/fd\
 		utils/gc_debug\
 		utils/here_doc\
+		utils/parsing\
 		utils/pid\
 		utils/utils\
 		utils/get_prompt
