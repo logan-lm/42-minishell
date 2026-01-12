@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 15:55:37 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/04 23:05:46 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 09:53:45 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,12 @@ t_list	*ft_get_matching_names(t_list *src, char *pattern)
 		src = src->next;
 	}
 	return (lst);
+}
+
+t_list	*ft_chech_matchs(t_list *args, t_shell_data *data)
+{
+	args = ft_get_matching_names(args, data->wc_path);
+	if (!args)
+		ft_lstadd_front(&args, ft_lstnew_gc_id(data->wc_path, malloc_id_exec));
+	return (args);
 }

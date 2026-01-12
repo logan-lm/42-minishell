@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 14:38:16 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 21:30:20 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 09:54:50 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,5 @@ t_list	*ft_parse_cmd_args(t_string_compound_lst *tokens, t_shell_data *data)
 		}
 		tokens = tokens->next;
 	}
-	args = ft_get_matching_names(args, data->wc_path);
-	return (args);
+	return (ft_chech_matchs(args, data));
 }
