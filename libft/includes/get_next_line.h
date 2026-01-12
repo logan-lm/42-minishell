@@ -43,6 +43,7 @@ void					ft_clear_all_gnl_data(t_gnl_data **data);
 
 char					*get_next_line_gc(int fd);
 char					*get_next_line_count_gc(int fd, unsigned long *size);
+char					*get_next_line_no_nl(int fd);
 t_gnl_data				*ft_get_gnl_data_gc(int fd, t_gnl_data **data);
 void					ft_clear_gnl_fd_gc(int fd, t_gnl_data **data);
 char					*ft_gnl_substr_gc(char *str, int start,

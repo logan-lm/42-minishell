@@ -61,7 +61,7 @@ int	ft_o_hdoc_while(char *limiter, t_hd_data *hd_data, t_shell_data *d)
 		if (d->interactive)
 			hd_data->buffer = readline("> ");
 		else
-			hd_data->buffer = get_next_line(0);
+			hd_data->buffer = get_next_line_no_nl(0);
 		if (!hd_data->buffer)
 		{
 			ft_sethd(1);

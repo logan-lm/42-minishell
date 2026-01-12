@@ -94,7 +94,7 @@ void	ft_readline(t_shell_data *d)
 	if (d->interactive)
 		prompt = readline(ft_get_prompt());
 	else
-		prompt = get_next_line(STDIN_FILENO);
+		prompt = get_next_line_no_nl(STDIN_FILENO);
 	if (g_sig == SIGINT)
 		ft_dictadd(&d->vars, "?", "130");
 	ft_sethd(0);
