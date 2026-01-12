@@ -6,34 +6,38 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/12 13:39:28 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 13:52:52 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "minishell.h"
 
-char	*ft_expand_var(char **word, char *src, t_shell_data *data,
+char	**ft_expand_var(char **word, char *src, t_shell_data *data,
 		int no_expand)
 {
 	size_t	varname_len;
 	char	*varname;
-	char	*dest;
+	char	**dest;
 
+	dest = ft_malloc_id(sizeof(char *) * 2, malloc_id_exec);
+	dest[0] = ft_strdup_gc_id(src, malloc_id_exec);
+	dest[1] = NULL;
 	*word += 1;
 	varname = ft_getvarname(*word);
 	varname_len = ft_strlen(varname);
 	if (!*varname && no_expand && !*word[varname_len])
-		return (src);
+		return (dest);
 	if (!*varname || (!ft_isalnum(*varname) && *varname != '?'))
 	{
-		dest = ft_strjoin_gc(src, "$");
-		ft_free(src);
+		dest[0] = ft_strjoin_gc(dest[0], "$");
 		return (dest);
 	}
+	ft_free_strs(dest);
 	*word += varname_len;
-	dest = ft_strjoin_gc_id(src, ft_getvar(data->vars, data->envp, data->argv,
-				varname), malloc_id_exec);
+	dest = ft_split_gc_id(ft_getvar(data->vars, data->envp, data->argv,
+				varname), ' ', malloc_id_exec);
+	dest[0] = ft_strjoin_gc_id(src, dest[0], malloc_id_exec);
 	ft_free(src);
 	ft_free(varname);
 	return (dest);
@@ -66,9 +70,8 @@ void	ft_wordtostr_expand(char **word, t_list **src, t_shell_data *data,
 		t_wordtostr_data *w_d)
 {
 	w_d->i = -1;
-	w_d->splitted = ft_split_gc_id(ft_expand_var(word,
-				ft_lstlast(*src)->content, data, w_d->no_expand), ' ',
-			malloc_id_exec);
+	w_d->splitted = ft_expand_var(word, ft_lstlast(*src)->content, data,
+			w_d->no_expand);
 	if (data->wc_path)
 	{
 		w_d->temp = data->wc_path;
