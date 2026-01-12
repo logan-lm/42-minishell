@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/12 12:13:09 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 13:30:01 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_expand_var(char **word, char *src, t_shell_data *data, int no_expand)
 	*word += 1;
 	varname = ft_getvarname(*word);
 	varname_len = ft_strlen(varname);
-	if (!*varname && no_expand && !*(word + varname_len))
+	if (!*varname && no_expand && !*word[varname_len])
 		return (src);
 	if (!*varname || (!ft_isalnum(*varname) && *varname != '?'))
 	{
