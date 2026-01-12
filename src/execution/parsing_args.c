@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/12 11:54:54 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 12:13:09 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ char	*ft_expand_var(char **word, char *src, t_shell_data *data, int no_expand)
 
 	*word += 1;
 	varname = ft_getvarname(*word);
-	if (!*varname && no_expand)
+	varname_len = ft_strlen(varname);
+	if (!*varname && no_expand && !*(word + varname_len))
 		return (src);
 	if (!*varname || (!ft_isalnum(*varname) && *varname != '?'))
 	{
@@ -29,7 +30,6 @@ char	*ft_expand_var(char **word, char *src, t_shell_data *data, int no_expand)
 		ft_free(src);
 		return (dest);
 	}
-	varname_len = ft_strlen(varname);
 	*word += varname_len;
 	dest = ft_strjoin_gc_id(src, ft_getvar(data->vars, data->envp, data->argv,
 				varname), malloc_id_exec);
