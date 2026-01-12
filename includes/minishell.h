@@ -118,6 +118,7 @@ int						ft_set_var(char **args, t_shell_data *data, int fdin,
 							int fdout);
 int						ft_shell_exit(char **args, t_shell_data *data, int fdin,
 							int fdout);
+void					ft_print_export_noarg(t_shell_data *data, int fdout);
 
 //// PARSING
 void					ft_init_envp(char **av, char **envp,

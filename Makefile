@@ -31,6 +31,7 @@ FILES = main\
 		builtin/env\
 		builtin/exit\
 		builtin/export\
+		builtin/export2\
 		builtin/pwd\
 		builtin/set_var\
 		builtin/subshell\
