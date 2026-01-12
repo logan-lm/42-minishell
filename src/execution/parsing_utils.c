@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 09:07:40 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 21:28:53 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/11 21:58:45 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ int	ft_is_only_varset(t_list *commands)
 	return (1);
 }
 
-char	*ft_expand_word_var(char *word, char *dest, t_shell_data *data)
+char	*ft_expand_word_var(char **word, char *dest, t_shell_data *data)
 {
 	char	*varname;
 
-	varname = ft_getvarname(word + 1);
-	word += ft_strlen(varname) + 1;
+	varname = ft_getvarname(*word + 1);
+	*word += ft_strlen(varname) + 1;
 	dest = ft_strjoin_gc_id(dest, ft_getvar(data->vars, data->envp, data->argv,
 				varname), malloc_id_exec);
 	return (dest);
@@ -80,7 +80,7 @@ char	*ft_expand_word(char *word, t_shell_data *data)
 				word++;
 				continue ;
 			}
-			dest = ft_expand_word_var(word, dest, data);
+			dest = ft_expand_word_var(&word, dest, data);
 		}
 		else
 			dest = ft_copy_nonspecial(&word, dest);
