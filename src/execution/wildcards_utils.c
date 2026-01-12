@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 09:17:22 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/12 18:53:09 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 19:19:43 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,11 @@ t_list	*ft_expand_wildcard(char *word, t_shell_data *data)
 	path_len = 0;
 	if (ft_strhasc(word, '/'))
 		path_len = ft_pathsizebeforewildcard(word);
-	path = ft_malloc(path_len + 1);
-	ft_strlcpy(path, word, path_len + 1);
+	path = ft_substr_gc_id(word, 0, path_len, malloc_id_exec);
 	dir = ft_strhasc(ft_strchr(word, '*'), '/');
 	filenames = ft_get_sorted_dircontent(path, dir);
 	if (!filenames)
 		return (NULL);
-	ft_free(path);
 	if (dir)
 		ft_append_followingpath(filenames, word);
 	return (filenames);
@@ -77,25 +75,23 @@ t_list	*ft_expand_wildcard(char *word, t_shell_data *data)
 void	ft_check_wildcard_while(t_list **args, t_shell_data *data,
 		t_check_wildcards_data *w_d)
 {
-	char	*last_part;
-
-	last_part = ft_strrchr(w_d->arg, '/');
-	if (!last_part)
-		last_part = w_d->arg;
-	if (ft_strhasc(last_part, '*'))
+	while (w_d->arg[++w_d->i])
 	{
-		w_d->temp = ft_expand_wildcard(w_d->arg, data);
-		if (!w_d->temp)
+		if (w_d->arg[w_d->i] == '*')
 		{
-			if (ft_lstsize(*args) > 1)
-				ft_lstdelone_fr_gc(args, w_d->curr, ft_free);
-			return ;
+			w_d->temp = ft_expand_wildcard(w_d->arg, data);
+			if (!w_d->temp)
+			{
+				if (ft_lstsize(*args) > 1)
+					ft_lstdelone_fr_gc(args, w_d->curr, NULL);
+				break ;
+			}
+			w_d->curr->next = w_d->temp;
+			ft_lstlast(w_d->curr->next)->next = w_d->next;
+			ft_lstdelone_fr_gc(args, w_d->curr, NULL);
+			w_d->next = w_d->temp;
+			break ;
 		}
-		w_d->curr->next = w_d->temp;
-		ft_lstlast(w_d->curr->next)->next = w_d->next;
-		ft_lstdelone_fr_gc(args, w_d->curr, ft_free);
-		w_d->next = w_d->temp;
-		return ;
 	}
 }
 
@@ -107,10 +103,13 @@ t_list	*ft_check_wildcards(t_list *args, t_shell_data *data)
 		return (args);
 	ft_bzero(&w_d, sizeof(w_d));
 	w_d.curr = args;
-	w_d.arg = w_d.curr->content;
-	w_d.next = w_d.curr->next;
-	w_d.i = -1;
-	ft_check_wildcard_while(&args, data, &w_d);
-	w_d.curr = w_d.next;
+	while (w_d.curr)
+	{
+		w_d.arg = w_d.curr->content;
+		w_d.next = w_d.curr->next;
+		w_d.i = -1;
+		ft_check_wildcard_while(&args, data, &w_d);
+		w_d.curr = w_d.next;
+	}
 	return (args);
 }

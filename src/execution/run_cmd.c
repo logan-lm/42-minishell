@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:12:48 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 17:40:51 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 19:18:46 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int	ft_run_cmd(t_run_pipeline_data *rp_d, t_shell_data *data, void *next)
 {
 	t_runcmd_data	r_d;
 
+	data->wc_path = NULL;
 	ft_bzero(&r_d, sizeof(t_runcmd_data));
 	if (!rp_d->cmd->args[0])
 		return (0);
