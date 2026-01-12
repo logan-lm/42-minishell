@@ -6,12 +6,38 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/12 15:51:39 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 16:19:59 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "minishell.h"
+
+char	**ft_join_strs(char *str, char **strs, char *var)
+{
+	size_t	strs_len;
+	size_t	i;
+	size_t	j;
+	char	**dest;
+
+	strs_len = -1;
+	while (strs[++strs_len])
+		;
+	if (str && *str && ((var && ft_isspace(*var)) || !var))
+		++strs_len;
+	dest = ft_malloc_id((strs_len + 1) * sizeof(char *), malloc_id_exec);
+	dest[strs_len] = NULL;
+	i = -1;
+	if (str && *str && ((var && ft_isspace(*var)) || !var))
+		dest[++i] = str;
+	else
+		strs[0] = ft_strjoin_gc_id(str, strs[0], malloc_id_exec);
+	j = -1;
+	while (strs[++j])
+		dest[++i] = strs[j];
+	ft_free(strs);
+	return (dest);
+}
 
 char	**ft_expand_var(char **word, char *src, t_shell_data *data,
 		int no_expand)
@@ -35,10 +61,12 @@ char	**ft_expand_var(char **word, char *src, t_shell_data *data,
 	}
 	ft_free_strs(dest);
 	*word += varname_len;
-	src = ft_strjoin_gc_id(src, ft_getvar(data->vars, data->envp, data->argv,
-				varname), malloc_id_exec);
-	dest = ft_split_gc_id(src, ' ', malloc_id_exec);
-	ft_free(src);
+	dest = ft_split_gc_id(ft_getvar(data->vars, data->envp, data->argv,
+				varname), ' ', malloc_id_exec);
+	// dest[0] = ft_strjoin_gc_id(src, dest[0], malloc_id_exec);
+	dest = ft_join_strs(src, dest, ft_getvar(data->vars, data->envp, data->argv,
+				varname));
+	// ft_free(src);
 	ft_free(varname);
 	return (dest);
 }
@@ -77,8 +105,7 @@ void	ft_wordtostr_expand(char **word, t_list **src, t_shell_data *data,
 	if (elem)
 		str = elem->content;
 	w_d->i = -1;
-	w_d->splitted = ft_expand_var(word, str, data,
-			w_d->no_expand);
+	w_d->splitted = ft_expand_var(word, str, data, w_d->no_expand);
 	if (w_d->splitted[0] && !*w_d->splitted[0] && !w_d->splitted[1])
 		w_d->splitted[0] = NULL;
 	if (data->wc_path)
