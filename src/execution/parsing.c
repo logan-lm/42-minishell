@@ -83,34 +83,30 @@ t_list	*ft_parse_args_append(t_string_compound_lst *tokens, t_list **src)
 	return (*src);
 }
 
-t_list	*ft_parse_cmd_args(t_string_compound_lst *tokens, t_shell_data *data)
+t_list	*ft_parse_cmd_args(t_string_compound_lst *t, t_shell_data *d)
 {
-	t_list	*args;
-	char	*temp;
+	t_parse_cmd_args_data	ca_d;
 
-	args = NULL;
-	data->wc_path = NULL;
-	while (tokens)
+	ft_bzero(&ca_d, sizeof(ca_d));
+	while (t)
 	{
-		if (tokens->type == word_replace_vars)
-			args = ft_parse_args_replace(tokens, &args, data);
-		else if (tokens->type == word_true)
+		if (t->type == word_replace_vars)
+			ca_d.args = ft_parse_args_replace(t, &ca_d.args, d);
+		else if (t->type == word_true)
 		{
-			if (data->wc_path)
+			ca_d.l = ft_lstlast(ca_d.args);
+			if (d->wc_path)
 			{
-				temp = data->wc_path;
-				data->wc_path = ft_strjoin_gc_id(data->wc_path, tokens->str,
-						malloc_id_exec);
-				ft_free(temp);
+				ca_d.temp = d->wc_path;
+				d->wc_path = ft_strjoin_gc_id(d->wc_path, t->str, 3);
+				ft_free(ca_d.temp);
 			}
-			else if (ft_lstlast(args))
-				ft_lstlast(args)->content = ft_strjoin_gc_id(ft_lstlast(args)->content,
-						tokens->str, malloc_id_exec);
+			else if (ca_d.l)
+				ca_d.l->content = ft_strjoin_gc_id(ca_d.l->content, t->str, 3);
 			else
-				ft_lstadd_front(&args, ft_lstnew_gc_id(tokens->str,
-						malloc_id_exec));
+				ft_lstadd_front(&ca_d.args, ft_lstnew_gc_id(t->str, 3));
 		}
-		tokens = tokens->next;
+		t = t->next;
 	}
-	return (ft_chech_matchs(args, data));
+	return (ft_chech_matchs(ca_d.args, d));
 }

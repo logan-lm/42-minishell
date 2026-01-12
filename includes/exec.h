@@ -120,6 +120,13 @@ typedef enum e_parsefd_error_type
 	error_open
 }							t_parsefd_error_type;
 
+typedef struct s_pase_cmd_args_data
+{
+	t_list					*args;
+	char					*temp;
+	t_list					*l;
+}							t_parse_cmd_args_data;
+
 // HEREDOCS
 int							ft_expand_heredoc(t_token_op_data *op_token,
 								t_shell_data *d);
