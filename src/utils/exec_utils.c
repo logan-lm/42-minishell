@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:24:08 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/12 10:30:43 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 13:38:52 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_ispath(char *str)
 
 int	ft_is_varset(char *cmd)
 {
-	if(!*cmd)
+	if (!*cmd)
 		return (0);
 	if (!ft_isalpha(*cmd) && *(cmd + 1))
 		return (0);

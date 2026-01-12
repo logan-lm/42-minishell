@@ -6,14 +6,15 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/12 13:30:01 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 13:39:28 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "minishell.h"
 
-char	*ft_expand_var(char **word, char *src, t_shell_data *data, int no_expand)
+char	*ft_expand_var(char **word, char *src, t_shell_data *data,
+		int no_expand)
 {
 	size_t	varname_len;
 	char	*varname;
@@ -93,7 +94,8 @@ void	ft_wordtostr_wildcards(t_wordtostr_data *w_d, char **word,
 	w_d->last->content = w_d->arg;
 }
 
-t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data, int no_expand)
+t_list	*ft_wordtostr(char *word, t_list **src, t_shell_data *data,
+		int no_expand)
 {
 	t_wordtostr_data	w_d;
 
