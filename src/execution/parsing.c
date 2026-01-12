@@ -107,7 +107,8 @@ t_list	*ft_parse_cmd_args(t_string_compound_lst *tokens, t_shell_data *data)
 				ft_lstlast(args)->content = ft_strjoin_gc_id(ft_lstlast(args)->content,
 						tokens->str, malloc_id_exec);
 			else
-				ft_lstadd_front(&args, ft_lstnew_gc_id(tokens->str, malloc_id_exec));
+				ft_lstadd_front(&args, ft_lstnew_gc_id(tokens->str,
+						malloc_id_exec));
 		}
 		tokens = tokens->next;
 	}

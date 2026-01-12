@@ -79,7 +79,7 @@ char					*ft_get_prompt(void);
 void					ft_sig_hd_handler(int sig);
 char					*ft_get_progname(void);
 void					ft_set_progname(char *progname);
-
+char					**ft_join_strs(char *str, char **strs, char *var);
 void					ft_gc_debug(char *str);
 
 // READLINE

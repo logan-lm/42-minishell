@@ -13,36 +13,6 @@
 #include "exec.h"
 #include "minishell.h"
 
-char	**ft_join_strs(char *str, char **strs, char *var)
-{
-	size_t	strs_len;
-	size_t	i;
-	size_t	j;
-	char	**dest;
-
-	strs_len = -1;
-	while (strs[++strs_len])
-		;
-	if (str && *str && ((var && ft_isspace(*var)) || !var))
-		++strs_len;
-	dest = ft_malloc_id((strs_len + 2) * sizeof(char *), malloc_id_exec);
-	dest[strs_len] = NULL;
-	i = -1;
-	if (str && *str && ((var && ft_isspace(*var)) || !var))
-		dest[++i] = str;
-	else
-		strs[0] = ft_strjoin_gc_id(str, strs[0], malloc_id_exec);
-	j = -1;
-	while (strs[++j])
-		dest[++i] = strs[j];
-	if (var && ft_isspace(var[ft_strlen(var) - 1]))
-		dest[++i] = "";
-	else
-		dest[++i] = NULL;
-	ft_free(strs);
-	return (dest);
-}
-
 char	**ft_expand_var(char **word, char *src, t_shell_data *data,
 		int no_expand)
 {
@@ -67,10 +37,8 @@ char	**ft_expand_var(char **word, char *src, t_shell_data *data,
 	*word += varname_len;
 	dest = ft_split_gc_id(ft_getvar(data->vars, data->envp, data->argv,
 				varname), ' ', malloc_id_exec);
-	// dest[0] = ft_strjoin_gc_id(src, dest[0], malloc_id_exec);
 	dest = ft_join_strs(src, dest, ft_getvar(data->vars, data->envp, data->argv,
 				varname));
-	// ft_free(src);
 	ft_free(varname);
 	return (dest);
 }
