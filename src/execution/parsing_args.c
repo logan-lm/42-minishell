@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:52:42 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/12 13:59:52 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/12 14:14:33 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	ft_wordtostr_expand(char **word, t_list **src, t_shell_data *data,
 	w_d->i = -1;
 	w_d->splitted = ft_expand_var(word, ft_lstlast(*src)->content, data,
 			w_d->no_expand);
+	if (w_d->splitted[0] && !*w_d->splitted[0] && !w_d->splitted[1])
+		w_d->splitted[0] = NULL;
 	if (data->wc_path)
 	{
 		w_d->temp = data->wc_path;
