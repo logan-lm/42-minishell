@@ -16,6 +16,7 @@ int	ft_env(char **args, t_shell_data *data, int fdin, int fdout)
 {
 	t_list	*envp;
 	t_dict	*var;
+	char	*str;
 
 	if (fdin != STDIN_FILENO)
 		close(fdin);
@@ -24,10 +25,9 @@ int	ft_env(char **args, t_shell_data *data, int fdin, int fdout)
 	while (envp)
 	{
 		var = envp->content;
-		ft_putstr_fd(var->key, fdout);
-		ft_putchar_fd('=', fdout);
-		ft_putstr_fd(var->value, fdout);
-		ft_putchar_fd('\n', fdout);
+		str = ft_strjoin_mult_gc_id(malloc_id_exec, 4, var->key, "=",
+				var->value, "\n");
+		ft_putstr_fd(str, fdout);
 		envp = envp->next;
 	}
 	if (fdout != STDOUT_FILENO)

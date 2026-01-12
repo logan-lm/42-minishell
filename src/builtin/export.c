@@ -62,6 +62,23 @@ int	ft_is_varname_valid(char *str, char *program_name, t_v2i *i_ret)
 	return (0);
 }
 
+void	ft_print_export_noarg(t_shell_data *data, int fdout)
+{
+	t_list	*iterator;
+	char	*str;
+	t_dict	*var;
+
+	iterator = data->envp;
+	while (iterator)
+	{
+		var = iterator->content;
+		str = ft_strjoin_mult_gc_id(malloc_id_exec, 4, var->key, "=\'",
+				var->value, "\'\n");
+		ft_putstr_fd(str, fdout);
+		iterator = iterator->next;
+	}
+}
+
 int	ft_export(char **args, t_shell_data *data, int fdin, int fdout)
 {
 	t_v2i	i_ret;
@@ -70,6 +87,8 @@ int	ft_export(char **args, t_shell_data *data, int fdin, int fdout)
 	t_dict	var_entry;
 
 	ft_export_setup(fdin, fdout, &i_ret, &args);
+	if (!args[i_ret.x + 1])
+		ft_print_export_noarg(data, fdout);
 	while (args[++i_ret.x])
 	{
 		if (!ft_is_varname_valid(args[i_ret.x], data->progname, &i_ret))
