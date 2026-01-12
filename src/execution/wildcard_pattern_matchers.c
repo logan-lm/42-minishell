@@ -6,14 +6,11 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 15:55:37 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/12 22:16:57 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/12 22:24:05 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int			ft_is_pattern_matching_cmpd(char *src,
-				t_string_compound_lst *pattern_lst);
 
 static int	ft_match_here(char *src, t_string_compound_lst *node, int i)
 {
