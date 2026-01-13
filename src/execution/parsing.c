@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 14:38:16 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/12 17:50:34 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/13 16:08:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	ft_parse_cmd_while(t_parsecmd_data *p_d, t_shell_data *d)
 				malloc_id_exec));
 	}
 	if (p_d->token->type == token_word)
-		p_d->args_lst = ft_lstmerge(p_d->args_lst,
-				ft_parse_cmd_args(p_d->token->data, d));
+		p_d->args_lst = ft_lstmerge_id(p_d->args_lst,
+				ft_parse_cmd_args(p_d->token->data, d), malloc_id_exec);
 	p_d->nodes_cpy = p_d->nodes_cpy->next;
 	return (0);
 }
@@ -47,18 +47,6 @@ t_list	*ft_parse_cmd(t_list **nodes, t_shell_data *d)
 			break ;
 	}
 	return (p_d.args_lst);
-}
-
-t_list	*ft_parse_args_replace(t_string_compound_lst *tokens, t_list **src,
-		t_shell_data *data)
-{
-	if (!*src)
-		ft_lstadd_back(src, ft_lstnew_gc_id(ft_strdup_gc_id("", malloc_id_exec),
-				malloc_id_exec));
-	ft_wordtostr(tokens->str, src, data, tokens->next && tokens->is_naked);
-	if (tokens->is_naked)
-		(*src) = ft_check_wildcards(*src, data);
-	return (*src);
 }
 
 t_list	*ft_parse_args_append(t_string_compound_lst *tokens, t_list **src)
@@ -83,13 +71,12 @@ t_list	*ft_parse_args_append(t_string_compound_lst *tokens, t_list **src)
 	return (*src);
 }
 
-t_list	*ft_parse_cmd_args(t_string_compound_lst *t, t_shell_data *d)
+/*t_list	*ft_parse_cmd_args(t_string_compound_lst *lst, t_shell_data *d)
 {
-	t_parse_cmd_args_data	ca_d;
 
-	ft_bzero(&ca_d, sizeof(ca_d));
-	while (t)
+	while (lst)
 	{
+		ft_expand_variables(lst);
 		if (t->type == word_replace_vars)
 			ca_d.args = ft_parse_args_replace(t, &ca_d.args, d);
 		else if (t->type == word_true)
@@ -109,4 +96,4 @@ t_list	*ft_parse_cmd_args(t_string_compound_lst *t, t_shell_data *d)
 		t = t->next;
 	}
 	return (ft_chech_matchs(ca_d.args, d));
-}
+}*/

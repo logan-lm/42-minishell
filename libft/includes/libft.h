@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 15:00:36 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/10 12:08:14 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/13 20:02:04 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int					ft_isalnum(char c);
 int					ft_isascii(char c);
 int					ft_isprint(char c);
 int					ft_isspace(int c);
+int					ft_get_next_space_index(char *str);
 int					ft_strhasc(const char *str, char c);
 size_t				ft_strlen(const char *str);
 size_t				ft_nblen(long nb);
@@ -75,6 +76,8 @@ char				*ft_strjoin_gc_id(char const *s1, char const *s2, int id);
 
 char				*ft_strjoin_mult(int nb, ...);
 char				*ft_strjoin_mult_gc_id(int id, int nb, ...);
+char				*ft_join_strs_gc_id(char **tab, char *separator, int id);
+char				*ft_join_strs_gc(char **tab, char *separator);
 
 char				*ft_strtrim(char const *s1, char const *set);
 char				**ft_split(char const *s, char c);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gc_debug.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 17:36:19 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/05 18:59:07 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/13 18:21:24 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,13 @@ void	ft_gc_debug(char *str)
 		ft_clear_gc_id(1);
 	if (ft_strcmp(str, "c2") == 0)
 		ft_clear_gc_id(2);
+}
+
+void ft_print_parsed_args(t_list *args)
+{
+	while (args)
+	{
+		printf("ARG[%s]\n", (char *)args->content);
+		args = args->next;
+	}
 }

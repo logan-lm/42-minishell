@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2026/01/12 22:16:21 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/13 17:02:35 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,9 @@ FILES = main\
 		parsing/command_utils\
 		parsing/command_visualizer\
 		parsing/command_visualizer_2\
+		parsing/string_compound_utils\
+		parsing/string_compound_cleaner\
+		parsing/parsing_args_utils\
 		execution/commands\
 		execution/conditions\
 		execution/exec\

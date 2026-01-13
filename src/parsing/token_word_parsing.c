@@ -50,6 +50,7 @@ t_string_compound_lst	*ft_get_string_token_node(char *str, size_t len,
 	str_comp->next = 0;
 	str_comp->is_name = name_naked.x;
 	str_comp->is_naked = name_naked.y;
+	str_comp->is_expanded = 0;
 	str_comp->heredoc_fd = -1;
 	return (str_comp);
 }

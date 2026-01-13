@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+         #
+#    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/31 16:15:41 by pberne            #+#    #+#              #
-#    Updated: 2026/01/10 12:08:28 by lomartin         ###   ########.fr        #
+#    Updated: 2026/01/13 20:02:27 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ FILES = ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint ft_isspace ft_str
 		ft_calloc ft_calloc_gc\
 		ft_memcpy ft_strcmp\
 		ft_strjoin\
-		ft_strjoin_mult\
+		ft_strjoin_mult ft_strjoin_strs_gc\
 		ft_strtrim\
 		ft_itoa ft_itoa_gc ft_itoa_gc_id\
 		ft_substr\

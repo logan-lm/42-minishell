@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:11 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/12 11:53:39 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/13 14:42:08 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,8 +185,9 @@ void						ft_sig_hd_handler(int sig);
 int							ft_o_hdoc(char *limiter, int oldfd,
 								t_shell_data *data);
 char						*ft_copy_nonspecial(char **word, char *src);
-char						*ft_expand_word(char *word, t_shell_data *data);
-char						*ft_expand_compound(t_string_compound_lst *cmpd,
+char						*ft_expand_word(char *word, t_shell_data *data,
+								t_string_compound_lst *cmpd_node);
+void						ft_expand_compound(t_string_compound_lst *cmpd,
 								t_shell_data *data);
 void						ft_save_src(t_list **src);
 

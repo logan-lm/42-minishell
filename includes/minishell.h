@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/12 22:15:44 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/13 20:12:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,19 @@ int						ft_is_pattern_matching_cmpd(char *src,
 							t_string_compound_lst *pattern_lst);
 int						ft_is_name_character(char c);
 int						ft_is_assignement_op(char *str, int *i);
+void					ft_expand_tilde(t_string_compound_lst *cmpd,
+							char *home_path);
+void					ft_expand_compound(t_string_compound_lst *cmpd,
+							t_shell_data *data);
+t_string_compound_lst	*ft_copy_str_cmpd_flags(t_string_compound_lst *src);
+char					*ft_str_compound_to_str(t_string_compound_lst *cmpd_lst);
+void					ft_str_consume_spaces(t_string_compound_lst *cmpd);
+char					*ft_expand_compound_for_var(t_string_compound_lst *cmpd,
+							t_shell_data *data);
+t_list					*ft_expand_wildcard(t_string_compound_lst *cmpd);
+void					ft_clean_cmpd_list(t_list **lst);
+int						ft_is_cmpd_always_empty(t_string_compound_lst *cmpd);
+void					ft_print_parsed_args(t_list *args);
+int						ft_is_always_expanded(t_string_compound_lst *cmpd);
 
 #endif

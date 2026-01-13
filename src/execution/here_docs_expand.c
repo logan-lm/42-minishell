@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_docs_expand.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:14:34 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 21:29:07 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/13 14:49:11 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_expand_heredoc(t_token_op_data *op_token, t_shell_data *d)
 	ft_free(hd_data.temp);
 	ft_free(hd_data.filename);
 	temp = buffer;
-	buffer = ft_expand_word(buffer, d);
+	buffer = ft_expand_word(buffer, d, 0);
 	ft_free(temp);
 	ft_putstr_fd(buffer, hd_data.temp_w);
 	close(hd_data.temp_w);

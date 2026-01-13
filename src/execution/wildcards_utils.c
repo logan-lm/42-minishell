@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 09:17:22 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/12 19:21:52 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/13 16:11:56 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,66 +50,27 @@ size_t	ft_pathsizebeforewildcard(char *word)
 	return (0);
 }
 
-t_list	*ft_expand_wildcard(char *word, t_shell_data *data)
+t_list	*ft_expand_wildcard(t_string_compound_lst *cmpd)
 {
-	size_t	path_len;
-	char	*path;
+	t_list	*lst;
+	t_list	*tmp;
 	t_list	*filenames;
-	int		dir;
 
-	if (!data->wc_path)
-		data->wc_path = ft_strdup_gc_id(word, malloc_id_exec);
-	path_len = 0;
-	if (ft_strhasc(word, '/'))
-		path_len = ft_pathsizebeforewildcard(word);
-	path = ft_substr_gc_id(word, 0, path_len, malloc_id_exec);
-	dir = ft_strhasc(ft_strchr(word, '*'), '/');
-	filenames = ft_get_sorted_dircontent(path, dir);
+	lst = NULL;
+	filenames = ft_get_sorted_dircontent("", 0);
 	if (!filenames)
 		return (NULL);
-	if (dir)
-		ft_append_followingpath(filenames, word);
-	return (filenames);
-}
-
-void	ft_check_wildcard_while(t_list **args, t_shell_data *data,
-		t_check_wildcards_data *w_d)
-{
-	while (w_d->arg[++w_d->i])
+	while (filenames)
 	{
-		if (w_d->arg[w_d->i] == '*')
+		if (ft_is_pattern_matching_cmpd(filenames->content, cmpd))
 		{
-			w_d->temp = ft_expand_wildcard(w_d->arg, data);
-			if (!w_d->temp)
-			{
-				if (ft_lstsize(*args) > 1)
-					ft_lstdelone_fr_gc(args, w_d->curr, NULL);
-				break ;
-			}
-			w_d->curr->next = w_d->temp;
-			ft_lstlast(w_d->curr->next)->next = w_d->next;
-			ft_lstdelone_fr_gc(args, w_d->curr, NULL);
-			w_d->next = w_d->temp;
-			break ;
+			tmp = filenames;
+			filenames = filenames->next;
+			ft_lstadd_back(&lst, tmp);
+			tmp->next = 0;
 		}
+		else
+			filenames = filenames->next;
 	}
-}
-
-t_list	*ft_check_wildcards(t_list *args, t_shell_data *data)
-{
-	t_check_wildcards_data	w_d;
-
-	if (!args)
-		return (args);
-	ft_bzero(&w_d, sizeof(w_d));
-	w_d.curr = args;
-	while (w_d.curr)
-	{
-		w_d.arg = w_d.curr->content;
-		w_d.next = w_d.curr->next;
-		w_d.i = -1;
-		ft_check_wildcard_while(&args, data, &w_d);
-		w_d.curr = NULL;
-	}
-	return (args);
+	return (lst);
 }

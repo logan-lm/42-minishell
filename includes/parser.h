@@ -64,6 +64,7 @@ typedef struct s_string_cmpd_lst
 	int							is_name;
 	char						*str;
 	int							is_naked;
+	int							is_expanded;
 	int							heredoc_fd;
 	struct s_string_cmpd_lst	*next;
 }								t_string_compound_lst;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 09:07:40 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 21:58:45 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/13 20:31:04 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ char	*ft_expand_word_var(char **word, char *dest, t_shell_data *data)
 	return (dest);
 }
 
-char	*ft_expand_word(char *word, t_shell_data *data)
+char	*ft_expand_word(char *word, t_shell_data *data,
+		t_string_compound_lst *cmpd_node)
 {
 	char	*dest;
 	char	*temp;
@@ -74,39 +75,48 @@ char	*ft_expand_word(char *word, t_shell_data *data)
 		temp = dest;
 		if (*word == '$')
 		{
-			if (!word[1] || !ft_isalnum(word[1]))
+			if (!word[1] || (!ft_isalnum(word[1]) && word[1] != '?'))
 			{
-				dest = ft_strjoin_gc_id(dest, "$", malloc_id_exec);
+				if (word[1] || !cmpd_node->is_naked || !cmpd_node->next)
+					dest = ft_strjoin_gc_id(dest, "$", malloc_id_exec);
 				word++;
 				continue ;
 			}
+			if (cmpd_node)
+				cmpd_node->is_expanded = 1;
 			dest = ft_expand_word_var(&word, dest, data);
 		}
 		else
 			dest = ft_copy_nonspecial(&word, dest);
 		ft_free(temp);
 	}
+	if (dest == NULL)
+		dest = ft_strdup_gc_id("", malloc_id_exec);
 	return (dest);
 }
 
-char	*ft_expand_compound(t_string_compound_lst *cmpd, t_shell_data *data)
+/// @brief Iterates through the compound list and substitutes ~ with
+/// the value of the HOME variable
+void	ft_expand_tilde(t_string_compound_lst *cmpd, char *home_path)
 {
-	char	*dest;
-	char	*temp;
-
-	dest = NULL;
-	while (cmpd)
+	if (cmpd->type == word_replace_vars)
 	{
-		temp = dest;
-		if (cmpd->type == word_replace_vars)
+		if (ft_strhasc(cmpd->str, '~') && cmpd->str[0] == '~')
 		{
-			dest = ft_strjoin_gc_id(dest, ft_expand_word(cmpd->str, data),
+			cmpd->str = ft_strjoin_gc_id(home_path, cmpd->str + 1,
 					malloc_id_exec);
 		}
-		else
-			dest = ft_strjoin_gc_id(dest, cmpd->str, malloc_id_exec);
-		ft_free(temp);
+	}
+}
+
+/// @brief Iterates through the compound list and substitutes str
+/// with a str including the variable expansion
+void	ft_expand_compound(t_string_compound_lst *cmpd, t_shell_data *data)
+{
+	while (cmpd)
+	{
+		if (cmpd->type == word_replace_vars && ft_strcmp("", cmpd->str))
+			cmpd->str = ft_expand_word(cmpd->str, data, cmpd);
 		cmpd = cmpd->next;
 	}
-	return (dest);
 }

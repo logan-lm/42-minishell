@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 10:19:04 by lomartin          #+#    #+#             */
-/*   Updated: 2025/12/31 14:11:59 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/13 12:20:34 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,4 +15,21 @@ int	ft_isspace(int c)
 	if ((c >= 9 && c <= 13) || c == 32)
 		return (1);
 	return (0);
+}
+
+/// @brief returns the first index containing a space, or -1 if none
+/// @param str 
+/// @return 
+int ft_get_next_space_index(char *str)
+{
+	int i = 0;
+	while (str[i])
+	{
+		if (ft_isspace(str[i]))
+			break;
+		i++;
+	}
+	if (!str[i])
+		i = -1;
+	return (i);
 }
