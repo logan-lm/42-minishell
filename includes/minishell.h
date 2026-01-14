@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:49:07 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/14 09:17:48 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/14 11:34:56 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char					*ft_getvar(t_list *vars, t_list *envp, char **args,
 							char *key);
 char					*ft_getvar_exec(t_list *vars, t_list *envp, char **args,
 							char *key);
-	// Dict
+// Dict
 char					*ft_dictmap(t_list *list, char *key);
 char					*ft_dictmap_gc_id(t_list *list, char *key, int id);
 void					free_dict_entry(void *entry);
@@ -153,6 +153,8 @@ void					ft_clean_cmpd_list(t_list **lst);
 int						ft_is_cmpd_always_empty(t_string_compound_lst *cmpd);
 void					ft_print_parsed_args(t_list *args);
 
+int						ft_is_cmpd_expanded_somewhere(
+							t_string_compound_lst *cmpd);
 int						ft_is_cmpd_always_expanded(t_string_compound_lst *cmpd);
 int						ft_is_cmpd_always_naked(t_string_compound_lst *cmpd);
 int						ft_is_cmpd_always_empty(t_string_compound_lst *cmpd);

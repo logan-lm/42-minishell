@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 17:00:44 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/14 07:42:15 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/14 11:25:07 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ int	ft_is_cmpd_removeable(t_string_compound_lst **cmpd)
 {
 	t_string_compound_lst	*temp;
 
-	if ((ft_is_cmpd_always_naked(*cmpd) || ft_is_cmpd_always_expanded(*cmpd))
-		&& ft_is_cmpd_always_empty(*cmpd))
+	if (ft_is_cmpd_always_naked(*cmpd) && ft_is_cmpd_always_empty(*cmpd))
 		return (1);
 	else
 	{

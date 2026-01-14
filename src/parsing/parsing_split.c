@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 12:17:19 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/14 07:41:18 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/14 11:33:00 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	ft_split_compound_list(t_list **lst_start,
 	if (ft_is_cmpd_always_empty(cmpd_lst))
 	{
 		new_node->content = ft_get_string_token_node("", 0, word_true,
-				(t_v2i){0, 0});
+				(t_v2i){0, ft_is_cmpd_always_naked(cmpd_lst)});
 		((t_string_compound_lst *)new_node->content)->is_expanded
 			= ft_is_cmpd_always_expanded(cmpd_lst);
 		ft_lstadd_back(lst_start, new_node);
