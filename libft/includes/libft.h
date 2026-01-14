@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 15:00:36 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/13 20:02:04 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/14 13:02:28 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int					ft_isascii(char c);
 int					ft_isprint(char c);
 int					ft_isspace(int c);
 int					ft_get_next_space_index(char *str);
+int					ft_str_has_only_c(char *str, char c);
 int					ft_strhasc(const char *str, char c);
 size_t				ft_strlen(const char *str);
 size_t				ft_nblen(long nb);

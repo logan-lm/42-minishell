@@ -2,8 +2,8 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
-/* 
-                                                   +:+ +:+         +:+     */
+/*
+													+:+ +:+         +:+     */
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 10:44:59 by lomartin          #+#    #+#             */
@@ -19,7 +19,8 @@ static t_list	*ft_parse_args(char **args, t_echo_data *data)
 	t_list	*new;
 
 	strs = NULL;
-	while (*args && !ft_strncmp("-n", *args, 3))
+	if (*args && !ft_strncmp("-n", *args, 2) && ft_str_has_only_c(*args + 1,
+			'n'))
 	{
 		data->no_newline = 1;
 		args++;

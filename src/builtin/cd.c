@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 11:56:23 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/14 09:19:02 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/14 12:55:06 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	ft_cd(char **args, t_shell_data *data, int fdin, int fdout)
 	else
 		return (puterr(no_access, path, data->progname));
 	if (!ft_strncmp(args[0], "-", 2))
-		printf("%s\n", path);
+		ft_putstr_fd(ft_strjoin_gc_id(path, "\n", malloc_id_exec), fdout);
 	if (fdout != STDOUT_FILENO)
 		close(fdout);
 	return (EXIT_SUCCESS);
