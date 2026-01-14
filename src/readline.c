@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/14 09:00:47 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/14 09:34:10 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_split_prompt(char *prompt, t_shell_data *d)
 	t_list			*token_lst;
 	t_command_node	*command_tree;
 
-	prompt_childs = ft_split_gc(prompt, '\n');
+	prompt_childs = ft_split_gc_id(prompt, '\n', 4);
 	i = -1;
 	while (prompt_childs[++i])
 	{
@@ -62,7 +62,7 @@ void	ft_split_prompt(char *prompt, t_shell_data *d)
 		ft_clear_gc_id(malloc_id_ast);
 		ft_clear_gc_id(malloc_id_exec);
 	}
-	ft_free_strs(prompt_childs);
+	ft_clear_gc_id(4);
 }
 
 char	*ft_read_cmd(void)

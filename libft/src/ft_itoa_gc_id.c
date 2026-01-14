@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa_gc.c                                       :+:      :+:    :+:   */
+/*   ft_itoa_gc_id.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 14:47:15 by pberne            #+#    #+#             */
-/*   Updated: 2025/12/08 17:28:33 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/14 09:38:15 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_itoa_r_id(long n, int *total_depth, t_v2i depth_offset, int id)
 	*total_depth = depth_offset.x;
 	if (n < 10)
 	{
-		out = ft_malloc(depth_offset.x + 2);
+		out = ft_malloc_id(depth_offset.x + 2, id);
 		out[depth_offset.x + 1] = '\0';
 	}
 	if (n > 9)
