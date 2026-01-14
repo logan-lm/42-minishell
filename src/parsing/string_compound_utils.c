@@ -6,12 +6,12 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 12:17:19 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/13 18:10:52 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/14 07:33:15 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "exec.h"
+#include "minishell.h"
 
 t_string_compound_lst	*ft_copy_str_cmpd_flags(t_string_compound_lst *src)
 {
@@ -25,7 +25,7 @@ t_string_compound_lst	*ft_copy_str_cmpd_flags(t_string_compound_lst *src)
 	return (dest);
 }
 
-char	*ft_str_compound_to_str(t_string_compound_lst *cmpd_lst)
+char	*ft_str_cmpd_to_str(t_string_compound_lst *cmpd_lst)
 {
 	char					*dest;
 	size_t					len;
@@ -45,7 +45,8 @@ char	*ft_str_compound_to_str(t_string_compound_lst *cmpd_lst)
 	iterator = cmpd_lst;
 	while (iterator)
 	{
-		len += ft_strlcpy(dest + len, iterator->str, ft_strlen(iterator->str) + 1);
+		len += ft_strlcpy(dest + len, iterator->str, ft_strlen(iterator->str)
+				+ 1);
 		iterator = iterator->next;
 	}
 	return (dest);
@@ -61,8 +62,8 @@ void	ft_str_consume_spaces(t_string_compound_lst *cmpd)
 	cmpd->str = str;
 }
 
-
-char	*ft_expand_compound_for_var(t_string_compound_lst *cmpd, t_shell_data *data)
+char	*ft_expand_compound_for_var(t_string_compound_lst *cmpd,
+		t_shell_data *data)
 {
 	char	*dest;
 	char	*temp;

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 17:36:19 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/13 18:21:24 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/14 07:43:45 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_gc_debug(char *str)
 		ft_clear_gc_id(2);
 }
 
-void ft_print_parsed_args(t_list *args)
+void	ft_print_parsed_args(t_list *args)
 {
 	while (args)
 	{

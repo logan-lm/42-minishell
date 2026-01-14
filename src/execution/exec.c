@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:36:20 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/13 14:38:42 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/14 06:38:27 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ t_list	*ft_assign_vars(t_list *nodes, t_shell_data *data,
 		{
 			a_d.compounds = a_d.token->data;
 			if (a_d.compounds->is_name)
-				ft_set_var((char *[2]){ft_expand_compound_for_var(a_d.compounds, data),
-					NULL}, data, 0, 1);
+				ft_set_var((char *[2]){ft_expand_compound_for_var(a_d.compounds,
+						data), NULL}, data, 0, 1);
 			else
 				return (a_d.nodes_cpy);
 		}

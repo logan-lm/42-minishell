@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2026/01/13 17:02:35 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/14 07:42:00 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,10 @@ FILES = main\
 		parsing/command_utils\
 		parsing/command_visualizer\
 		parsing/command_visualizer_2\
+		parsing/parsing_expand\
+		parsing/parsing_utils\
+		parsing/parsing_split\
+		parsing/string_compound_always_checkers\
 		parsing/string_compound_utils\
 		parsing/string_compound_cleaner\
 		parsing/parsing_args_utils\
@@ -64,7 +68,6 @@ FILES = main\
 		execution/here_docs_read\
 		execution/parsing\
 		execution/parsing_args\
-		execution/parsing_utils\
 		execution/path_utils\
 		execution/readdir\
 		execution/redirects\

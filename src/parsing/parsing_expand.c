@@ -1,54 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*   parsing_expand.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 09:07:40 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/13 20:31:04 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/14 07:16:36 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "minishell.h"
-
-void	*ft_get_builtin(char *cmd)
-{
-	if (!ft_strncmp(cmd, "cd", 3))
-		return (ft_cd);
-	if (!ft_strncmp(cmd, "pwd", 4))
-		return (ft_pwd);
-	if (!ft_strncmp(cmd, "env", 4))
-		return (ft_env);
-	if (!ft_strncmp(cmd, "echo", 5))
-		return (ft_echo);
-	if (!ft_strncmp(cmd, "unset", 6))
-		return (ft_unset);
-	if (!ft_strncmp(cmd, "export", 7))
-		return (ft_export);
-	if (!ft_strncmp(cmd, "exit", 6))
-		return (ft_shell_exit);
-	if (!ft_strncmp(cmd, "()", 3))
-		return (ft_subshell);
-	if (ft_is_varset(cmd))
-		return (ft_set_var);
-	return (NULL);
-}
-
-int	ft_is_only_varset(t_list *commands)
-{
-	t_command	*cmd;
-
-	while (commands)
-	{
-		cmd = commands->content;
-		if (!ft_is_varset(*(cmd->args)))
-			return (0);
-		commands = commands->next;
-	}
-	return (1);
-}
 
 char	*ft_expand_word_var(char **word, char *dest, t_shell_data *data)
 {
@@ -61,34 +24,39 @@ char	*ft_expand_word_var(char **word, char *dest, t_shell_data *data)
 	return (dest);
 }
 
+int	ft_try_skip_orphan_dollar(char **word, char **dest,
+		t_string_compound_lst *cmpd_node)
+{
+	if (!(*word)[1] || (!ft_isalnum((*word)[1]) && (*word)[1] != '?'))
+	{
+		if ((*word)[1] || !cmpd_node->is_naked || !cmpd_node->next)
+			*dest = ft_strjoin_gc_id(*dest, "$", malloc_id_exec);
+		*word += 1;
+		return (1);
+	}
+	return (0);
+}
+
 char	*ft_expand_word(char *word, t_shell_data *data,
 		t_string_compound_lst *cmpd_node)
 {
 	char	*dest;
-	char	*temp;
 
 	dest = NULL;
 	if (!word)
 		return (NULL);
 	while (*word)
 	{
-		temp = dest;
 		if (*word == '$')
 		{
-			if (!word[1] || (!ft_isalnum(word[1]) && word[1] != '?'))
-			{
-				if (word[1] || !cmpd_node->is_naked || !cmpd_node->next)
-					dest = ft_strjoin_gc_id(dest, "$", malloc_id_exec);
-				word++;
+			if (ft_try_skip_orphan_dollar(&word, &dest, cmpd_node))
 				continue ;
-			}
 			if (cmpd_node)
 				cmpd_node->is_expanded = 1;
 			dest = ft_expand_word_var(&word, dest, data);
 		}
 		else
 			dest = ft_copy_nonspecial(&word, dest);
-		ft_free(temp);
 	}
 	if (dest == NULL)
 		dest = ft_strdup_gc_id("", malloc_id_exec);

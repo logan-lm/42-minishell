@@ -6,12 +6,63 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 09:17:22 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/13 16:11:56 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/14 07:12:37 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "minishell.h"
+
+int	ft_has_naked_star(t_string_compound_lst *cmpd)
+{
+	while (cmpd)
+	{
+		if (cmpd->is_naked)
+		{
+			if (ft_strchr(cmpd->str, '*'))
+				return (1);
+		}
+		cmpd = cmpd->next;
+	}
+	return (0);
+}
+
+t_list	*ft_wc_node(t_list *src, int id)
+{
+	t_list	*new_node;
+
+	new_node = ft_lstnew_gc_id(ft_str_cmpd_to_str(src->content), id);
+	return (new_node);
+}
+
+void	ft_process_wildcards(t_list **wildcarded_list,
+		t_list *post_split_cmpt_list)
+{
+	t_list	*new_node;
+
+	while (post_split_cmpt_list)
+	{
+		new_node = NULL;
+		if (ft_has_naked_star(post_split_cmpt_list->content))
+		{
+			new_node = ft_expand_wildcard(post_split_cmpt_list->content);
+			if (new_node)
+				ft_lstadd_back(wildcarded_list, new_node);
+			else
+			{
+				new_node = ft_wc_node(post_split_cmpt_list, malloc_id_exec);
+				ft_lstadd_back(wildcarded_list, new_node);
+			}
+			post_split_cmpt_list = post_split_cmpt_list->next;
+		}
+		else
+		{
+			new_node = ft_wc_node(post_split_cmpt_list, malloc_id_exec);
+			ft_lstadd_back(wildcarded_list, new_node);
+			post_split_cmpt_list = post_split_cmpt_list->next;
+		}
+	}
+}
 
 void	ft_append_followingpath(t_list *filenames, char *word)
 {
@@ -48,29 +99,4 @@ size_t	ft_pathsizebeforewildcard(char *word)
 		}
 	}
 	return (0);
-}
-
-t_list	*ft_expand_wildcard(t_string_compound_lst *cmpd)
-{
-	t_list	*lst;
-	t_list	*tmp;
-	t_list	*filenames;
-
-	lst = NULL;
-	filenames = ft_get_sorted_dircontent("", 0);
-	if (!filenames)
-		return (NULL);
-	while (filenames)
-	{
-		if (ft_is_pattern_matching_cmpd(filenames->content, cmpd))
-		{
-			tmp = filenames;
-			filenames = filenames->next;
-			ft_lstadd_back(&lst, tmp);
-			tmp->next = 0;
-		}
-		else
-			filenames = filenames->next;
-	}
-	return (lst);
 }

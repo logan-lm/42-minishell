@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 10:19:04 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/13 12:20:34 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/14 06:37:45 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,17 @@ int	ft_isspace(int c)
 }
 
 /// @brief returns the first index containing a space, or -1 if none
-/// @param str 
-/// @return 
-int ft_get_next_space_index(char *str)
+/// @param str
+/// @return
+int	ft_get_next_space_index(char *str)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (str[i])
 	{
 		if (ft_isspace(str[i]))
-			break;
+			break ;
 		i++;
 	}
 	if (!str[i])
