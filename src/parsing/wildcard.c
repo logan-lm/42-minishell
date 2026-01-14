@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 15:55:37 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/14 07:12:30 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/14 07:52:25 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ t_list	*ft_expand_wildcard(t_string_compound_lst *cmpd)
 	t_list	*lst;
 	t_list	*tmp;
 	t_list	*filenames;
+	int		include_hidden;
 
+	include_hidden = cmpd->str[0] == '.';
 	lst = NULL;
-	filenames = ft_get_sorted_dircontent("", 0);
+	filenames = ft_get_sorted_dircontent("", 0, include_hidden);
 	if (!filenames)
 		return (NULL);
 	while (filenames)

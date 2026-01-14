@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   readdir.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 18:33:13 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/05 17:52:45 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/14 07:54:27 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_list	*ft_get_sorted_dircontent(char *path, int dir)
+t_list	*ft_get_sorted_dircontent(char *path, int dir, int include_hidden)
 {
 	DIR				*dirp;
 	struct dirent	*read;
@@ -28,8 +28,8 @@ t_list	*ft_get_sorted_dircontent(char *path, int dir)
 	read = readdir(dirp);
 	while (read)
 	{
-		if (*(read->d_name) != '.' && (!dir || read->d_type == DT_DIR
-				|| read->d_type == DT_LNK))
+		if ((include_hidden || *(read->d_name) != '.') && (!dir
+				|| read->d_type == DT_DIR || read->d_type == DT_LNK))
 			ft_lstadd_front(&filenames, ft_lstnew_gc_id(ft_strjoin_gc_id(path,
 						read->d_name, malloc_id_exec), malloc_id_exec));
 		read = readdir(dirp);

@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2026/01/14 07:42:00 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/14 07:49:56 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,9 @@ FILES = main\
 		parsing/string_compound_utils\
 		parsing/string_compound_cleaner\
 		parsing/parsing_args_utils\
+		parsing/wildcard\
+		parsing/wildcards_utils\
+		parsing/wildcard_pattern_matchers\
 		execution/commands\
 		execution/conditions\
 		execution/exec\
@@ -74,9 +77,6 @@ FILES = main\
 		execution/redirects_utils\
 		execution/run_cmd\
 		execution/run_cmd_utils\
-		execution/wildcard\
-		execution/wildcards_utils\
-		execution/wildcard_pattern_matchers\
 		utils/dict_utils\
 		utils/error\
 		utils/exec_utils\
