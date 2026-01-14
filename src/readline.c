@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/11 16:53:44 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/14 08:31:32 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	ft_split_prompt(char *prompt, t_shell_data *d)
 	i = -1;
 	while (prompt_childs[++i])
 	{
-		ft_clear_gc_id(malloc_id_exec);
 		if (d->interactive)
 			add_history(prompt_childs[i]);
 		token_lst = ft_get_tokens(prompt_childs[i]);
@@ -60,6 +59,7 @@ void	ft_split_prompt(char *prompt, t_shell_data *d)
 		ft_dictadd(&d->vars, "?", ft_itoa_gc(ft_exec(command_tree, d)));
 		ft_clear_gc_id(malloc_id_token);
 		ft_clear_gc_id(malloc_id_ast);
+		ft_clear_gc_id(malloc_id_exec);
 	}
 	ft_free_strs(prompt_childs);
 }
@@ -95,6 +95,8 @@ void	ft_readline(t_shell_data *d)
 		prompt = readline(ft_get_prompt());
 	else
 		prompt = get_next_line_no_nl(STDIN_FILENO);
+	if (BUILD_DEBUG && prompt)
+		ft_gc_debug(prompt);
 	if (g_sig == SIGINT)
 		ft_dictadd(&d->vars, "?", "130");
 	ft_sethd(0);
@@ -108,7 +110,5 @@ void	ft_readline(t_shell_data *d)
 	if (*prompt == '\0')
 		return ;
 	ft_split_prompt(prompt, d);
-	if (BUILD_DEBUG)
-		ft_gc_debug(prompt);
 	free(prompt);
 }
