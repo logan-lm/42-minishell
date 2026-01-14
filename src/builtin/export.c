@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 21:36:46 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 19:15:37 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/14 09:48:33 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	ft_export(char **args, t_shell_data *data, int fdin, int fdout)
 	t_v2i	i_ret;
 	int		set_mode;
 	int		append_mode;
-	t_dict	var_entry;
+	t_dict	entry;
 
 	ft_export_setup(fdin, fdout, &i_ret, &args);
 	if (!args[i_ret.x + 1])
@@ -78,15 +78,15 @@ int	ft_export(char **args, t_shell_data *data, int fdin, int fdout)
 			continue ;
 		set_mode = ft_strhasequal(args[i_ret.x]);
 		append_mode = ft_set_append_mode(args[i_ret.x]);
-		var_entry.key = ft_substr_gc(args[i_ret.x], 0, ft_strclen(args[i_ret.x],
-					'=') - append_mode);
+		entry.key = ft_substr_gc_id(args[i_ret.x], 0, ft_strclen(args[i_ret.x],
+					'=') - append_mode, malloc_id_exec);
 		if (set_mode)
 			ft_set_var((char *[2]){args[i_ret.x], NULL}, data, fdin, fdout);
-		var_entry.value = ft_dictmap(data->vars, var_entry.key);
-		if (!var_entry.value)
-			ft_free(var_entry.key);
+		entry.value = ft_dictmap_gc_id(data->vars, entry.key, malloc_id_exec);
+		if (!entry.value)
+			ft_free(entry.key);
 		else
-			ft_dictadd(&data->envp, var_entry.key, var_entry.value);
+			ft_dictadd(&data->envp, entry.key, entry.value);
 	}
 	return (i_ret.y);
 }
