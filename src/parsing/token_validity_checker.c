@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 11:29:30 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/06 18:47:03 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/14 12:01:41 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,11 @@ t_list	*ft_token_validity_checker(t_list *token_lst)
 		return (0);
 	}
 	if (!ft_token_verify_operators(token_lst))
+	{
+		ft_free_token_list(token_lst);
+		return (0);
+	}
+	if (!ft_verify_subshell_pipelines(token_lst))
 	{
 		ft_free_token_list(token_lst);
 		return (0);

@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2026/01/14 09:27:15 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/14 12:12:13 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ FILES = main\
 		parsing/token_parser\
 		parsing/token_free\
 		parsing/token_validity_checker\
+		parsing/token_validity_checker2\
 		parsing/token_validity\
 		parsing/token_heredoc_formatter\
 		parsing/token_parsing_utils\

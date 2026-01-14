@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 13:23:36 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/06 18:18:41 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/14 12:11:21 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ int								ft_is_redirection_valid(t_token_op_type *tktp,
 int								ft_is_operator_valid(t_token_op_type *tktp,
 									t_parsing_token *next_token,
 									t_parsing_token *prev);
+int								ft_verify_subshell_pipelines(t_list *token_lst);
 
 /// Utils
 
