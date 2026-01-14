@@ -19,7 +19,7 @@ static t_list	*ft_parse_args(char **args, t_echo_data *data)
 	t_list	*new;
 
 	strs = NULL;
-	if (*args && !ft_strncmp("-n", *args, 2) && ft_str_has_only_c(*args + 1,
+	while (*args && !ft_strncmp("-n", *args, 2) && ft_str_has_only_c(*args + 1,
 			'n'))
 	{
 		data->no_newline = 1;
