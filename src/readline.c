@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/14 08:31:32 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/14 09:00:47 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	ft_split_prompt(char *prompt, t_shell_data *d)
 			command_tree = NULL;
 		if (BUILD_DEBUG)
 			ft_print_ast_visual(command_tree, "");
-		ft_dictadd(&d->vars, "?", ft_itoa_gc(ft_exec(command_tree, d)));
+		ft_dictadd(&d->vars, "?", ft_itoa_gc_id(ft_exec(command_tree, d),
+				malloc_id_exec));
 		ft_clear_gc_id(malloc_id_token);
 		ft_clear_gc_id(malloc_id_ast);
 		ft_clear_gc_id(malloc_id_exec);

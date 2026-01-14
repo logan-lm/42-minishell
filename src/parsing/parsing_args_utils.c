@@ -6,12 +6,12 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 12:17:19 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/14 07:18:13 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/14 09:19:26 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "exec.h"
+#include "minishell.h"
 
 /// @brief Expands ~ or -, then variables, then split, then clean,
 /// then process wildcards
@@ -27,7 +27,8 @@ t_list	*ft_parse_cmd_args(t_string_compound_lst *lst, t_shell_data *d)
 	iterator = lst;
 	while (iterator)
 	{
-		ft_expand_tilde(iterator, ft_getvar(d->vars, d->envp, d->argv, "HOME"));
+		ft_expand_tilde(iterator, ft_getvar_exec(d->vars, d->envp, d->argv,
+				"HOME"));
 		iterator = iterator->next;
 	}
 	iterator = lst;

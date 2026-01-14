@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/19 10:03:25 by lomartin          #+#    #+#              #
-#    Updated: 2026/01/14 07:49:56 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/14 09:20:46 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,8 +78,10 @@ FILES = main\
 		execution/run_cmd\
 		execution/run_cmd_utils\
 		utils/dict_utils\
+		utils/utils_env\
 		utils/error\
 		utils/exec_utils\
+		utils/dict_map\
 		utils/fd\
 		utils/progname\
 		utils/gc_debug\

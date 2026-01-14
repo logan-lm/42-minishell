@@ -3,41 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   dict_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 15:25:46 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/09 14:14:45 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/14 09:18:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_dict_entry(void *entry)
+void	free_dict_entry(void *entry)
 {
 	ft_free(((t_dict *)entry)->key);
 	ft_free(((t_dict *)entry)->value);
 	ft_free(entry);
-}
-
-/// @brief Returns the content of an element of a list corresponding to the
-/// given key or NULL
-/// @param list List in which look for the element
-/// @param key Key to look for
-/// @return Duplicated str of the found element or NULL if not found
-char	*ft_dictmap(t_list *list, char *key)
-{
-	size_t	key_len;
-	t_dict	*elem;
-
-	key_len = ft_strlen(key);
-	while (list)
-	{
-		elem = list->content;
-		if (!ft_strncmp(elem->key, key, key_len + 1))
-			return (ft_strdup_gc(elem->value));
-		list = list->next;
-	}
-	return (NULL);
 }
 
 /// @brief deletes the entry with a matching key if existing and returns it
