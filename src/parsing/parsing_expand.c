@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_expand.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 09:07:40 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/14 11:14:11 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/01/14 11:39:48 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,12 @@ void	ft_expand_tilde(t_string_compound_lst *cmpd, char *home_path)
 {
 	if (cmpd->type == word_replace_vars)
 	{
-		if (ft_strhasc(cmpd->str, '~') && cmpd->str[0] == '~' && !cmpd->next && cmpd->is_naked)
+		if (ft_strhasc(cmpd->str, '~') && cmpd->str[0] == '~' && !cmpd->next
+			&& cmpd->is_naked)
 		{
 			if (ft_strhasc(cmpd->str, '/'))
 				cmpd->str = ft_strjoin_gc_id(home_path, cmpd->str + 1,
-					malloc_id_exec);
+						malloc_id_exec);
 			else
 				cmpd->str = home_path;
 		}
