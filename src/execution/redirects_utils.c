@@ -6,7 +6,7 @@
 /*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 10:16:04 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/10 19:59:42 by lomartin         ###   ########.fr       */
+/*   Updated: 2026/02/13 13:59:20 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ int	ft_is_limiter(char *str, char *limiter)
 			return (0);
 	}
 	if (!llen && (!len || str[len - 1] == '\n'))
+	{
+		str[len] = '\0';
 		return (1);
+	}
 	return (0);
 }
 
