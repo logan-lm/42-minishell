@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lomartin <lomartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 14:29:50 by lomartin          #+#    #+#             */
-/*   Updated: 2026/01/14 09:34:10 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/14 09:07:48 by lomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,11 @@ void	ft_readline(t_shell_data *d)
 	if (prompt == NULL)
 	{
 		if (d->interactive)
-			ft_putstr_fd("exit\n", STDOUT_FILENO);
+			ft_putstr_fd("exit\n", STDERR_FILENO);
 		ft_exit(ft_atoi(ft_getvar(d->vars, d->envp, d->argv, "?")));
 	}
 	if (*prompt == '\0')
-		return ;
+		return (ft_dictadd(&d->vars, "?", "0"));
 	ft_split_prompt(prompt, d);
 	free(prompt);
 }
